@@ -15,9 +15,9 @@ nextflow.enable.dsl = 2
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { PHAGEANNOTATOR  } from './workflows/phageannotator'
-include { PIPELINE_INITIALISATION } from './subworkflows/local/utils_nfcore_phageannotator_pipeline'
-include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_phageannotator_pipeline'
+include { PHAGEANNOTATOR            } from './workflows/phageannotator/main'
+include { PIPELINE_INITIALISATION   } from './subworkflows/local/utils_nfcore_phageannotator_pipeline'
+include { PIPELINE_COMPLETION       } from './subworkflows/local/utils_nfcore_phageannotator_pipeline'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -31,15 +31,16 @@ include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_nfcore_phag
 workflow HOFFLAB_PHAGEANNOTATOR {
 
     take:
-    samplesheet // channel: samplesheet read in from --input
+    input_reads         // channel: [ [ meta.id, meta.group ], [ reads_1.fastq.gz, reads_2.fastq.gz ] ]
+    input_assemblies    // channel: [ [ meta.id, meta.group ], assembly.fasta ]
 
     main:
-
     //
     // WORKFLOW: Run pipeline
     //
     PHAGEANNOTATOR (
-        samplesheet
+        input_reads,
+        input_assemblies
     )
 
     emit:

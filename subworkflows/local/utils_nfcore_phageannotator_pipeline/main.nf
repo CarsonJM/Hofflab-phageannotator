@@ -74,31 +74,70 @@ workflow PIPELINE_INITIALISATION {
     )
 
     //
-    // Create channel from input file provided through params.input
+    // Create channels from input file provided through params.input and params.assembly_input
     //
-    Channel
+    // validate FASTQ input
+    ch_samplesheet = Channel
         .fromSamplesheet("input")
         .map {
-            meta, fastq_1, fastq_2 ->
-                if (!fastq_2) {
-                    return [ meta.id, meta + [ single_end:true ], [ fastq_1 ] ]
-                } else {
-                    return [ meta.id, meta + [ single_end:false ], [ fastq_1, fastq_2 ] ]
+            validateInputSamplesheet(it[0], it[1], it[2], it[3])
+        }
+
+    // prepare FASTQs channel and separate short and long reads and prepare
+    ch_input_reads = ch_samplesheet
+        .map { meta, sr1, sr2 ->
+            meta.run          = meta.run == null ? "0" : meta.run
+            meta.single_end   = params.single_end
+
+            if (params.single_end) {
+                return [ meta, [ sr1 ] ]
+            } else {
+                return [ meta, [ sr1, sr2 ] ]
+            }
+        }
+
+    // validate PRE-ASSEMBLED CONTIG input when supplied
+    if (params.assembly_input) {
+        ch_input_assemblies = Channel
+            .fromSamplesheet("assembly_input")
+    }
+
+    // Prepare ASSEMBLY input channel
+    if (params.assembly_input) {
+        ch_input_assemblies
+            .map { meta, fasta ->
+                    return [ meta + [ id: params.coassemble_group ? "group-${meta.group}" : meta.id ], [ fasta ] ]
                 }
-        }
-        .groupTuple()
-        .map {
-            validateInputSamplesheet(it)
-        }
-        .map {
-            meta, fastqs ->
-                return [ meta, fastqs.flatten() ]
-        }
-        .set { ch_samplesheet }
+    } else {
+        ch_input_assemblies    = Channel.empty()
+    }
+
+    // Cross validation of input assembly and read IDs: ensure groups are all represented between reads and assemblies
+    if (params.assembly_input) {
+        ch_read_ids = ch_samplesheet
+            .map { meta, sr1, sr2, lr -> params.coassemble_group ? meta.group : meta.id }
+            .unique()
+            .toList()
+            .sort()
+
+        ch_assembly_ids = ch_input_assemblies
+            .map { meta, fasta -> params.coassemble_group ? meta.group : meta.id }
+            .unique()
+            .toList()
+            .sort()
+
+        ch_read_ids.cross(ch_assembly_ids)
+            .map { ids1, ids2 ->
+                if (ids1.sort() != ids2.sort()) {
+                    exit 1, "[nf-core/mag] ERROR: supplied IDs or Groups in read and assembly CSV files do not match!"
+                }
+            }
+    }
 
     emit:
-    samplesheet = ch_samplesheet
-    versions    = ch_versions
+    input_reads         = ch_input_reads
+    input_assemblies    = ch_input_assemblies
+    versions            = ch_versions
 }
 
 /*
@@ -143,20 +182,15 @@ workflow PIPELINE_COMPLETION {
     FUNCTIONS
 ========================================================================================
 */
-
 //
 // Validate channels from input samplesheet
 //
-def validateInputSamplesheet(input) {
-    def (metas, fastqs) = input[1..2]
+def validateInputSamplesheet(meta, sr1, sr2 ) {
 
-    // Check that multiple runs of the same sample are of the same datatype i.e. single-end / paired-end
-    def endedness_ok = metas.collect{ it.single_end }.unique().size == 1
-    if (!endedness_ok) {
-        error("Please check input samplesheet -> Multiple runs of a sample must be of the same datatype i.e. single-end or paired-end: ${metas[0].id}")
-    }
+        if ( !sr2 && !params.single_end ) { error("[nf-core/mag] ERROR: Single-end data must be executed with `--single_end`. Note that it is not possible to mix single- and paired-end data in one run! Check input TSV for sample: ${meta.id}") }
+        if ( sr2 && params.single_end ) { error("[nf-core/mag] ERROR: Paired-end data must be executed without `--single_end`. Note that it is not possible to mix single- and paired-end data in one run! Check input TSV for sample: ${meta.id}") }
 
-    return [ metas[0], fastqs ]
+    return  [meta, sr1, sr2 ]
 }
 
 //
