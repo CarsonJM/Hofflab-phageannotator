@@ -1,50 +1,44 @@
 //
 // Remove host reads with bowtie2
 //
-include { BOWTIE2_BUILD } from '../../modules/nf-core/bowtie2/build/main'
-include { BOWTIE2_ALIGN } from '../../modules/nf-core/bowtie2/build/main'
+include { BOWTIE2_BUILD     } from '../../../modules/nf-core/bowtie2/build/main'
+include { BOWTIE2_ALIGN     } from '../../../modules/nf-core/bowtie2/align/main'
 
 workflow FASTQ_HOSTREMOVAL_BOWTIE2 {
     take:
-    fastq_gz    // channel: [ [ meta.id, meta.group ], [ reads_1.fastq.gz, reads_2.fastq.gz ] ]
+    fastq_gz        // channel: [ [ meta.id, meta.group ], [ reads_1.fastq.gz, reads_2.fastq.gz ] ]
+    host_fasta_gz   // channel: [ [ id: host_fasta ], /path/to/host_fasta.fasta.gz ]
+    host_bt2_index  // channel: [ [ id: host_index ], /path/to/host_index.bt2 ]
 
     main:
-    ch_versions = Channel.empty()
-
-    // identify bowtie2 index or fasta to use for host removal
-    if (params.host_genome) {
-        host_fasta              = params.genomes[params.host_genome].fasta ?: false
-        ch_host_fasta           = Channel
-            .value(
-                file("${host_fasta}", checkIfExists: true)
-            )
-        host_bowtie2index       = params.genomes[params.host_genome].bowtie2 ?: false
-        ch_host_bowtie2index    = Channel
-            .value(
-                file("${host_bowtie2index}/*", checkIfExists: true)
-            )
-    } else if ( params.host_fasta ) {
-        ch_host_fasta           = Channel
-            .value(
-                file("${params.host_fasta}", checkIfExists: true)
-            )
-    }
+    ch_versions         = Channel.empty()
+    ch_multiqc_files    = Channel.empty()
 
     //
     // MODULE: Create bowtie2 database from host FASTA
     //
-    if (!ch_host_bowtie2index) {
-        ch_host_bowtie2index    = BOWTIE2_BUILD (ch_host_fasta).index
-        ch_versions             = ch_versions.mix(BOWTIE2_BUILD.out.versions)
+    if (!host_bt2_index) {
+        ch_host_bt2_index   = BOWTIE2_BUILD(host_fasta_gz).index
+        ch_versions         = ch_versions.mix(BOWTIE2_BUILD.out.versions)
+    } else {
+        ch_host_bt2_index   = host_bt2_index
     }
 
     //
-    // MODULE: Align reads to bowtie2 index
+    // MODULE: Map, generate BAM with all reads and unmapped reads in FASTQ for downstream
     //
-    ch_bt2_reads_fastq_gz       = BOWTIE2_ALIGN (ch_short_reads_prepped,ch_host_bowtie2index).reads
-    ch_versions                 = ch_versions.mix(BOWTIE2_HOST_REMOVAL_ALIGN.out.versions)
+    BOWTIE2_ALIGN(
+        fastq_gz,
+        ch_host_bt2_index,
+        host_fasta_gz,
+        true,
+        true
+    )
+    ch_versions      = ch_versions.mix(BOWTIE2_ALIGN.out.versions.first())
+    ch_multiqc_files = ch_multiqc_files.mix(BOWTIE2_ALIGN.out.log)
 
     emit:
-    bt2_reads_fastq_gz          = ch_bt2_reads_fastq_gz // channel: [ [ meta.id, meta.group ], [ reads_1.fastq.gz, reads_2.fastq.gz ] ]
-    versions                    = ch_versions           // [ versions.yml ]
+    fastq_gz    = BOWTIE2_ALIGN.out.fastq   // channel: [ val(meta), [ reads ] ]
+    versions    = ch_versions               // channel: [ versions.yml ]
+    mqc         = ch_multiqc_files
 }

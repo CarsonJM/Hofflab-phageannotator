@@ -24,7 +24,7 @@ process VIROMEQC_INSTALL {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        viromeqc: \$(echo \$(viromeQC.py --version 2>&1 | sed 's/^.*viromeQC.py../ //; s/Using.*\$//' ))
+        viromeqc: \$(echo \$(viromeQC.py --version 2>&1 | sed -n 's/^.*Version:\\s//; 1p' ))
     END_VERSIONS
     """
 
@@ -50,7 +50,7 @@ process VIROMEQC_INSTALL {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        viromeqc: \$(echo \$(viromeQC.py --version 2>&1 | sed 's/^.*viromeQC.py //; s/Using.*\$//' ))
+        viromeqc: \$(echo \$(viromeQC.py --version 2>&1 | sed -n 's/^.*Version:\\s//; 1p' ))
     END_VERSIONS
     """
 }

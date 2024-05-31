@@ -1,0 +1,68 @@
+{
+    "fasta.gz - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_tantan.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,e5767a14b8d15fa1e9469188a2a82901"
+                ],
+                "tantan": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_tantan.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,e5767a14b8d15fa1e9469188a2a82901"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.8.4",
+            "nextflow": "23.10.1"
+        },
+        "timestamp": "2024-05-06T15:29:12.026851394"
+    },
+    "fasta.gz": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_tantan.tsv:md5,5dffa3e9da14b6fae9a8ebe76730f946"
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,7b3e2f331b9496cd61b096ef9b394141"
+                ],
+                "tantan": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_tantan.tsv:md5,5dffa3e9da14b6fae9a8ebe76730f946"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,7b3e2f331b9496cd61b096ef9b394141"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.8.4",
+            "nextflow": "23.10.1"
+        },
+        "timestamp": "2024-05-06T15:29:01.776775655"
+    }
+}

@@ -1,8 +1,9 @@
 //
 // Classify and annotate sequences with geNomad
 //
-include { GENOMAD_DOWNLOAD   } from '../../../modules/nf-core/genomad/download/main'
-include { GENOMAD_ENDTOEND   } from '../../../modules/nf-core/genomad/endtoend/main'
+include { GENOMAD_DOWNLOAD  } from '../../../modules/nf-core/genomad/download/main'
+include { GENOMAD_ENDTOEND  } from '../../../modules/nf-core/genomad/endtoend/main'
+include { GENOME_FILTER     } from '../../../modules/local/genomad/filter/main'
 
 workflow FASTA_VIRUSCLASSIFICATION_GENOMAD {
     take:
@@ -26,13 +27,18 @@ workflow FASTA_VIRUSCLASSIFICATION_GENOMAD {
     //
     // MODULE: Run geNomad end-to-end
     //
-    ch_viruses_fna_gz       = GENOMAD_ENDTOEND(fasta_gz, ch_genomad_db).virus_fasta
-    ch_virus_summaries_tsv  = GENOMAD_ENDTOEND.out.virus_summary
-    ch_versions             = ch_versions.mix(GENOMAD_ENDTOEND.out.versions)
+    GENOMAD_ENDTOEND(fasta_gz, ch_genomad_db)
+    ch_versions = ch_versions.mix(GENOMAD_ENDTOEND.out.versions)
+
+    //
+    // MODULE: Filter sequences based on geNomad data
+    //
+    GENOMAD_FILTER(fasta_gz, ch_genomad_db)
+    ch_versions = ch_versions.mix(GENOMAD_ENDTOEND.out.versions)
 
     emit:
-    viruses_fna_gz      = ch_viruses_fna_gz         // [ [ meta ], fna.gz ]             , FASTA file containing viral sequences
-    virus_summaries_tsv = ch_virus_summaries_tsv    // [ [ meta ], virus_summary.tsv ]  , TSV file containing virus information
-    versions            = ch_versions               // [ versions.yml ]
-
+    virus_summary_tsv       = GENOMAD_ENDTOEND.out.virus_summary    // [ [ meta ], summary.tsv ]        , TSV file containing genomad virus summary
+    virus_fasta_gz          = GENOMAD_ENDTOEND.out.virus_fasta      // [ [ meta ], virus.fasta.gz ]     , virus sequences in FASTA format
+    genomad_db              = ch_genomad_db                         // [ genomad_db ]                   , genomad database directory
+    versions                = ch_versions                           // [ versions.yml ]
 }

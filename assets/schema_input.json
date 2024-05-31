@@ -1,7 +1,7 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
-    "$id": "https://raw.githubusercontent.com/HoffLab/phageannotator/master/assets/schema_input.json",
-    "title": "HoffLab/phageannotator pipeline - params.input schema",
+    "$id": "https://raw.githubusercontent.com/nf-core/mag/master/assets/schema_input.json",
+    "title": "nf-core/mag pipeline - params.input schema",
     "description": "Schema for the file provided with params.input",
     "type": "array",
     "items": {
@@ -12,6 +12,19 @@
                 "pattern": "^\\S+$",
                 "errorMessage": "Sample name must be provided and cannot contain spaces",
                 "meta": ["id"]
+            },
+            "run": {
+                "type": "string",
+                "pattern": "^\\S+$",
+                "meta": ["run"],
+                "unique": ["sample"],
+                "errorMessage": "Column 'run' contains an empty field. Either remove column 'run' or fill each field with a value."
+            },
+            "group": {
+                "type": "string",
+                "pattern": "^\\S+$",
+                "meta": ["group"],
+                "errorMessage": "Column 'group' contains an empty field. Either remove column 'group' or fill each field with a value."
             },
             "fastq_1": {
                 "type": "string",
@@ -25,6 +38,7 @@
                 "format": "file-path",
                 "exists": true,
                 "pattern": "^\\S+\\.f(ast)?q\\.gz$",
+                "dependentRequired": ["fastq_1"],
                 "errorMessage": "FastQ file for reads 2 cannot contain spaces and must have extension '.fq.gz' or '.fastq.gz'"
             }
         },

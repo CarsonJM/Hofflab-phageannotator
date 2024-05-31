@@ -74,7 +74,8 @@ workflow {
     // WORKFLOW: Run main workflow
     //
     HOFFLAB_PHAGEANNOTATOR (
-        PIPELINE_INITIALISATION.out.samplesheet
+        PIPELINE_INITIALISATION.out.input_reads,
+        PIPELINE_INITIALISATION.out.input_assemblies
     )
 
     //

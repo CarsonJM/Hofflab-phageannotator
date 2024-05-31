@@ -1,0 +1,7 @@
+name: "tantan"
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - "phist::1.0.0=h43eeafb_0"

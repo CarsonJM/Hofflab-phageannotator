@@ -80,7 +80,7 @@ workflow PIPELINE_INITIALISATION {
     ch_samplesheet = Channel
         .fromSamplesheet("input")
         .map {
-            validateInputSamplesheet(it[0], it[1], it[2], it[3])
+            validateInputSamplesheet(it[0], it[1], it[2])
         }
 
     // prepare FASTQs channel and separate short and long reads and prepare
@@ -134,6 +134,9 @@ workflow PIPELINE_INITIALISATION {
             }
     }
 
+    // Custom validation for pipeline parameters
+    validateInputParameters()
+
     emit:
     input_reads         = ch_input_reads
     input_assemblies    = ch_input_assemblies
@@ -183,6 +186,14 @@ workflow PIPELINE_COMPLETION {
 ========================================================================================
 */
 //
+// Validate input pipeline parameters
+//
+def validateInputParameters() {
+    if (params.run_bowtie2_host_removal && !params.bowtie2_igenomes_host && !params.bowtie2_custom_host_fasta) {
+        error("ERROR: [nf-core/taxprofiler] --run_bowtie2_host_removal requested but no --bowtie2_igenomes_host or --bowtie2_custom_host_fasta supplied. Check input.")
+    }
+}
+//
 // Validate channels from input samplesheet
 //
 def validateInputSamplesheet(meta, sr1, sr2 ) {
@@ -191,6 +202,32 @@ def validateInputSamplesheet(meta, sr1, sr2 ) {
         if ( sr2 && params.single_end ) { error("[nf-core/mag] ERROR: Paired-end data must be executed without `--single_end`. Note that it is not possible to mix single- and paired-end data in one run! Check input TSV for sample: ${meta.id}") }
 
     return  [meta, sr1, sr2 ]
+}
+
+//
+// Get attribute from genome config file e.g. fasta
+//
+def getGenomeAttribute(attribute) {
+    if (params.genomes && params.genome && params.genomes.containsKey(params.genome)) {
+        if (params.genomes[ params.genome ].containsKey(attribute)) {
+            return params.genomes[ params.genome ][ attribute ]
+        }
+    }
+    return null
+}
+
+//
+// Exit pipeline if incorrect --genome key provided
+//
+def genomeExistsError() {
+    if (params.genomes && params.genome && !params.genomes.containsKey(params.genome)) {
+        def error_string = "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n" +
+            "  Genome '${params.genome}' not found in any config files provided to the pipeline.\n" +
+            "  Currently, the available genome keys are:\n" +
+            "  ${params.genomes.keySet().join(", ")}\n" +
+            "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+        error(error_string)
+    }
 }
 
 //

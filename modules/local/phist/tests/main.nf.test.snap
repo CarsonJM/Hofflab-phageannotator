@@ -1,0 +1,100 @@
+{
+    "virus_fasta_dir + bacteria_fasta_dir": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_common_kmers.csv:md5,3d11091d4ceb56b62fec132e158d4ec6"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_predictions.csv:md5,9387252f5fc8ebec43017e66d484f85a"
+                    ]
+                ],
+                "2": [
+                    "versions.yml:md5,568871dd9f6581b071673114c9f409be"
+                ],
+                "common_kmers": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_common_kmers.csv:md5,3d11091d4ceb56b62fec132e158d4ec6"
+                    ]
+                ],
+                "predictions": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_predictions.csv:md5,9387252f5fc8ebec43017e66d484f85a"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,568871dd9f6581b071673114c9f409be"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.8.4",
+            "nextflow": "23.10.1"
+        },
+        "timestamp": "2024-05-06T16:00:38.129937147"
+    },
+    "fasta.gz - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_common_kmers.csv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_predictions.csv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "2": [
+                    "versions.yml:md5,079a94a9ff84a2b609f51a4879993c4c"
+                ],
+                "common_kmers": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_common_kmers.csv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "predictions": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_predictions.csv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,079a94a9ff84a2b609f51a4879993c4c"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.8.4",
+            "nextflow": "23.10.1"
+        },
+        "timestamp": "2024-05-06T16:00:48.151776203"
+    }
+}
