@@ -3,7 +3,6 @@
 //
 include { GENOMAD_DOWNLOAD  } from '../../../modules/nf-core/genomad/download/main'
 include { GENOMAD_ENDTOEND  } from '../../../modules/nf-core/genomad/endtoend/main'
-include { GENOME_FILTER     } from '../../../modules/local/genomad/filter/main'
 
 workflow FASTA_VIRUSCLASSIFICATION_GENOMAD {
     take:
@@ -30,15 +29,10 @@ workflow FASTA_VIRUSCLASSIFICATION_GENOMAD {
     GENOMAD_ENDTOEND(fasta_gz, ch_genomad_db)
     ch_versions = ch_versions.mix(GENOMAD_ENDTOEND.out.versions)
 
-    //
-    // MODULE: Filter sequences based on geNomad data
-    //
-    GENOMAD_FILTER(fasta_gz, ch_genomad_db)
-    ch_versions = ch_versions.mix(GENOMAD_ENDTOEND.out.versions)
 
     emit:
-    virus_summary_tsv       = GENOMAD_ENDTOEND.out.virus_summary    // [ [ meta ], summary.tsv ]        , TSV file containing genomad virus summary
-    virus_fasta_gz          = GENOMAD_ENDTOEND.out.virus_fasta      // [ [ meta ], virus.fasta.gz ]     , virus sequences in FASTA format
-    genomad_db              = ch_genomad_db                         // [ genomad_db ]                   , genomad database directory
-    versions                = ch_versions                           // [ versions.yml ]
+    virus_summary_tsv   = GENOMAD_ENDTOEND.out.virus_summary    // [ [ meta ], summary.tsv ]    , TSV file containing genomad virus summary
+    virus_fasta_gz      = GENOMAD_ENDTOEND.out.virus_fasta      // [ [ meta ], virus.fasta.gz ] , virus sequences in FASTA format
+    genomad_db          = ch_genomad_db                         // [ genomad_db ]               , genomad database directory
+    versions            = ch_versions                           // [ versions.yml ]
 }

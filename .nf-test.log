@@ -1,0 +1,28 @@
+May-31 13:50:48.074 [main] INFO  com.askimed.nf.test.App - nf-test 0.8.4
+May-31 13:50:48.098 [main] INFO  com.askimed.nf.test.App - Arguments: [test, /mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/modules/local/seqkit/stats/tests/main.nf.test, --profile, singularity]
+May-31 13:50:49.538 [main] INFO  com.askimed.nf.test.App - Nextflow Version: 24.04.1
+May-31 13:50:49.540 [main] INFO  com.askimed.nf.test.commands.RunTestsCommand - Load config from file /mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/nf-test.config...
+May-31 13:50:49.937 [main] INFO  com.askimed.nf.test.commands.RunTestsCommand - Detected 1 test files.
+May-31 13:50:50.117 [main] INFO  com.askimed.nf.test.config.FileStaging - Copy directory '/mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/bin' to '/mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/.nf-test/tests/355498ce44195afe80f0121bb3109433/meta/bin'
+May-31 13:50:50.129 [main] INFO  com.askimed.nf.test.config.FileStaging - Copy directory '/mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/lib' to '/mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/.nf-test/tests/355498ce44195afe80f0121bb3109433/meta/lib'
+May-31 13:50:50.130 [main] INFO  com.askimed.nf.test.config.FileStaging - Copy directory '/mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/assets' to '/mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/.nf-test/tests/355498ce44195afe80f0121bb3109433/meta/assets'
+May-31 13:50:50.376 [main] DEBUG com.askimed.nf.test.core.AbstractTest - Stage 0 user provided files...
+May-31 13:50:50.404 [main] INFO  com.askimed.nf.test.config.FileStaging - Copy directory '/mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/bin' to '/mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/.nf-test/tests/28c0504d3f00a531ee6f15df1af77f0/meta/bin'
+May-31 13:50:50.409 [main] INFO  com.askimed.nf.test.config.FileStaging - Copy directory '/mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/lib' to '/mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/.nf-test/tests/28c0504d3f00a531ee6f15df1af77f0/meta/lib'
+May-31 13:50:50.411 [main] INFO  com.askimed.nf.test.config.FileStaging - Copy directory '/mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/assets' to '/mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/.nf-test/tests/28c0504d3f00a531ee6f15df1af77f0/meta/assets'
+May-31 13:50:51.495 [main] DEBUG com.askimed.nf.test.core.AbstractTest - Stage 0 user provided files...
+May-31 13:50:51.496 [main] INFO  com.askimed.nf.test.core.TestExecutionEngine - Started test plan
+May-31 13:50:51.497 [main] INFO  com.askimed.nf.test.core.TestExecutionEngine - Running testsuite 'Test Process: SEQKIT_STATS' from file '/mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/modules/local/seqkit/stats/tests/main.nf.test'.
+May-31 13:50:51.497 [main] INFO  com.askimed.nf.test.core.TestExecutionEngine - Run test '355498ce: fasta.gz'. type: com.askimed.nf.test.lang.process.ProcessTest
+May-31 13:50:59.692 [main] DEBUG com.askimed.nf.test.lang.extensions.SnapshotFile - Init new snapshot file '/mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/modules/local/seqkit/stats/tests/main.nf.test.snap'
+May-31 13:50:59.694 [main] DEBUG com.askimed.nf.test.lang.extensions.Snapshot - Snapshot 'fasta.gz' not found.
+May-31 13:50:59.694 [main] DEBUG com.askimed.nf.test.lang.extensions.SnapshotFile - Created snapshot 'fasta.gz'
+May-31 13:50:59.713 [main] DEBUG com.askimed.nf.test.lang.extensions.SnapshotFile - Wrote snapshots to file '/mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/modules/local/seqkit/stats/tests/main.nf.test.snap'
+May-31 13:50:59.713 [main] INFO  com.askimed.nf.test.core.TestExecutionEngine - Test '355498ce: fasta.gz' finished. status: PASSED
+May-31 13:50:59.714 [main] INFO  com.askimed.nf.test.core.TestExecutionEngine - Run test '28c0504d: fasta.gz - stub'. type: com.askimed.nf.test.lang.process.ProcessTest
+May-31 13:51:08.205 [main] DEBUG com.askimed.nf.test.lang.extensions.Snapshot - Snapshot 'fasta.gz - stub' not found.
+May-31 13:51:08.205 [main] DEBUG com.askimed.nf.test.lang.extensions.SnapshotFile - Created snapshot 'fasta.gz - stub'
+May-31 13:51:08.222 [main] DEBUG com.askimed.nf.test.lang.extensions.SnapshotFile - Wrote snapshots to file '/mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/modules/local/seqkit/stats/tests/main.nf.test.snap'
+May-31 13:51:08.222 [main] INFO  com.askimed.nf.test.core.TestExecutionEngine - Test '28c0504d: fasta.gz - stub' finished. status: PASSED
+May-31 13:51:08.222 [main] INFO  com.askimed.nf.test.core.TestExecutionEngine - Testsuite 'Test Process: SEQKIT_STATS' finished. snapshot file: true, skipped tests: false, failed tests: false
+May-31 13:51:08.225 [main] INFO  com.askimed.nf.test.core.TestExecutionEngine - Executed 2 tests. 0 tests failed. Done!

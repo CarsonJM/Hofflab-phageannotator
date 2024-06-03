@@ -16,6 +16,7 @@ include { FILTERSEQUENCES                           } from '../../modules/local/
 include { NUCLEOTIDESTATS                           } from '../../modules/local/nucleotidestats/main'
 include { PHIST                                     } from '../../modules/local/phist/main'
 include { SEQKIT_SEQ                                } from '../../modules/local/seqkit/seq/main'
+include { SEQKIT_STATS                              } from '../../modules/local/seqkit/stats/main'
 // include { SKANI_TRIANGLE                            } from '../../modules/local/skani/triangle/main'
 include { TANTAN                                    } from '../../modules/local/tantan/main'
 
@@ -330,8 +331,8 @@ workflow PHAGEANNOTATOR {
         //
         // MODULE: Filter assemblies by length
         //
-        ch_seqkit_stats_tsv = SEQKIT_STATS(ch_metaspades_fasta_gz).fastx
-        ch_versions         = ch_versions.mix(SEQKIT_SEQ.out.versions)
+        ch_seqkit_stats_tsv = SEQKIT_STATS(ch_metaspades_fasta_gz).stats
+        ch_versions         = ch_versions.mix(SEQKIT_STATS.out.versions)
     } else {
         ch_seqkit_stats_tsv = []
     }
@@ -377,9 +378,9 @@ workflow PHAGEANNOTATOR {
         //
         // SUBWORKFLOW: Download and run geNomad
         //
-        ch_genomad_summary_tsv      = FASTA_VIRUSCLASSIFICATION_GENOMAD(ch_seqkit_seq_fasta_gz, ch_genomad_db).virus_summary_tsv
-        ch_genomad_fasta_gz         = FASTA_VIRUSCLASSIFICATION_GENOMAD.out.virus_fasta_gz
-        ch_versions                 = ch_versions.mix(FASTA_VIRUSCLASSIFICATION_GENOMAD.out.versions)
+        ch_genomad_summary_tsv  = FASTA_VIRUSCLASSIFICATION_GENOMAD(ch_seqkit_seq_fasta_gz, ch_genomad_db).virus_summary_tsv
+        ch_genomad_fasta_gz     = FASTA_VIRUSCLASSIFICATION_GENOMAD.out.virus_fasta_gz
+        ch_versions             = ch_versions.mix(FASTA_VIRUSCLASSIFICATION_GENOMAD.out.versions)
 
         if (!params.run_cobra) {
             // identify intermediate workDirs to clean

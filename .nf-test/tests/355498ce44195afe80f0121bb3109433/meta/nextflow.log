@@ -1,0 +1,91 @@
+May-31 13:50:53.143 [main] DEBUG nextflow.cli.Launcher - Setting http proxy: ProxyConfig[protocol=http; host=klone-dip1-A-ib; port=3128]
+May-31 13:50:53.164 [main] DEBUG nextflow.cli.Launcher - $> nextflow -quiet -log /mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/.nf-test/tests/355498ce44195afe80f0121bb3109433/meta/nextflow.log run /mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/.nf-test/tests/355498ce44195afe80f0121bb3109433/meta/mock.nf -c /mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/nextflow.config -c /mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/tests/nextflow.config -c /mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/modules/local/seqkit/stats/tests/./nextflow.config -params-file /mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/.nf-test/tests/355498ce44195afe80f0121bb3109433/meta/params.json -ansi-log false -profile singularity -with-trace /mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/.nf-test/tests/355498ce44195afe80f0121bb3109433/meta/trace.csv -w /mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/.nf-test/tests/355498ce44195afe80f0121bb3109433/work
+May-31 13:50:53.211 [main] INFO  nextflow.cli.CmdRun - N E X T F L O W  ~  version 24.04.1
+May-31 13:50:53.233 [main] DEBUG nextflow.plugin.PluginsFacade - Setting up plugin manager > mode=prod; embedded=false; plugins-dir=/mmfs1/home/carsonjm/.nextflow/plugins; core-plugins: nf-amazon@2.5.2,nf-azure@1.6.0,nf-cloudcache@0.4.1,nf-codecommit@0.2.0,nf-console@1.1.3,nf-ga4gh@1.3.0,nf-google@1.13.2,nf-tower@1.9.1,nf-wave@1.4.2
+May-31 13:50:53.245 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Enabled plugins: []
+May-31 13:50:53.246 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Disabled plugins: []
+May-31 13:50:53.250 [main] INFO  org.pf4j.DefaultPluginManager - PF4J version 3.10.0 in 'deployment' mode
+May-31 13:50:53.260 [main] INFO  org.pf4j.AbstractPluginManager - No plugins
+May-31 13:50:53.286 [main] DEBUG nextflow.config.ConfigBuilder - User config file: /mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/nextflow.config
+May-31 13:50:53.287 [main] DEBUG nextflow.config.ConfigBuilder - User config file: /mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/tests/nextflow.config
+May-31 13:50:53.287 [main] DEBUG nextflow.config.ConfigBuilder - User config file: /mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/modules/local/seqkit/stats/tests/./nextflow.config
+May-31 13:50:53.288 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/nextflow.config
+May-31 13:50:53.289 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/tests/nextflow.config
+May-31 13:50:53.289 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/modules/local/seqkit/stats/tests/nextflow.config
+May-31 13:50:53.315 [main] DEBUG n.secret.LocalSecretsProvider - Secrets store: /mmfs1/home/carsonjm/.nextflow/secrets/store.json
+May-31 13:50:53.319 [main] DEBUG nextflow.secret.SecretsLoader - Discovered secrets providers: [nextflow.secret.LocalSecretsProvider@7bc9e6ab] - activable => nextflow.secret.LocalSecretsProvider@7bc9e6ab
+May-31 13:50:53.341 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `singularity`
+May-31 13:50:55.677 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `singularity`
+May-31 13:50:55.734 [main] DEBUG n.file.http.XFileSystemProvider - Remote redirect location: https://raw.githubusercontent.com/nf-core/modules/master/tests/config/test_data.config
+May-31 13:50:56.473 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `singularity`
+May-31 13:50:56.488 [main] DEBUG nextflow.config.ConfigBuilder - Available config profiles: [bih, cfc_dev, uzl_omics, ifb_core, denbi_qbic, alice, mjolnir_globe, uppmax, incliva, ilifu, uge, rosalind_uge, lugh, mccleary, test_reads_only, unibe_ibu, vai, czbiohub_aws, jax, ccga_med, scw, unc_longleaf, tigem, tubingen_apg, google, apollo, ipop_up, vsc_calcua, pdc_kth, googlels, daisybio, eddie, medair, biowulf, apptainer, bi, bigpurple, adcra, cedars, pawsey_setonix, vsc_kul_uhasselt, pawsey_nimbus, ucl_myriad, utd_ganymede, charliecloud, icr_davros, ceres, munin, arm, rosalind, hasta, cfc, uzh, ebi_codon_slurm, ebc, ku_sund_dangpu, ccga_dx, crick, marvin, biohpc_gen, shifter, mana, mamba, york_viking, unc_lccc, wehi, awsbatch, wustl_htcf, arcc, imperial, maestro, software_license, utd_europa, genotoul, nci_gadi, abims, janelia, nu_genomics, googlebatch, oist, sahmri, mpcdf, leicester, vsc_ugent, create, sage, cambridge, jex, podman, ebi_codon, cheaha, xanadu, nyu_hpc, test, marjorie, computerome, ucd_sonic, seg_globe, sanger, dkfz, pasteur, einstein, ethz_euler, m3c, imb, ucl_cscluster, tuos_stanage, azurebatch, hki, crukmi, csiro_petrichor, qmul_apocrita, docker, engaging, gis, hypatia, psmn, eva, nygc, fgcz, conda, crg, singularity, self_hosted_runner, tufts, uw_hyak_pedslabs, utd_sysbio, debug, genouest, cbe, phoenix, gitpod, seawulf, uod_hpc, fub_curta, uct_hpc, aws_tower, binac]
+May-31 13:50:56.534 [main] DEBUG nextflow.cli.CmdRun - Applied DSL=2 from script declaration
+May-31 13:50:56.549 [main] INFO  nextflow.cli.CmdRun - Launching `/mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/.nf-test/tests/355498ce44195afe80f0121bb3109433/meta/mock.nf` [lonely_tesla] DSL2 - revision: 8cc65f65a9
+May-31 13:50:56.550 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins declared=[nf-validation@1.1.3]
+May-31 13:50:56.551 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins default=[]
+May-31 13:50:56.551 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins resolved requirement=[nf-validation@1.1.3, nf-tower@1.9.1]
+May-31 13:50:56.552 [main] DEBUG nextflow.plugin.PluginUpdater - Installing plugin nf-validation version: 1.1.3
+May-31 13:50:56.558 [main] INFO  org.pf4j.AbstractPluginManager - Plugin 'nf-validation@1.1.3' resolved
+May-31 13:50:56.559 [main] INFO  org.pf4j.AbstractPluginManager - Start plugin 'nf-validation@1.1.3'
+May-31 13:50:56.565 [main] DEBUG nextflow.plugin.BasePlugin - Plugin started nf-validation@1.1.3
+May-31 13:50:56.565 [main] DEBUG nextflow.plugin.PluginUpdater - Installing plugin nf-tower version: 1.9.1
+May-31 13:50:56.568 [main] INFO  org.pf4j.AbstractPluginManager - Plugin 'nf-tower@1.9.1' resolved
+May-31 13:50:56.568 [main] INFO  org.pf4j.AbstractPluginManager - Start plugin 'nf-tower@1.9.1'
+May-31 13:50:56.575 [main] DEBUG nextflow.plugin.BasePlugin - Plugin started nf-tower@1.9.1
+May-31 13:50:56.626 [main] DEBUG nextflow.Session - Session UUID: 16e5be84-49f1-422f-a356-7ecef69e0dc4
+May-31 13:50:56.627 [main] DEBUG nextflow.Session - Run name: lonely_tesla
+May-31 13:50:56.627 [main] DEBUG nextflow.Session - Executor pool size: 4
+May-31 13:50:56.634 [main] DEBUG nextflow.file.FilePorter - File porter settings maxRetries=3; maxTransfers=50; pollTimeout=null
+May-31 13:50:56.656 [main] DEBUG nextflow.cli.CmdRun - 
+  Version: 24.04.1 build 5913
+  Created: 20-05-2024 09:48 UTC (02:48 PDT)
+  System: Linux 4.18.0-513.18.1.el8_9.x86_64
+  Runtime: Groovy 4.0.21 on OpenJDK 64-Bit Server VM 21-internal-adhoc.conda.src
+  Encoding: UTF-8 (UTF-8)
+  Process: 86362@n3243 [10.64.65.243]
+  CPUs: 4 - Mem: 15 GB (5.7 GB) - Swap: 22.4 GB (18.6 GB) - Virtual threads ON
+May-31 13:50:56.680 [main] DEBUG nextflow.Session - Work-dir: /mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/.nf-test/tests/355498ce44195afe80f0121bb3109433/work [gpfs]
+May-31 13:50:56.734 [main] DEBUG nextflow.executor.ExecutorFactory - Extension executors providers=[]
+May-31 13:50:56.766 [main] DEBUG nextflow.Session - Observer factory: DefaultObserverFactory
+May-31 13:50:56.772 [main] DEBUG nextflow.Session - Observer factory: TowerFactory
+May-31 13:50:56.840 [main] DEBUG nextflow.cache.CacheFactory - Using Nextflow cache factory: nextflow.cache.DefaultCacheFactory
+May-31 13:50:56.867 [main] DEBUG nextflow.util.CustomPoolFactory - Creating virtual thread pool
+May-31 13:50:56.959 [main] DEBUG nextflow.Session - Session start
+May-31 13:50:56.963 [main] DEBUG nextflow.trace.TraceFileObserver - Workflow started -- trace file: /mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/.nf-test/tests/355498ce44195afe80f0121bb3109433/meta/trace.csv
+May-31 13:50:56.968 [main] DEBUG nextflow.Session - Using default localLib path: /mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/.nf-test/tests/355498ce44195afe80f0121bb3109433/meta/lib
+May-31 13:50:56.971 [main] DEBUG nextflow.Session - Adding to the classpath library: /mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/.nf-test/tests/355498ce44195afe80f0121bb3109433/meta/lib
+May-31 13:50:57.143 [main] DEBUG nextflow.script.ScriptRunner - > Launching execution
+May-31 13:50:57.383 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:process_low` matches labels `process_low` for process with name SEQKIT_STATS
+May-31 13:50:57.386 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withName:SEQKIT_STATS` matches process SEQKIT_STATS
+May-31 13:50:57.421 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+May-31 13:50:57.422 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+May-31 13:50:57.427 [main] DEBUG nextflow.executor.Executor - [warm up] executor > local
+May-31 13:50:57.434 [main] DEBUG n.processor.LocalPollingMonitor - Creating local task monitor for executor 'local' > cpus=4; memory=15 GB; capacity=4; pollInterval=100ms; dumpInterval=5m
+May-31 13:50:57.436 [main] DEBUG n.processor.TaskPollingMonitor - >>> barrier register (monitor: local)
+May-31 13:50:57.523 [main] DEBUG nextflow.Session - Config process names validation disabled as requested
+May-31 13:50:57.524 [main] DEBUG nextflow.Session - Igniting dataflow network (1)
+May-31 13:50:57.524 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > SEQKIT_STATS
+May-31 13:50:57.525 [main] DEBUG nextflow.script.ScriptRunner - Parsed script files:
+  Script_c37fa0107fdf86b5: /mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/modules/local/seqkit/stats/tests/../main.nf
+  Script_cd60a53b0b2faff5: /mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/.nf-test/tests/355498ce44195afe80f0121bb3109433/meta/mock.nf
+May-31 13:50:57.525 [main] DEBUG nextflow.script.ScriptRunner - > Awaiting termination 
+May-31 13:50:57.525 [main] DEBUG nextflow.Session - Session await
+May-31 13:50:57.618 [Actor Thread 10] WARN  nextflow.container.SingularityCache - Singularity cache directory has not been defined -- Remote image will be stored in the path: /mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/.nf-test/tests/355498ce44195afe80f0121bb3109433/work/singularity -- Use the environment variable NXF_SINGULARITY_CACHEDIR to specify a different location
+May-31 13:50:57.618 [Actor Thread 10] INFO  nextflow.container.SingularityCache - Pulling Singularity image https://depot.galaxyproject.org/singularity/seqkit:2.8.1--h9ee0642_0 [cache /mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/.nf-test/tests/355498ce44195afe80f0121bb3109433/work/singularity/depot.galaxyproject.org-singularity-seqkit-2.8.1--h9ee0642_0.img]
+May-31 13:50:57.974 [Actor Thread 10] DEBUG nextflow.container.SingularityCache - Singularity pull complete image=https://depot.galaxyproject.org/singularity/seqkit:2.8.1--h9ee0642_0 path=/mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/.nf-test/tests/355498ce44195afe80f0121bb3109433/work/singularity/depot.galaxyproject.org-singularity-seqkit-2.8.1--h9ee0642_0.img
+May-31 13:50:58.074 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-31 13:50:58.076 [Task submitter] INFO  nextflow.Session - [6a/f39adf] Submitted process > SEQKIT_STATS (test)
+May-31 13:50:59.498 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 1; name: SEQKIT_STATS (test); status: COMPLETED; exit: 0; error: -; workDir: /mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/.nf-test/tests/355498ce44195afe80f0121bb3109433/work/6a/f39adf2319a04fb576584f9ad54521]
+May-31 13:50:59.545 [main] DEBUG nextflow.Session - Session await > all processes finished
+May-31 13:50:59.591 [Task monitor] DEBUG n.processor.TaskPollingMonitor - <<< barrier arrives (monitor: local) - terminating tasks monitor poll loop
+May-31 13:50:59.592 [main] DEBUG nextflow.Session - Session await > all barriers passed
+May-31 13:50:59.594 [main] DEBUG nextflow.util.ThreadPoolManager - Thread pool 'TaskFinalizer' shutdown completed (hard=false)
+May-31 13:50:59.603 [main] DEBUG n.trace.WorkflowStatsObserver - Workflow completed > WorkflowStats[succeededCount=1; failedCount=0; ignoredCount=0; cachedCount=0; pendingCount=0; submittedCount=0; runningCount=0; retriesCount=0; abortedCount=0; succeedDuration=0ms; failedDuration=0ms; cachedDuration=0ms;loadCpus=0; loadMemory=0; peakRunning=1; peakCpus=2; peakMemory=12 GB; ]
+May-31 13:50:59.604 [main] DEBUG nextflow.trace.TraceFileObserver - Workflow completed -- saving trace file
+May-31 13:50:59.613 [main] DEBUG nextflow.cache.CacheDB - Closing CacheDB done
+May-31 13:50:59.625 [main] INFO  org.pf4j.AbstractPluginManager - Stop plugin 'nf-tower@1.9.1'
+May-31 13:50:59.626 [main] DEBUG nextflow.plugin.BasePlugin - Plugin stopped nf-tower
+May-31 13:50:59.626 [main] INFO  org.pf4j.AbstractPluginManager - Stop plugin 'nf-validation@1.1.3'
+May-31 13:50:59.626 [main] DEBUG nextflow.plugin.BasePlugin - Plugin stopped nf-validation
+May-31 13:50:59.627 [main] DEBUG nextflow.util.ThreadPoolManager - Thread pool 'FileTransfer' shutdown completed (hard=false)
+May-31 13:50:59.627 [main] DEBUG nextflow.script.ScriptRunner - > Execution complete -- Goodbye

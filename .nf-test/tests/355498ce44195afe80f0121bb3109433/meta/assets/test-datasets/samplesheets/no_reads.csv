@@ -1,0 +1,3 @@
+sample,group,fastq_1,fastq_2,fasta
+BUFF_01_B,group1,,,https://github.com/HoffLab/phageannotator/raw/dev/assets/test-datasets/fastas/MEGAHIT-BUFF_01_B.contigs.fa.gz
+CTRL_01_B,group1,,,https://github.com/HoffLab/phageannotator/raw/dev/assets/test-datasets/fastas/MEGAHIT-CTRL_01_B.contigs.fa.gz
