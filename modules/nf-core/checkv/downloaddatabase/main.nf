@@ -1,5 +1,5 @@
 process CHECKV_DOWNLOADDATABASE {
-    label 'process_low'
+    label 'process_single'
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
@@ -7,22 +7,22 @@ process CHECKV_DOWNLOADDATABASE {
         'biocontainers/checkv:1.0.1--pyhdfd78af_0' }"
 
     output:
-    path "${prefix}/*"         , emit: checkv_db
-    path "versions.yml"        , emit: versions
+    path "${prefix}/*"  , emit: checkv_db
+    path "versions.yml" , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
 
     script:
     def args = task.ext.args ?: ''
+    def https_proxy = task.ext.https_proxy ?: ''
     prefix = task.ext.prefix ?: "checkv_db"
 
     """
-    https_proxy=http://klone-dip1-A-ib:3128
-    export https_proxy
+    ${https_proxy}
     checkv download_database \\
-        $args \\
-        ./$prefix/
+        ./$prefix/ \\
+        ${args}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

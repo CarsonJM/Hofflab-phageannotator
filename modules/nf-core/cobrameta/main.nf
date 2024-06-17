@@ -4,7 +4,7 @@ process COBRAMETA {
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/cobra-meta:1.2.3--pyhdfd78af_0':
+        'oras://community.wave.seqera.io/library/cobra-meta:1.2.3--10daf775a65e0312':
         'biocontainers/cobra-meta:1.2.3--pyhdfd78af_0' }"
 
     input:
@@ -30,10 +30,9 @@ process COBRAMETA {
     prefix      = task.ext.prefix ?: "${meta.id}"
     fasta_name  = fasta.getName().replace(".gz", "")
     """
-    if [ \$(gunzip ${fasta}; grep ">" ${fasta_name} | wc -l) -gt 0 ]; then
-
+    if [ \$(zcat ${fasta} | grep ">" | wc -l) -gt 0 ]; then
+        gunzip -c ${fasta} > ${fasta_name}
         tail ${virus_summary} -n +2 | awk '{print \$1}' > ${prefix}_viral_assemblies.txt
-
         tail ${coverage} -n +2 > ${prefix}_cobra_coverage.txt
 
         cobra-meta \\
@@ -53,7 +52,7 @@ process COBRAMETA {
         mv ${prefix}/COBRA_joining_summary.txt ${prefix}_COBRA_joining_summary.txt
         mv ${prefix}/log ${prefix}_log
     else
-        ln -s ${fasta_name} ${prefix}_COBRA_extended.fasta.gz
+        mv ${fasta} ${prefix}_COBRA_extended.fasta.gz
         touch ${prefix}_COBRA_joining_summary.txt
         touch ${prefix}_log
     fi

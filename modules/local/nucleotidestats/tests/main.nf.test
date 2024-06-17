@@ -1,17 +1,23 @@
 nextflow_process {
 
-    name "Test Process TANTAN"
+    name "Test Process NUCLEOTIDESTATS"
     script "../main.nf"
-    process "TANTAN"
+    process "NUCLEOTIDESTATS"
 
-    test("fasta.gz") {
+    test("fasta.gz + faa.gz") {
         when {
             process {
                 """
                 input[0] = Channel.of(
                     [
                         [ id:'test' ],
-                        file("$projectDir/assets/test-datasets/fastas/MEGAHIT-test1.contigs.fa.gz", checkIfExists: true)
+                        "$projectDir/assets/test-datasets/fastas/MEGAHIT-test1.contigs.fa.gz"
+                    ]
+                )
+                input[1] = Channel.of(
+                    [
+                        [ id:'test' ],
+                        "$projectDir/assets/test-datasets/fastas/test1_proteins.faa.gz"
                     ]
                 )
                 """
@@ -26,7 +32,7 @@ nextflow_process {
         }
     }
 
-    test("emtpy fasta") {
+    test("empty fasta + empty faa") {
         when {
             process {
                 """
@@ -36,6 +42,12 @@ nextflow_process {
                         file("${projectDir}/assets/test-datasets/fastas/empty_file.fasta.gz", checkIfExists: true)
                     ]
                 )
+                input[1] = Channel.of(
+                    [
+                        [ id:'test' ],
+                        file("${projectDir}/assets/test-datasets/fastas/empty_file.faa.gz", checkIfExists: true)
+                    ]
+                )
                 """
             }
         }
@@ -48,7 +60,7 @@ nextflow_process {
         }
     }
 
-    test("fasta.gz - stub") {
+    test("fasta.gz + faa.gz - stub") {
 
         options "-stub"
 
@@ -58,7 +70,13 @@ nextflow_process {
                 input[0] = Channel.of(
                     [
                         [ id:'test' ],
-                        file("$projectDir/assets/test-datasets/fastas/MEGAHIT-test1.contigs.fa.gz", checkIfExists: true)
+                        "$projectDir/assets/test-datasets/fastas/MEGAHIT-test1.contigs.fa.gz"
+                    ]
+                )
+                input[1] = Channel.of(
+                    [
+                        [ id:'test' ],
+                        "$projectDir/assets/test-datasets/fastas/test1_proteins.faa.gz"
                     ]
                 )
                 """

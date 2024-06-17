@@ -36,18 +36,12 @@ process GENOMAD_ENDTOEND {
             --threads ${task.cpus} \\
             ${args}
 
-        mv *_aggregated_classification/*_aggregated_classification.tsv .
-        mv *_annotate/*_taxonomy.tsv .
-        mv *_annotate/*_genes.tsv .
         mv *_summary/*_virus_summary.tsv .
         mv *_summary/*_virus.fna .
         gzip *_virus.fna
 
         rm -rf ./${filename}_*/*
     else
-        touch ${filename}_aggregated_classification.tsv
-        touch ${filename}_taxonomy.tsv
-        touch ${filename}_genes.tsv
         touch ${filename}_virus_summary.tsv
         echo "" | gzip > ${filename}_virus.fna.gz
     fi
@@ -63,9 +57,6 @@ process GENOMAD_ENDTOEND {
     def prefix = task.ext.prefix ?: "${meta.id}"
     def filename = "${fasta}"[0..<"${fasta}".lastIndexOf('.')]
     """
-    touch ${filename}_aggregated_classification.tsv
-    touch ${filename}_taxonomy.tsv
-    touch ${filename}_genes.tsv
     touch ${filename}_virus_summary.tsv
     echo "" | gzip > ${filename}_virus.fna.gz
 

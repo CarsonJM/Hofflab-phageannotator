@@ -1,0 +1,4 @@
+sample,run,group,fastq_1,fastq_2,fasta
+test1,1,test1,assets/test-datasets/fastqs/test1_1.fastq.gz,assets/test-datasets/fastqs/test1_2.fastq.gz,assets/test-datasets/fastas/test1.contigs.fa.gz
+test2,1,test2,assets/test-datasets/fastqs/test2_1.fastq.gz,assets/test-datasets/fastqs/test2_2.fastq.gz,assets/test-datasets/fastas/test2.contigs.fa.gz
+empty,1,empty,assets/test-datasets/fastqs/empty_1.fastq.gz,assets/test-datasets/fastqs/empty_2.fastq.gz,assets/test-datasets/fastas/empty.contigs.fa.gz

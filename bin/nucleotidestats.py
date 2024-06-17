@@ -57,7 +57,10 @@ def nucleotide_stats(
             if line[0] == ">":
                 r = line.split()
                 contig_id = r[0][1:].rsplit("_", 1)[0]
-                stats[contig_id]["cds_length"] += int(r[4]) - int(r[2]) + 1
+                if contig_id in stats:
+                    stats[contig_id]["cds_length"] += int(r[4]) - int(r[2]) + 1
+                else:
+                    stats[contig_id + "_1"]["cds_length"] += int(r[4]) - int(r[2]) + 1
 
     with open(output, "w") as out:
         fields = ["contig_id", "contig_length", "cds_length", "cds_density", "gc_content", "n_count"]

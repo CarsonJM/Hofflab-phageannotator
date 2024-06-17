@@ -80,67 +80,33 @@ workflow PIPELINE_INITIALISATION {
     ch_samplesheet = Channel
         .fromSamplesheet("input")
         .map {
-            validateInputSamplesheet(it[0], it[1], it[2])
+            validateInputSamplesheet(it[0], it[1], it[2], it[3])
         }
 
     // prepare FASTQs channel and separate short and long reads and prepare
-    ch_input_reads = ch_samplesheet
-        .map { meta, sr1, sr2 ->
+    ch_input = ch_samplesheet
+        .map { meta, fastq_1, fastq_2, fasta ->
             meta.run          = meta.run == null ? "0" : meta.run
             meta.single_end   = params.single_end
 
             if (params.single_end) {
-                return [ meta, [ sr1 ] ]
+                return [ meta, [ fastq_1 ], fasta ]
             } else {
-                return [ meta, [ sr1, sr2 ] ]
+                return [ meta, [ fastq_1, fastq_2 ], fasta ]
             }
         }
-
-    // validate PRE-ASSEMBLED CONTIG input when supplied
-    if (params.assembly_input) {
-        ch_input_assemblies = Channel
-            .fromSamplesheet("assembly_input")
-    }
-
-    // Prepare ASSEMBLY input channel
-    if (params.assembly_input) {
-        ch_input_assemblies
-            .map { meta, fasta ->
-                    return [ meta + [ id: params.coassemble_group ? "group-${meta.group}" : meta.id ], [ fasta ] ]
-                }
-    } else {
-        ch_input_assemblies    = Channel.empty()
-    }
-
-    // Cross validation of input assembly and read IDs: ensure groups are all represented between reads and assemblies
-    if (params.assembly_input) {
-        ch_read_ids = ch_samplesheet
-            .map { meta, sr1, sr2, lr -> params.coassemble_group ? meta.group : meta.id }
-            .unique()
-            .toList()
-            .sort()
-
-        ch_assembly_ids = ch_input_assemblies
-            .map { meta, fasta -> params.coassemble_group ? meta.group : meta.id }
-            .unique()
-            .toList()
-            .sort()
-
-        ch_read_ids.cross(ch_assembly_ids)
-            .map { ids1, ids2 ->
-                if (ids1.sort() != ids2.sort()) {
-                    exit 1, "[nf-core/mag] ERROR: supplied IDs or Groups in read and assembly CSV files do not match!"
-                }
-            }
-    }
+        .multiMap { meta, fastqs, fasta ->
+            fastq: [ meta, fastqs ]
+            fasta: [ meta, fasta ]
+        }
 
     // Custom validation for pipeline parameters
     validateInputParameters()
 
     emit:
-    input_reads         = ch_input_reads
-    input_assemblies    = ch_input_assemblies
-    versions            = ch_versions
+    fastqs      = ch_input.fastq
+    fastas      = ch_input.fasta
+    versions    = ch_versions
 }
 
 /*
@@ -196,12 +162,12 @@ def validateInputParameters() {
 //
 // Validate channels from input samplesheet
 //
-def validateInputSamplesheet(meta, sr1, sr2 ) {
+def validateInputSamplesheet(meta, fastq_1, fastq_2, fasta ) {
 
-        if ( !sr2 && !params.single_end ) { error("[nf-core/mag] ERROR: Single-end data must be executed with `--single_end`. Note that it is not possible to mix single- and paired-end data in one run! Check input TSV for sample: ${meta.id}") }
-        if ( sr2 && params.single_end ) { error("[nf-core/mag] ERROR: Paired-end data must be executed without `--single_end`. Note that it is not possible to mix single- and paired-end data in one run! Check input TSV for sample: ${meta.id}") }
+        if ( !fastq_2 && !params.single_end ) { error("[nf-core/mag] ERROR: Single-end data must be executed with `--single_end`. Note that it is not possible to mix single- and paired-end data in one run! Check input TSV for sample: ${meta.id}") }
+        if ( fastq_2 && params.single_end ) { error("[nf-core/mag] ERROR: Paired-end data must be executed without `--single_end`. Note that it is not possible to mix single- and paired-end data in one run! Check input TSV for sample: ${meta.id}") }
 
-    return  [meta, sr1, sr2 ]
+    return  [ meta, fastq_1, fastq_2, fasta ]
 }
 
 //

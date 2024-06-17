@@ -19,9 +19,9 @@ workflow FASTQFASTA_VIRUSEXTENSION_COBRA {
     // join fastq and fasta by meta.id
     ch_coverm_input = fastq_gz
         .join(fasta_gz)
-        .multiMap { it ->
-            fastq: [ it[0], it[1] ]
-            fasta: [ it[0], it[2] ]
+        .multiMap { meta, fastq, fasta ->
+            fastq: [ meta, fastq ]
+            fasta: [ meta, fasta ]
         }
 
     //

@@ -72,8 +72,8 @@ include { softwareVersionsToYAML                } from '../../subworkflows/nf-co
 workflow PHAGEANNOTATOR {
 
     take:
-    input_reads_fastq_gz        // channel: [ [ meta.id, meta.group ], [ reads_1.fastq.gz, reads_2.fastq.gz ] ]
-    input_assemblies_fasta_gz   // channel: [ [ meta.id, meta.group ], assembly.fasta ]
+    ch_fastq_gz // channel: [ [ meta.id, meta.run, meta.group ], [ reads_1.fastq.gz, reads_2.fastq.gz ] ]
+    ch_fasta_gz // channel: [ [ meta.id, meta.run, meta.group ], fasta.gz ]
 
     main:
     ch_versions             = Channel.empty()
@@ -84,7 +84,7 @@ workflow PHAGEANNOTATOR {
     // MODULE: Run FastQC on raw reads
     //
     FASTQC_RAW (
-        input_reads_fastq_gz
+        ch_fastq_gz
     )
     ch_multiqc_files    = ch_multiqc_files.mix(FASTQC_RAW.out.zip.collect{it[1]})
     ch_versions         = ch_versions.mix(FASTQC_RAW.out.versions.first())
@@ -131,7 +131,7 @@ workflow PHAGEANNOTATOR {
         )
         ch_workdirs_to_clean        = ch_workdirs_to_clean.mix(ch_pre_merge_workdirs)
     } else {
-        ch_merged_reads_fastq_gz = input_reads_fastq_gz
+        ch_merged_fastq_gz = ch_fastq_gz
     }
 
 
@@ -158,7 +158,7 @@ workflow PHAGEANNOTATOR {
         )
         ch_workdirs_to_clean    = ch_workdirs_to_clean.mix(ch_pre_fastp_workdirs)
     } else {
-        ch_fastp_fastq_gz = ch_merged_reads_fastq_gz
+        ch_fastp_fastq_gz = ch_merged_fastq_gz
     }
 
 
@@ -252,8 +252,7 @@ workflow PHAGEANNOTATOR {
                 [ meta + [ coassembly: false ], fasta ]
             }
         }
-        ch_metaspades_fasta_gz              = Channel.empty()
-        ch_metaspades_fasta_gz              = ch_metaspades_fasta_gz.mix(ch_metaspades_single_fasta_gz)
+        ch_metaspades_fasta_gz              = ch_metaspades_single_fasta_gz
         ch_versions                         = ch_versions.mix(METASPADES_SINGLE.out.versions)
 
         // identify workDirs to clean
@@ -264,7 +263,7 @@ workflow PHAGEANNOTATOR {
         )
         ch_workdirs_to_clean    = ch_workdirs_to_clean.mix(ch_pre_spades_workdirs)
     } else {
-        ch_metaspades_fasta_gz  = Channel.empty()
+        ch_metaspades_fasta_gz  = ch_fasta_gz
     }
 
     if (params.run_metaspades_coassembly) {
@@ -321,6 +320,8 @@ workflow PHAGEANNOTATOR {
             []
         )
         ch_workdirs_to_clean    = ch_workdirs_to_clean.mix(ch_pre_spades_workdirs)
+    } else {
+        ch_metaspades_fasta_gz  = ch_metaspades_fasta_gz
     }
 
 

@@ -31,16 +31,16 @@ include { PIPELINE_COMPLETION       } from './subworkflows/local/utils_nfcore_ph
 workflow HOFFLAB_PHAGEANNOTATOR {
 
     take:
-    input_reads         // channel: [ [ meta.id, meta.group ], [ reads_1.fastq.gz, reads_2.fastq.gz ] ]
-    input_assemblies    // channel: [ [ meta.id, meta.group ], assembly.fasta ]
+    fastqs  // channel: [ [ meta.id, meta.run, meta.group ], [ reads_1.fastq.gz, reads_2.fastq.gz ] ]
+    fastas  // channel: [ [ meta.id, meta.run, meta.group ], fasta.gz ]
 
     main:
     //
     // WORKFLOW: Run pipeline
     //
     PHAGEANNOTATOR (
-        input_reads,
-        input_assemblies
+        fastqs,
+        fastas
     )
 
     emit:
@@ -74,8 +74,8 @@ workflow {
     // WORKFLOW: Run main workflow
     //
     HOFFLAB_PHAGEANNOTATOR (
-        PIPELINE_INITIALISATION.out.input_reads,
-        PIPELINE_INITIALISATION.out.input_assemblies
+        PIPELINE_INITIALISATION.out.fastqs,
+        PIPELINE_INITIALISATION.out.fastas
     )
 
     //

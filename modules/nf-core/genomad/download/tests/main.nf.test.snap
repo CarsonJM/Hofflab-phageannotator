@@ -42,7 +42,7 @@
                     ]
                 ],
                 "1": [
-                    "versions.yml:md5,e98d6885d0b88a7a71f288fcff0b7b14"
+                    "versions.yml:md5,263039e603bdbf56f83780bfd87bff26"
                 ],
                 "genomad_db": [
                     [
@@ -84,11 +84,15 @@
                     ]
                 ],
                 "versions": [
-                    "versions.yml:md5,e98d6885d0b88a7a71f288fcff0b7b14"
+                    "versions.yml:md5,263039e603bdbf56f83780bfd87bff26"
                 ]
             }
         ],
-        "timestamp": "2024-01-03T17:41:56.803756044"
+        "meta": {
+            "nf-test": "0.8.4",
+            "nextflow": "24.04.1"
+        },
+        "timestamp": "2024-06-12T14:32:28.186670862"
     },
     "No input": {
         "content": [
@@ -136,7 +140,7 @@
                     ]
                 ],
                 "1": [
-                    "versions.yml:md5,e98d6885d0b88a7a71f288fcff0b7b14"
+                    "versions.yml:md5,263039e603bdbf56f83780bfd87bff26"
                 ],
                 "genomad_db": [
                     [
@@ -181,10 +185,14 @@
                     ]
                 ],
                 "versions": [
-                    "versions.yml:md5,e98d6885d0b88a7a71f288fcff0b7b14"
+                    "versions.yml:md5,263039e603bdbf56f83780bfd87bff26"
                 ]
             }
         ],
-        "timestamp": "2024-01-03T17:38:10.13471002"
+        "meta": {
+            "nf-test": "0.8.4",
+            "nextflow": "24.04.1"
+        },
+        "timestamp": "2024-06-12T14:31:41.030737088"
     }
 }

@@ -61,34 +61,16 @@ def parse_args(args=None):
         help="Path to input TSV file containing contigs to keep, regardless of whether they pass filters.",
     )
     parser.add_argument(
-        "--genomad_min_viral_score",
-        type=float,
-        default=0.8,
-        help="Minimum geNomad viral score to classify a sequence as viral.",
-    )
-    parser.add_argument(
-        "--genomad_max_fdr",
-        type=float,
-        default=0.1,
-        help="Maximum geNomad FDR to classify a sequence as viral.",
-    )
-    parser.add_argument(
         "--min_length",
         type=int,
         default=10000,
         help="Minimum length to keep a sequence regardless of completeness.",
     )
     parser.add_argument(
-        "--min_aai_completeness",
+        "--min_completeness",
         type=float,
         default=50,
-        help="Minimum AAI completeness to keep a sequence.",
-    )
-    parser.add_argument(
-        "--min_hmm_completeness",
-        type=float,
-        default=50,
-        help="Minimum HMM completeness to keep a sequence.",
+        help="Minimum CheckV completeness to keep a sequence.",
     )
     parser.add_argument(
         "--keep_proviruses",
@@ -224,11 +206,8 @@ def filter_sequences(
     input_fasta: Path,
     contigs_to_keep: Path,
     comb_virus_data_df: pd.DataFrame,
-    min_genomad_score: float,
-    max_genomad_fdr: float,
     min_length: int,
-    min_aai_completeness: float,
-    min_hmm_completeness: float,
+    min_completeness: float,
     keep_proviruses: bool,
     ignore_warnings: bool,
     min_cds_density: float,
@@ -250,7 +229,7 @@ def filter_sequences(
         min_length (int)                : Minimum length to keep a sequence.
         keep_proviruses (bool)          : Whether to keep proviruses.
         ignore_warnings (bool)          : Whether to ignore warnings.
-        min_aai_completeness (float)    : Minimum AAI completeness to keep a sequence.
+        min_completeness (float)        : Minimum CheckV completeness to keep a sequence.
         min_hmm_completeness (float)    : Minimum HMM completeness to keep a sequence.
         min_cds_density (float)         : Minimum coding density to keep a sequence.
         max_tantan_freq (float)         : Maximum tantan frequency to keep a sequence.
@@ -281,12 +260,11 @@ def filter_sequences(
         comb_virus_data_df = comb_virus_data_df.query("`warnings` != 'contig >1.5x longer than expected genome length'")
 
     # filter viral sequences by classification, completeness, and quality
-    is_virus_filter = "(`virus_score` >= @min_genomad_score and `fdr` <= @max_genomad_fdr)"
-    is_hq_filter = "(`completeness` >= @min_aai_completeness or `completeness` >= @min_hmm_completeness or `contig_length` >= @min_length)"
+    is_hq_filter = "(`completeness` >= @min_completeness or `contig_length` >= @min_length)"
     seq_filter = "(`cds_density` >= @min_cds_density and `tantan_perc` <= @max_tantan_freq and `kmer_freq` <= @max_kmer_freq and `n_perc` <= @max_n_freq)"
     contigs_passing_filters_set = set(
         comb_virus_data_df.query(
-            f"{is_virus_filter} and {is_hq_filter} and {seq_filter}"
+            f"{is_hq_filter} and {seq_filter}"
         ).index
     )
 
@@ -314,11 +292,8 @@ def main(args=None):
         args.input,
         args.contigs_to_keep,
         combined_virus_data_df,
-        args.genomad_min_viral_score,
-        args.genomad_max_fdr,
         args.min_length,
-        args.min_aai_completeness,
-        args.min_hmm_completeness,
+        args.min_completeness,
         args.keep_proviruses,
         args.ignore_warnings,
         args.min_cds_density,
