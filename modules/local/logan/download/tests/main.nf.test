@@ -1,0 +1,57 @@
+nextflow_process {
+
+    name "Test process: LOGAN_DOWNLOAD"
+    script "../main.nf"
+    process "LOGAN_DOWNLOAD"
+
+
+    test("logan_accessions.txt") {
+
+        when {
+            params {
+                logan_accession_files   = "${projectDir}/assets/test-datasets/logan/logan_group*_accessions.txt"
+            }
+            process {
+                """
+                input[0] = Channel.fromFilePairs( params.logan_accession_files, size: 1 )
+                    .map { meta, accession_file ->
+                        [ [ id:"logan_acc_" + meta ], accession_file ]
+                    }
+                """
+            }
+        }
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+    test("logan_accessions.txt - stub") {
+
+        options "-stub"
+
+        when {
+            params {
+                logan_accession_files   = "${projectDir}/assets/test-datasets/logan/logan_group*_accessions.txt"
+            }
+            process {
+                """
+                input[0] = Channel.fromFilePairs( params.logan_accession_files, size: 1 )
+                    .map { meta, accession_file ->
+                        [ [ id:"logan_acc_" + meta ], accession_file ]
+                    }
+                """
+            }
+        }
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}

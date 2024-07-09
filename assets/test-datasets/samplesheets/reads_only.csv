@@ -1,4 +1,7 @@
 sample,run,group,fastq_1,fastq_2,fasta
-test1,1,group1,assets/test-datasets/fastqs/BUFF_01_B_run0_host_removed.unmapped_1.fastq.gz,assets/test-datasets/fastqs/BUFF_01_B_run0_host_removed.unmapped_2.fastq.gz,,
-test1,2,group1,https://github.com/nf-core/test-datasets/raw/modules/data/genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz,https://github.com/nf-core/test-datasets/raw/modules/data/genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz,
-test2,1,group1,assets/test-datasets/fastqs/CTRL_01_B_run0_host_removed.unmapped_1.fastq.gz,assets/test-datasets/fastqs/CTRL_01_B_run0_host_removed.unmapped_2.fastq.gz,,
+local1,1,pe_coassembly,assets/test-datasets/fastqs/test1_1.fastq.gz,assets/test-datasets/fastqs/test1_2.fastq.gz,,
+local1,2,pe_coassembly,assets/test-datasets/fastqs/empty_1.fastq.gz,assets/test-datasets/fastqs/empty_2.fastq.gz,,
+local2,1,pe_coassembly,assets/test-datasets/fastqs/test2_1.fastq.gz,assets/test-datasets/fastqs/test2_2.fastq.gz,,
+local3,1,se_coassembly,assets/test-datasets/fastqs/test2_1.fastq.gz,,,
+local4,1,se_coassembly,assets/test-datasets/fastqs/test2_1.fastq.gz,,,
+local_empty,1,local_empty,assets/test-datasets/fastqs/empty_1.fastq.gz,assets/test-datasets/fastqs/empty_2.fastq.gz,,

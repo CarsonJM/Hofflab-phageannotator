@@ -17,9 +17,9 @@ workflow FASTQ_HOSTREMOVAL_BOWTIE2 {
     //
     // MODULE: Create bowtie2 database from host FASTA
     //
-    if (!host_bt2_index) {
-        ch_host_bt2_index   = BOWTIE2_BUILD(host_fasta_gz).index
-        ch_versions         = ch_versions.mix(BOWTIE2_BUILD.out.versions)
+    if ( !host_bt2_index ) {
+        ch_host_bt2_index   = BOWTIE2_BUILD( host_fasta_gz ).index
+        ch_versions         = ch_versions.mix( BOWTIE2_BUILD.out.versions )
     } else {
         ch_host_bt2_index   = host_bt2_index
     }
@@ -34,8 +34,8 @@ workflow FASTQ_HOSTREMOVAL_BOWTIE2 {
         true,
         true
     )
-    ch_versions      = ch_versions.mix(BOWTIE2_ALIGN.out.versions.first())
-    ch_multiqc_files = ch_multiqc_files.mix(BOWTIE2_ALIGN.out.log)
+    ch_versions      = ch_versions.mix( BOWTIE2_ALIGN.out.versions.first() )
+    ch_multiqc_files = ch_multiqc_files.mix( BOWTIE2_ALIGN.out.log )
 
     emit:
     fastq_gz    = BOWTIE2_ALIGN.out.fastq   // channel: [ val(meta), [ reads ] ]

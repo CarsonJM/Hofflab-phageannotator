@@ -34,35 +34,44 @@ process SPADES {
     def custom_hmms = hmm ? "--custom-hmms $hmm" : ""
     def reads = yml ? "--dataset $yml" : "$illumina_reads $pacbio_reads $nanopore_reads"
     """
-    spades.py \\
-        $args \\
-        --threads $task.cpus \\
-        --memory $maxmem \\
-        $custom_hmms \\
-        $reads \\
-        -o ./
-    mv spades.log ${prefix}.spades.log
+    if [ \$(zcat ${illumina[0]} | grep "@" | wc -l) -gt 0 ]; then
+        spades.py \\
+            $args \\
+            --threads $task.cpus \\
+            --memory $maxmem \\
+            $custom_hmms \\
+            $reads \\
+            -o ./
+        mv spades.log ${prefix}.spades.log
 
-    if [ -f scaffolds.fasta ]; then
-        mv scaffolds.fasta ${prefix}.scaffolds.fa
-        gzip -n ${prefix}.scaffolds.fa
-    fi
-    if [ -f contigs.fasta ]; then
-        mv contigs.fasta ${prefix}.contigs.fa
-        gzip -n ${prefix}.contigs.fa
-    fi
-    if [ -f transcripts.fasta ]; then
-        mv transcripts.fasta ${prefix}.transcripts.fa
-        gzip -n ${prefix}.transcripts.fa
-    fi
-    if [ -f assembly_graph_with_scaffolds.gfa ]; then
-        mv assembly_graph_with_scaffolds.gfa ${prefix}.assembly.gfa
-        gzip -n ${prefix}.assembly.gfa
-    fi
+        if [ -f scaffolds.fasta ]; then
+            mv scaffolds.fasta ${prefix}.scaffolds.fa
+            gzip -n ${prefix}.scaffolds.fa
+        fi
+        if [ -f contigs.fasta ]; then
+            mv contigs.fasta ${prefix}.contigs.fa
+            gzip -n ${prefix}.contigs.fa
+        fi
+        if [ -f transcripts.fasta ]; then
+            mv transcripts.fasta ${prefix}.transcripts.fa
+            gzip -n ${prefix}.transcripts.fa
+        fi
+        if [ -f assembly_graph_with_scaffolds.gfa ]; then
+            mv assembly_graph_with_scaffolds.gfa ${prefix}.assembly.gfa
+            gzip -n ${prefix}.assembly.gfa
+        fi
 
-    if [ -f gene_clusters.fasta ]; then
-        mv gene_clusters.fasta ${prefix}.gene_clusters.fa
-        gzip -n ${prefix}.gene_clusters.fa
+        if [ -f gene_clusters.fasta ]; then
+            mv gene_clusters.fasta ${prefix}.gene_clusters.fa
+            gzip -n ${prefix}.gene_clusters.fa
+        fi
+    else
+        touch ${prefix}.spades.log
+        echo "" | gzip > ${prefix}.scaffolds.fa
+        echo "" | gzip > ${prefix}.contigs.fa
+        echo "" | gzip > ${prefix}.transcripts.fa
+        echo "" | gzip > ${prefix}.assembly.gfa
+        echo "" | gzip > ${prefix}.gene_clusters.fa
     fi
 
     cat <<-END_VERSIONS > versions.yml

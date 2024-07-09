@@ -3,8 +3,8 @@ process IPHOP_DOWNLOAD {
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/iphop:1.3.2--pyhdfd78af_0':
-        'biocontainers/iphop:1.3.2--pyhdfd78af_0' }"
+        '/mmfs1/gscratch/pedslabs_hoffman/carsonjm/iphop_1.3.3--pyhdfd78af_0':
+        '/mmfs1/gscratch/pedslabs_hoffman/carsonjm/iphop_1.3.3--pyhdfd78af_0' }"
 
     output:
     path "iphop_db/"        , emit: iphop_db
@@ -16,8 +16,6 @@ process IPHOP_DOWNLOAD {
     script:
     def args = task.ext.args ?: ''
     """
-    https_proxy=http://klone-dip1-A-ib:3128
-    export https_proxy
     mkdir -p download_dir
     mkdir -p iphop_db
 

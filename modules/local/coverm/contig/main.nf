@@ -9,11 +9,12 @@ process COVERM_CONTIG {
 
     input:
     tuple val(meta), path(fastq)
-    tuple val(meta), path(fasta)
+    tuple val(meta2), path(fasta)
 
     output:
     tuple val(meta), path("${prefix}_alignment_results.tsv")    , emit: alignment_results
     tuple val(meta), path("${prefix}.bam")                      , emit: bam
+    tuple val(meta), path("${prefix}.log")                      , emit: log
     path "versions.yml"                                         , emit: versions
 
     when:
@@ -21,23 +22,25 @@ process COVERM_CONTIG {
 
     script:
     def args = task.ext.args ?: ''
+    def reads = !meta.single_end ? "--coupled ${fastq}" : "--single ${fastq}"
     prefix = task.ext.prefix ?: "${meta.id}"
     """
     if [ \$(zcat ${fastq[0]} | grep "@" | wc -l) -gt 0 ]; then
         coverm \\
             contig \\
-            -1 ${fastq[0]} \\
-            -2 ${fastq[1]} \\
+            ${reads} \\
             --reference ${fasta} \\
             --output-file ${prefix}_alignment_results.tsv \\
-            --bam-file-cache-directory ${prefix}_bam_files/ \\
+            --bam-file-cache-directory ${prefix}_bam_files \\
             --threads ${task.cpus} \\
-            ${args}
+            ${args} \\
+            2> ${prefix}.log
 
         mv ${prefix}_bam_files/*.bam ${prefix}.bam
     else
         touch ${prefix}_alignment_results.tsv
         touch ${prefix}.bam
+        touch ${prefix}.log
     fi
 
     cat <<-END_VERSIONS > versions.yml
@@ -48,11 +51,11 @@ process COVERM_CONTIG {
 
     stub:
     def args = task.ext.args ?: ''
-    def prefix = task.ext.prefix ?: "${meta.id}"
+    prefix = task.ext.prefix ?: "${meta.id}"
     """
-    mkdir -p ${prefix}_bam_files
     touch ${prefix}_alignment_results.tsv
     touch ${prefix}.bam
+    touch ${prefix}.log
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

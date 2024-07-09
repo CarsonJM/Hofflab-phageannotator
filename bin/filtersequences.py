@@ -107,6 +107,11 @@ def parse_args(args=None):
         help="Maximum 'N' percentage to keep a sequence.",
     )
     parser.add_argument(
+        "-s",
+        "--sample",
+        help="Sample prefix to add to contig_id.",
+    )
+    parser.add_argument(
         "-of",
         "--output_fasta",
         help="Output filtered FASTA file.",
@@ -170,7 +175,10 @@ def combine_virus_data(
         for line in open(tantan):
             contig_id, start, end = line.split()
             length = int(end) - int(start) + 1
-            tantan_dict[contig_id] += length
+            if contig_id in tantan_dict:
+                tantan_dict[contig_id] += length
+            else:
+                tantan_dict[contig_id.rpartition('_')[0]] = length
         tantan_df = pd.DataFrame.from_dict(tantan_dict, orient="index")
         tantan_df.columns = ["tantan_len"]
     else:
@@ -191,7 +199,6 @@ def combine_virus_data(
         tantan_df,
         nucleotide_stats_df
     ], axis=1)
-
 
     comb_virus_data_df.insert(11, "tantan_perc", (comb_virus_data_df['tantan_len'] / comb_virus_data_df['contig_length']))
     comb_virus_data_df.insert(len(comb_virus_data_df.columns), "n_perc", (comb_virus_data_df['n_count'] / comb_virus_data_df['contig_length']))
@@ -214,6 +221,7 @@ def filter_sequences(
     max_tantan_freq: float,
     max_kmer_freq: float,
     max_n_freq: float,
+    sample: str,
     output_fasta: Path,
     output_tsv: Path
 ) -> None:
@@ -235,6 +243,7 @@ def filter_sequences(
         max_tantan_freq (float)         : Maximum tantan frequency to keep a sequence.
         max_kmer_freq (float)           : Maximum kmer frequency to keep a sequence.
         max_n_freq (float)              : Maximum 'N' frequency to keep a sequence.
+        sample (str)                    : Sample prefix to add to contig_id.
         output_fasta (Path)             : Path to output FASTA file containing filtered viral sequences.
         output_tsv (Path)               : Path to output TSV file containing filtered viral data.
 
@@ -273,6 +282,7 @@ def filter_sequences(
     with gzip.open(input_fasta, "rt") as input_gunzipped, open(output_fasta, "w") as output:
         for r in SeqIO.parse(input_gunzipped, "fasta"):
             if r.id in filtered_contigs_set:
+                r.id = "sample_" + sample + "|" + r.id
                 SeqIO.write(r, output, "fasta")
     # write combined metadata to output TSV
     comb_virus_data_df.insert(0, "contig_id", comb_virus_data_df.index)
@@ -300,6 +310,7 @@ def main(args=None):
         args.max_tantan_frac,
         args.max_kmer_freq,
         args.max_n_frac,
+        args.sample,
         args.output_fasta,
         args.output_tsv
     )

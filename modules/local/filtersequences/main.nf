@@ -35,6 +35,7 @@ process FILTERSEQUENCES {
             --quality_summary ${quality_summary} \\
             --tantan ${tantan} \\
             --nucleotide_stats ${nuc_stats} \\
+            --sample ${prefix} \\
             --output_fasta ${prefix}_filtered.fasta \\
             --output_tsv ${prefix}_filtering_data.tsv \\
             ${contigs_to_keep} \\

@@ -4,8 +4,8 @@ process IPHOP_PREDICT {
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/iphop:1.3.2--pyhdfd78af_0':
-        'biocontainers/iphop:1.3.2--pyhdfd78af_0' }"
+        '/mmfs1/gscratch/pedslabs_hoffman/carsonjm/iphop_1.3.3--pyhdfd78af_0':
+        '/mmfs1/gscratch/pedslabs_hoffman/carsonjm/iphop_1.3.3--pyhdfd78af_0' }"
 
     input:
     tuple val(meta), path(fasta)
@@ -22,20 +22,30 @@ process IPHOP_PREDICT {
 
     script:
     def args = task.ext.args ?: ''
-    def prefix = task.ext.prefix ?: "${meta.id}"
+    def min_score = args.contains('--min_score') ? args.split('--min_score ')[1] : '90'
+    prefix = task.ext.prefix ?: "${meta.id}"
+    fasta_name  = fasta.getName().replace(".gz", "")
     """
-    export PERL5LIB=/usr/local/lib/perl5/site_perl/5.22.0
-    iphop \\
-        predict \\
-        --fa_file $fasta \\
-        --out_dir iphop_results \\
-        --db_dir $iphop_db \\
-        --num_threads $task.cpus \\
-        $args
+    if [ \$(zcat ${fasta} | grep ">" | wc -l) -gt 0 ]; then
+        gunzip -c ${fasta} > ${fasta_name}
 
-    mv iphop_results/Host_prediction_to_genus_m*.csv .
-    mv iphop_results/Host_prediction_to_genome_m*.csv .
-    mv iphop_results/Detailed_output_by_tool.csv .
+        iphop \\
+            predict \\
+            --fa_file ${fasta_name} \\
+            --out_dir iphop_results \\
+            --db_dir ${iphop_db} \\
+            --num_threads ${task.cpus} \\
+            $args
+
+        mv iphop_results/Host_prediction_to_genus_m*.csv .
+        mv iphop_results/Host_prediction_to_genome_m*.csv .
+        mv iphop_results/Detailed_output_by_tool.csv .
+    else
+        mkdir -p iphop_results
+        touch Host_prediction_to_genus_m${min_score}.csv
+        touch Host_prediction_to_genome_m${min_score}.csv
+        touch Detailed_output_by_tool.csv
+    fi
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

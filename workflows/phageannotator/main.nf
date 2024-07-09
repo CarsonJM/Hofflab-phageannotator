@@ -6,25 +6,27 @@
 //
 // FUNCTIONS: Local functions
 //
-include { getWorkDirs                               } from '../../lib/NfCleanUp.groovy'
+include { getWorkDirs   } from '../../lib/NfCleanUp.groovy'
 
 //
 // MODULES: Local modules
 //
-// include { CLEANWORKDIRS                             } from '../../modules/local/cleanup/cleanworkdirs/main'
-include { FILTERSEQUENCES                           } from '../../modules/local/filtersequences/main'
-include { NUCLEOTIDESTATS                           } from '../../modules/local/nucleotidestats/main'
-include { PHIST                                     } from '../../modules/local/phist/main'
-include { SEQKIT_SEQ                                } from '../../modules/local/seqkit/seq/main'
-include { SEQKIT_STATS                              } from '../../modules/local/seqkit/stats/main'
-// include { SKANI_TRIANGLE                            } from '../../modules/local/skani/triangle/main'
-include { TANTAN                                    } from '../../modules/local/tantan/main'
+include { COVERM_CONTIG     } from '../../modules/local/coverm/contig/main'
+include { FILTERSEQUENCES   } from '../../modules/local/filtersequences/main'
+include { LOGAN_DOWNLOAD    } from '../../modules/local/logan/download/main'
+include { NUCLEOTIDESTATS   } from '../../modules/local/nucleotidestats/main'
+include { SEQKIT_SEQ        } from '../../modules/local/seqkit/seq/main'
+include { SEQKIT_SPLIT      } from '../../modules/local/seqkit/split/main'
+include { SEQKIT_STATS      } from '../../modules/local/seqkit/stats/main'
+include { TANTAN            } from '../../modules/local/tantan/main'
 
 //
 // SUBWORKFLOWS: Consisting of a mix of local and nf-core/modules
 //
-// include { FASTA_PHAGEFUNCTION_PHAROKKA      } from '../../subworkflows/local/fasta_phagefunction_pharokka/main'
-// include { FASTA_PHAGEHOST_IPHOP             } from '../../subworkflows/local/fasta_phagehost_iphop/main'
+include { CSV_SRADOWNLOAD_FETCHNGS          } from '../../subworkflows/local/csv_sradownload_fetchngs/main'
+include { FASTA_ANICLUSTER_BLAST            } from '../../subworkflows/local/fasta_anicluster_blast/main'
+include { FASTA_PHAGEFUNCTION_PHAROKKA      } from '../../subworkflows/local/fasta_phagefunction_pharokka/main'
+include { FASTA_PHAGEHOST_IPHOP             } from '../../subworkflows/local/fasta_phagehost_iphop/main'
 include { FASTA_VIRUSCLASSIFICATION_GENOMAD } from '../../subworkflows/local/fasta_virusclassification_genomad/main'
 include { FASTA_VIRUSQUALITY_CHECKV         } from '../../subworkflows/local/fasta_virusquality_checkv/main'
 include { FASTQ_HOSTREMOVAL_BOWTIE2         } from '../../subworkflows/local/fastq_hostremoval_bowtie2/main'
@@ -46,10 +48,12 @@ include { paramsSummaryMap                      } from 'plugin/nf-validation'
 //
 // MODULES: Installed directly from nf-core/modules
 //
-// include { BACPHLIP                              } from '../../modules/nf-core/bacphlip/main'
+include { BACPHLIP                          } from '../../modules/nf-core/bacphlip/main'
 include { CAT_FASTQ as CAT_RUNMERGE         } from '../../modules/nf-core/cat/fastq/main'
 include { CAT_FASTQ as CAT_COASSEMBLY       } from '../../modules/nf-core/cat/fastq/main'
+include { CAT_CAT as CAT_VIRUSES            } from '../../modules/nf-core/cat/cat/main'
 include { FASTP                             } from '../../modules/nf-core/fastp/main'
+include { FASTP as FASTP_PREPROCESSED       } from '../../modules/nf-core/fastp/main'
 include { FASTQC as FASTQC_RAW              } from '../../modules/nf-core/fastqc/main'
 include { FASTQC as FASTQC_PREPROCESSED     } from '../../modules/nf-core/fastqc/main'
 include { GENOMAD_ENDTOEND as GENOMAD_COBRA } from '../../modules/nf-core/genomad/endtoend/main'
@@ -60,8 +64,8 @@ include { SPADES as METASPADES_SINGLE       } from '../../modules/nf-core/spades
 //
 // SUBWORKFLOWS: Installed directly from nf-core/modules
 //
-include { paramsSummaryMultiqc                  } from '../../subworkflows/nf-core/utils_nfcore_pipeline'
-include { softwareVersionsToYAML                } from '../../subworkflows/nf-core/utils_nfcore_pipeline'
+include { paramsSummaryMultiqc      } from '../../subworkflows/nf-core/utils_nfcore_pipeline'
+include { softwareVersionsToYAML    } from '../../subworkflows/nf-core/utils_nfcore_pipeline'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -80,22 +84,32 @@ workflow PHAGEANNOTATOR {
     ch_multiqc_files        = Channel.empty()
     ch_workdirs_to_clean    = Channel.empty()
 
+
+    // /*----------------------------------------------------------------------------
+    //     Read download
+    // ------------------------------------------------------------------------------*/
+    if ( params.sra_accessions ) {
+        ch_sra_fastq    = CSV_SRADOWNLOAD_FETCHNGS( params.sra_accessions, params.sra_download_method ).fastq
+        ch_versions     = ch_versions.mix( CSV_SRADOWNLOAD_FETCHNGS.out.versions )
+        ch_fastq_gz     = ch_fastq_gz.mix( ch_sra_fastq )
+    }
+
     //
     // MODULE: Run FastQC on raw reads
     //
     FASTQC_RAW (
         ch_fastq_gz
     )
-    ch_multiqc_files    = ch_multiqc_files.mix(FASTQC_RAW.out.zip.collect{it[1]})
-    ch_versions         = ch_versions.mix(FASTQC_RAW.out.versions.first())
+    ch_multiqc_files    = ch_multiqc_files.mix( FASTQC_RAW.out.zip.collect{it[1]} )
+    ch_versions         = ch_versions.mix( FASTQC_RAW.out.versions.first() )
 
 
     /*----------------------------------------------------------------------------
         Read merging
     ------------------------------------------------------------------------------*/
-    if (params.perform_run_merging) {
+    if ( params.perform_run_merging ) {
         // prepare reads for concatenating within runs
-        ch_reads_forcat             = input_reads_fastq_gz
+        ch_reads_forcat             = ch_fastq_gz
             .map {
                 meta, reads ->
                     def meta_new    = meta - meta.subMap('run')
@@ -120,16 +134,16 @@ workflow PHAGEANNOTATOR {
             }
 
         // Combine single run and multi-run-merged data
-        ch_merged_reads_fastq_gz    = ch_cat_reads_fastq_gz.mix(ch_reads_forcat_skipped)
-        ch_versions                 = ch_versions.mix(CAT_RUNMERGE.out.versions)
+        ch_merged_reads_fastq_gz    = ch_cat_reads_fastq_gz.mix( ch_reads_forcat_skipped )
+        ch_versions                 = ch_versions.mix( CAT_RUNMERGE.out.versions )
 
         // identify workDirs to clean
         ch_pre_merge_workdirs       = getWorkDirs(
-            input_reads_fastq_gz,
+            ch_fastq_gz,
             ch_merged_reads_fastq_gz,
             []
         )
-        ch_workdirs_to_clean        = ch_workdirs_to_clean.mix(ch_pre_merge_workdirs)
+        ch_workdirs_to_clean        = ch_workdirs_to_clean.mix( ch_pre_merge_workdirs )
     } else {
         ch_merged_fastq_gz = ch_fastq_gz
     }
@@ -138,17 +152,18 @@ workflow PHAGEANNOTATOR {
     /*----------------------------------------------------------------------------
         Read Preprocessing
     ------------------------------------------------------------------------------*/
-    if (params.run_fastp) {
+    if ( params.run_fastp ) {
         //
         // MODULE: Run fastp on raw reads
         //
-        ch_fastp_fastq_gz = FASTP(
+        ch_fastp_fastq_gz   = FASTP(
             ch_merged_reads_fastq_gz,
             [],
             false,
             false
         ).reads
-        ch_versions     = ch_versions.mix(FASTP.out.versions)
+        ch_versions         = ch_versions.mix( FASTP.out.versions )
+        ch_multiqc_files    = ch_multiqc_files.mix( FASTP.out.json.collect{ it[1] } )
 
         // identify workDirs to clean
         ch_pre_fastp_workdirs   = getWorkDirs(
@@ -156,7 +171,7 @@ workflow PHAGEANNOTATOR {
             ch_fastp_fastq_gz,
             []
         )
-        ch_workdirs_to_clean    = ch_workdirs_to_clean.mix(ch_pre_fastp_workdirs)
+        ch_workdirs_to_clean    = ch_workdirs_to_clean.mix( ch_pre_fastp_workdirs )
     } else {
         ch_fastp_fastq_gz = ch_merged_fastq_gz
     }
@@ -165,18 +180,18 @@ workflow PHAGEANNOTATOR {
     /*----------------------------------------------------------------------------
         Host read removal
     ------------------------------------------------------------------------------*/
-    if (params.run_bowtie2_host_removal) {
+    if ( params.run_bowtie2_host_removal ) {
         // prepare host fasta and bowtie2 index
         if (params.bowtie2_igenomes_host) {
             ch_bowtie2_host_fasta   = Channel.value(
-                [ [ id:'bowtie2_fasta' ], file(params.genomes[params.bowtie2_igenomes_host].fasta, checkIfExists: true) ]
+                [ [ id:'bowtie2_fasta' ], file( params.genomes[params.bowtie2_igenomes_host].fasta, checkIfExists: true ) ]
             )
             ch_bowtie2_host_index   = Channel.value(
-                [ [ id:'bowtie2_index' ], file(params.genomes[params.bowtie2_igenomes_host].bowtie2, checkIfExists: true) ]
+                [ [ id:'bowtie2_index' ], file( params.genomes[params.bowtie2_igenomes_host].bowtie2, checkIfExists: true ) ]
             )
         } else {
             ch_bowtie2_host_fasta   = Channel.value(
-                [ [ id:'bowtie2_fasta' ], file(params.bowtie2_custom_host_fasta, checkIfExists: true) ]
+                [ [ id:'bowtie2_fasta' ], file( params.bowtie2_custom_host_fasta, checkIfExists: true ) ]
             )
             ch_bowtie2_host_index   = null
         }
@@ -189,7 +204,8 @@ workflow PHAGEANNOTATOR {
             ch_bowtie2_host_fasta,
             ch_bowtie2_host_index
         ).fastq_gz
-        ch_versions     = ch_versions.mix(FASTQ_HOSTREMOVAL_BOWTIE2.out.versions)
+        ch_versions         = ch_versions.mix( FASTQ_HOSTREMOVAL_BOWTIE2.out.versions )
+        ch_multiqc_files    = ch_multiqc_files.mix( FASTQ_HOSTREMOVAL_BOWTIE2.out.mqc.collect{ it[1] } )
 
         // identify workDirs to clean
         ch_pre_bt2_workdirs     = getWorkDirs(
@@ -197,30 +213,58 @@ workflow PHAGEANNOTATOR {
             ch_bt2_fastq_gz,
             []
         )
-        ch_workdirs_to_clean    = ch_workdirs_to_clean.mix(ch_pre_bt2_workdirs)
+        ch_workdirs_to_clean    = ch_workdirs_to_clean.mix( ch_pre_bt2_workdirs )
     } else {
         ch_bt2_fastq_gz  = ch_fastp_fastq_gz
     }
 
 
     /*----------------------------------------------------------------------------
+        Preprocessing analysis
+    ------------------------------------------------------------------------------*/
+    if ( params.perform_run_merging || params.run_fastp || params.run_bowtie2_host_removal ) {
+        //
+        // MODULE: Run FastQC on preprocessed reads
+        //
+        FASTQC_PREPROCESSED (
+            ch_fastq_gz
+        )
+        ch_multiqc_files    = ch_multiqc_files.mix( FASTQC_PREPROCESSED.out.zip.collect{it[1]} )
+        ch_versions         = ch_versions.mix( FASTQC_PREPROCESSED.out.versions.first() )
+
+        //
+        // MODULE: Run fastp on preprocessed reads
+        //
+        FASTP_PREPROCESSED (
+            ch_fastq_gz,
+            [],
+            false,
+            false
+        )
+        ch_multiqc_files    = ch_multiqc_files.mix( FASTP_PREPROCESSED.out.json.collect{it[1]} )
+        ch_versions         = ch_versions.mix( FASTQC_PREPROCESSED.out.versions.first() )
+    }
+
+
+
+    /*----------------------------------------------------------------------------
         Estimate virus enrichment
     ------------------------------------------------------------------------------*/
-    if (params.run_viromeqc) {
+    if ( params.run_viromeqc ) {
         // create channel from params.viromeqc_db
         if (!params.viromeqc_db){
             ch_viromeqc_db  = null
         } else {
             ch_viromeqc_db  = Channel.value(
-                file(params.viromeqc_db, checkIfExists:true)
+                file( params.viromeqc_db, checkIfExists:true )
             )
         }
 
         //
         // SUBWORKFLOW: Estimate virus enrichment with ViromeQC
         //
-        ch_vqc_enrich_tsv   = FASTQ_VIRUSENRICHMENT_VIROMEQC(ch_bt2_fastq_gz, ch_viromeqc_db).enrichment_tsv
-        ch_versions         = ch_versions.mix(FASTQ_VIRUSENRICHMENT_VIROMEQC.out.versions)
+        ch_vqc_enrich_tsv   = FASTQ_VIRUSENRICHMENT_VIROMEQC( ch_bt2_fastq_gz, ch_viromeqc_db ).enrichment_tsv
+        ch_versions         = ch_versions.mix( FASTQ_VIRUSENRICHMENT_VIROMEQC.out.versions )
     } else {
         ch_vqc_enrich_tsv   = []
     }
@@ -229,111 +273,168 @@ workflow PHAGEANNOTATOR {
     /*----------------------------------------------------------------------------
         Assemble reads into contigs/scaffolds
     ------------------------------------------------------------------------------*/
-    if (params.run_metaspades_single) {
-        // prepare reads for metaspades input
-        ch_metaspades_single_input  = ch_bt2_fastq_gz.map { meta, fastq ->
-            [ meta, fastq, [], [] ]
+    if (
+        params.run_metaspades_single ||
+        params.run_megahit_single ||
+        params.run_penguin_single ||
+        params.run_metaspades_coassembly ||
+        params.run_megahit_coassembly ||
+        params.run_penguin_coassembly
+    ) {
+        ch_assemblies_fasta_gz = Channel.empty()
+
+        if ( params.run_metaspades_single ) {
+            // prepare reads for metaspades input
+            ch_metaspades_single_input  = ch_bt2_fastq_gz
+                .map { meta, fastq ->
+                    [ meta, fastq, [], [] ]
+                }
+                .branch { meta, fastq, extra1, extra2  ->
+                    single_end: meta.single_end
+                    paired_end: true
+                }
+
+            //
+            // MODULE: Assemble reads individually with metaSPAdes
+            //
+            METASPADES_SINGLE(
+                ch_metaspades_single_input.paired_end,
+                [],
+                []
+            )
+            if (params.metaspades_use_scaffolds) {
+                ch_metaspades_single_fasta_gz   = METASPADES_SINGLE.out.scaffolds.map { meta, fasta ->
+                    [ meta + [ coassembly: false ], fasta ]
+                }
+            } else {
+                ch_metaspades_single_fasta_gz   = METASPADES_SINGLE.out.contigs.map { meta, fasta ->
+                    [ meta + [ coassembly: false ], fasta ]
+                }
+            }
+            ch_assemblies_fasta_gz  = ch_assemblies_fasta_gz.mix( ch_metaspades_single_fasta_gz )
+            ch_versions             = ch_versions.mix( METASPADES_SINGLE.out.versions )
         }
 
-        //
-        // MODULE: Assemble reads with metaSPAdes
-        //
-        METASPADES_SINGLE(
-            ch_metaspades_single_input,
-            [],
-            []
-        )
-        if (params.metaspades_use_scaffolds) {
-            ch_metaspades_single_fasta_gz   = METASPADES_SINGLE.out.scaffolds.map { meta, fasta ->
+        if ( params.run_megahit_single ) {
+            //
+            // MODULE: Assemble reads individually with MEGAHIT
+            //
+            ch_megahit_single_fasta_gz  = MEGAHIT_SINGLE( ch_bt2_fastq_gz ).contigs.map { meta, fasta ->
                 [ meta + [ coassembly: false ], fasta ]
             }
-        } else {
-            ch_metaspades_single_fasta_gz   = METASPADES_SINGLE.out.contigs.map { meta, fasta ->
-                [ meta + [ coassembly: false ], fasta ]
-            }
-        }
-        ch_metaspades_fasta_gz              = ch_metaspades_single_fasta_gz
-        ch_versions                         = ch_versions.mix(METASPADES_SINGLE.out.versions)
 
-        // identify workDirs to clean
-        ch_pre_spades_workdirs  = getWorkDirs(
-            ch_bt2_fastq_gz,
-            ch_metaspades_single_fasta_gz,
-            []
-        )
-        ch_workdirs_to_clean    = ch_workdirs_to_clean.mix(ch_pre_spades_workdirs)
+            ch_assemblies_fasta_gz  = ch_assemblies_fasta_gz.mix(ch_megahit_single_fasta_gz )
+            ch_versions             = ch_versions.mix( METASPADES_SINGLE.out.versions )
+        }
+
+        // if ( params.run_penguin_single ) {
+        //     //
+        //     // MODULE: Assemble reads individually with MEGAHIT
+        //     //
+        //     ch_megahit_single_fasta_gz  = MEGAHIT_SINGLE( ch_bt2_fastq_gz ).contigs.map { meta, fasta ->
+        //         [ meta + [ coassembly: false ], fasta ]
+        //     }
+
+        //     ch_assemblies_fasta_gz  = ch_assemblies_fasta_gz.mix(ch_megahit_single_fasta_gz )
+        //     ch_versions             = ch_versions.mix( METASPADES_SINGLE.out.versions )
+        // }
+
+        if ( params.run_metaspades_coassembly ) {
+            // group and set group as new id
+            ch_cat_coassembly_fastq_gz      = ch_bt2_fastq_gz
+                .map { meta, reads -> [ meta.group, meta, reads ] }
+                .groupTuple(by: 0, sort:'deep')
+                .map { group, meta, reads ->
+                    def meta_new                = [:]
+                    meta_new.id                 = "group-$group"
+                    meta_new.group              = group
+                    meta_new.single_end         = meta.single_end[0]
+                    if ( meta_new.single_end ) {
+                        return [ meta_new, reads.collect { it } ]
+                    } else {
+                        return [ meta_new, reads.flatten() ]
+                    }
+                }
+                .branch {
+                    meta, reads ->
+                        coassembly: meta.single_end && reads.size() >= 2 || !meta.single_end && reads.size() >= 4
+                        skip_coassembly: true   // Can skip coassembly if there is not multiple samples
+                }
+
+            //
+            // MODULE: Combine reads within groups for coassembly
+            //
+            ch_coassembly_fastq_gz  = CAT_COASSEMBLY(
+                ch_cat_coassembly_fastq_gz.coassembly
+            ).reads
+            ch_versions             = ch_versions.mix( CAT_COASSEMBLY.out.versions )
+
+            // prepare reads for metaspades input
+            ch_metaspades_coassembly_input  = ch_coassembly_fastq_gz
+                .map { meta, fastq ->
+                    [ meta, fastq, [], [] ]
+                }
+                .branch { meta, fastq, extra1, extra2 ->
+                    single_end: meta.single_end
+                    paired_end: true
+                }
+
+            //
+            // MODULE: Assemble reads with metaSPAdes
+            //
+            METASPADES_COASSEMBLY(
+                ch_metaspades_coassembly_input.paired_end,
+                [],
+                []
+            )
+            if ( params.metaspades_use_scaffolds ) {
+                ch_metaspades_co_fasta_gz   = METASPADES_COASSEMBLY.out.scaffolds.map { meta, fasta ->
+                    [ meta + [ coassembly: true ], fasta ]
+                }
+            } else {
+                ch_metaspades_co_fasta_gz   = METASPADES_COASSEMBLY.out.contigs.map { meta, fasta ->
+                    [ meta + [ coassembly: true ], fasta ]
+                }
+            }
+            ch_assemblies_fasta_gz  = ch_assemblies_fasta_gz.mix( ch_metaspades_co_fasta_gz )
+            ch_versions             = ch_versions.mix( METASPADES_COASSEMBLY.out.versions )
+
+            // identify workDirs to clean
+            ch_pre_spades_workdirs  = getWorkDirs(
+                ch_bt2_fastq_gz,
+                ch_assemblies_fasta_gz,
+                []
+            )
+            ch_workdirs_to_clean    = ch_workdirs_to_clean.mix(ch_pre_spades_workdirs)
+        }
     } else {
-        ch_metaspades_fasta_gz  = ch_fasta_gz
+        ch_assemblies_fasta_gz = ch_fasta_gz
     }
 
-    if (params.run_metaspades_coassembly) {
-        // group and set group as new id
-        ch_cat_coassembly_fastq_gz      = ch_bt2_fastq_gz
-            .map { meta, reads -> [ meta.group, meta, reads ] }
-            .groupTuple(by: 0, sort:'deep')
-            .map { group, metas, reads ->
-                def meta                = [:]
-                meta.id                 = "group-$group"
-                meta.group              = group
-                meta.single_end         = params.single_end
-                if ( params.single_end ) [ meta, reads.collect { it }, [] ]
-                else [ meta, reads.flatten() ]
-            }
 
-        //
-        // MODULE: Combine reads within groups for coassembly
-        //
-        ch_coassembly_fastq_gz  = CAT_COASSEMBLY(
-            ch_cat_coassembly_fastq_gz
-        ).reads
-        ch_versions             = ch_versions.mix(CAT_COASSEMBLY.out.versions)
-
-        // prepare reads for metaspades input
-        ch_metaspades_coassembly_input  = ch_coassembly_fastq_gz.map { meta, fastq ->
-            [ meta, fastq, [], [] ]
+    /*----------------------------------------------------------------------------
+        Download Logan files
+    ------------------------------------------------------------------------------*/
+    if ( params.logan_accessions ) {
+        ch_logan_accession_files        = Channel.fromFilePairs( params.logan_accessions, size: 1 )
+        .map { meta, accession_file ->
+            [ [ id:"logan_acc_" + meta ], accession_file ]
         }
-
-        //
-        // MODULE: Assemble reads with metaSPAdes
-        //
-        METASPADES_COASSEMBLY(
-            ch_metaspades_coassembly_input,
-            [],
-            []
-        )
-        if (params.metaspades_use_scaffolds) {
-            ch_metaspades_co_fasta_gz   = METASPADES_COASSEMBLY.out.scaffolds.map { meta, fasta ->
-                [ meta + [ coassembly: true ], fasta ]
-            }
-        } else {
-            ch_metaspades_co_fasta_gz   = METASPADES_COASSEMBLY.out.contigs.map { meta, fasta ->
-                [ meta + [ coassembly: true ], fasta ]
-            }
-        }
-        ch_metaspades_fasta_gz          = ch_metaspades_fasta_gz.mix(ch_metaspades_co_fasta_gz)
-        ch_versions                     = ch_versions.mix(METASPADES_COASSEMBLY.out.versions)
-
-        // identify workDirs to clean
-        ch_pre_spades_workdirs  = getWorkDirs(
-            ch_bt2_fastq_gz,
-            ch_metaspades_fasta_gz,
-            []
-        )
-        ch_workdirs_to_clean    = ch_workdirs_to_clean.mix(ch_pre_spades_workdirs)
-    } else {
-        ch_metaspades_fasta_gz  = ch_metaspades_fasta_gz
+        ch_logan_fasta          = LOGAN_DOWNLOAD( ch_logan_accession_files ).fasta
+        ch_assemblies_fasta_gz  = ch_assemblies_fasta_gz.mix( ch_logan_fasta )
+        ch_versions             = ch_versions.mix( LOGAN_DOWNLOAD.out.versions )
     }
 
 
     /*----------------------------------------------------------------------------
         Run quick quality analysis of assemblies
     ------------------------------------------------------------------------------*/
-    if (params.run_seqkit_stats) {
+    if ( params.run_seqkit_stats ) {
         //
         // MODULE: Filter assemblies by length
         //
-        ch_seqkit_stats_tsv = SEQKIT_STATS(ch_metaspades_fasta_gz).stats
-        ch_versions         = ch_versions.mix(SEQKIT_STATS.out.versions)
+        ch_seqkit_stats_tsv = SEQKIT_STATS( ch_assemblies_fasta_gz ).stats
+        ch_versions         = ch_versions.mix( SEQKIT_STATS.out.versions )
     } else {
         ch_seqkit_stats_tsv = []
     }
@@ -342,24 +443,24 @@ workflow PHAGEANNOTATOR {
     /*----------------------------------------------------------------------------
         Remove low-length assemblies
     ------------------------------------------------------------------------------*/
-    if (params.run_seqkit_seq) {
+    if ( params.run_seqkit_seq ) {
         //
         // MODULE: Filter assemblies by length
         //
-        ch_seqkit_seq_fasta_gz  = SEQKIT_SEQ(ch_metaspades_fasta_gz).fastx
-        ch_versions             = ch_versions.mix(SEQKIT_SEQ.out.versions)
+        ch_seqkit_seq_fasta_gz  = SEQKIT_SEQ( ch_assemblies_fasta_gz ).fastx
+        ch_versions             = ch_versions.mix( SEQKIT_SEQ.out.versions )
 
-        if (!params.run_cobra) {
+        if ( !params.run_cobra ) {
             // identify workDirs to clean
             ch_pre_seqkit_seq_workdirs  = getWorkDirs (
-                ch_metaspades_fasta_gz,
+                ch_assemblies_fasta_gz,
                 ch_seqkit_seq_fasta_gz,
                 []
             )
             ch_workdirs_to_clean        = ch_workdirs_to_clean.mix(ch_pre_seqkit_seq_workdirs)
         }
     } else {
-        ch_seqkit_seq_fasta_gz  = ch_metaspades_fasta_gz
+        ch_seqkit_seq_fasta_gz  = ch_assemblies_fasta_gz
     }
 
 
@@ -405,7 +506,7 @@ workflow PHAGEANNOTATOR {
         // filter to only single assemblies with reads available
         ch_cobra_input = ch_bt2_fastq_gz
             .map { meta, fastq -> [ meta.id, meta, fastq ] }
-            .join(ch_metaspades_fasta_gz.map { meta, fasta -> [ meta.id, meta, fasta ] } )
+            .join(ch_assemblies_fasta_gz.map { meta, fasta -> [ meta.id, meta, fasta ] } )
             .map {
                 id, meta_fastq, fastq, meta_fasta, fasta ->
                 [ meta_fasta, fastq, fasta ]
@@ -585,41 +686,99 @@ workflow PHAGEANNOTATOR {
 
 
     /*----------------------------------------------------------------------------
+        Dereplicate phages
+    ------------------------------------------------------------------------------*/
+    if ( params.run_blast_dereplication || params.run_blast_clustering || params.run_coverm ) {
+        // create a channel for combining filtered viruses (sorted so output is the same for tests)
+        ch_cat_viruses_input = ch_filt_fasta_gz
+            .map { [ [ id:'all_samples' ], it[1] ] }
+            .groupTuple( sort: 'deep' )
+
+        //
+        // MODULE: Concatenate all quality filtered viruses into one file
+        //
+        ch_derep_fna_gz = CAT_VIRUSES ( ch_cat_viruses_input ).file_out
+        ch_versions     = ch_versions.mix( CAT_VIRUSES.out.versions )
+
+        //
+        // SUBWORKFLOW: Calculate skani all-v-all based ANI
+        //
+        ch_votu_reps_fasta_gz   = FASTA_ANICLUSTER_BLAST(
+            ch_derep_fna_gz,
+            params.run_blast_dereplication,
+            params.run_blast_clustering
+        ).votu_reps
+        ch_versions             = ch_versions.mix( FASTA_ANICLUSTER_BLAST.out.versions )
+
+        if ( params.run_blast_dereplication ) {
+            //
+            // MODULE: Split dereplicated viruses into even sized chunks
+            //
+            SEQKIT_SPLIT( FASTA_ANICLUSTER_BLAST.out.derep_reps )
+            ch_versions             = ch_versions.mix( SEQKIT_SPLIT.out.versions )
+            // flatten and create id for each split
+            ch_derep_split_fasta_gz = SEQKIT_SPLIT.out.fastx
+                .map { meta, files ->
+                    files
+                }
+                .flatten()
+                .map { file ->
+                    [ [ id: (file.getName() =~ /(?<=all_samples_derep\.)(.*)(?=\.fa\.gz)/)[0][1] ], file ]
+                }
+        }
+    } else {
+        ch_derep_split_fasta_gz = ch_filt_fasta_gz
+    }
+
+
+    /*----------------------------------------------------------------------------
+        Calculate vOTU abundance by read-mapping
+    ------------------------------------------------------------------------------*/
+    if ( params.run_coverm ) {
+        //
+        // MODULE: Align reads to vOTU reps
+        //
+        ch_alignment_results_tsv = COVERM_CONTIG ( ch_bt2_fastq_gz, ch_votu_reps_fasta_gz.first() ).alignment_results
+        ch_versions = ch_versions.mix( COVERM_CONTIG.out.versions )
+    }
+
+
+    /*----------------------------------------------------------------------------
         Predict phage hosts
     ------------------------------------------------------------------------------*/
-    if (params.run_iphop){
+    if ( params.run_iphop ) {
         // create channel from params.checkv_db
-        if (!params.iphop_db){
+        if ( !params.iphop_db ){
             ch_iphop_db = null
         } else {
-            ch_iphop_db = file(params.iphop_db, checkIfExists:true)
+            ch_iphop_db = file( params.iphop_db, checkIfExists:true )
         }
 
         //
         // SUBWORKFLOW: Download database and predict phage hosts
         //
-        ch_iphop_predictions_tsv    = FASTA_PHAGE_HOST_IPHOP(ch_filt_fasta_gz, ch_iphop_db).host_predictions_tsv
-        ch_versions                 = ch_versions.mix(FASTA_PHAGE_HOST_IPHOP.out.versions)
+        ch_iphop_predictions_tsv    = FASTA_PHAGEHOST_IPHOP( ch_derep_split_fasta_gz, ch_iphop_db ).host_predictions_tsv
+        ch_versions                 = ch_versions.mix( FASTA_PHAGEHOST_IPHOP.out.versions )
     } else {
         ch_iphop_predictions_tsv    = Channel.empty()
     }
 
-    if (params.run_phist){
+    if ( params.run_phist ) {
         // Split phages into individual fasta files for phist
-        ch_phist_fastas = PHIST_SPLIT(ch_trfinder_fasta_gz).dir
-        ch_versions     = ch_versions.mix(PHIST_SPLIT.out.versions)
+        ch_phist_fastas = PHIST_SPLIT( ch_derep_split_fasta_gz ).dir
+        ch_versions     = ch_versions.mix( PHIST_SPLIT.out.versions )
 
         //
         // MODULE: Run PHIST to predict phage host using shared kmers
         //
-        ch_phist_predictions_tsv    = PHIST(ch_phist_fastas, params.phist_bacteria_db_dir).predictions
+        ch_phist_predictions_tsv    = PHIST( ch_phist_fastas, params.phist_bacteria_db_dir ).predictions
         ch_phist_comm_kmers_tsv     = PHIST.out.common_kmers
-        ch_versions                 = ch_versions.mix(PHIST.out.versions )
+        ch_versions                 = ch_versions.mix( PHIST.out.versions )
     } else {
         ch_iphop_predictions_tsv    = Channel.empty()
     }
 
-    if (params.run_crispr_blast){
+    if ( params.run_crispr_blast ) {
         // TODO: Add crispr blast option
     } else {
         ch_crispr_blast_tsv = Channel.empty()
@@ -629,9 +788,9 @@ workflow PHAGEANNOTATOR {
     /*----------------------------------------------------------------------------
         Phage functional annotation
     ------------------------------------------------------------------------------*/
-    if (params.run_pharokka) {
+    if ( params.run_pharokka ) {
         // create channel from params.pharokka_db
-        if (!params.pharokka_db){
+        if ( !params.pharokka_db ){
             ch_pharokka_db = null
         } else {
             ch_pharokka_db = Channel.value(
@@ -642,9 +801,8 @@ workflow PHAGEANNOTATOR {
         //
         // SUBWORKFLOW: Functionally annotate phage sequences
         //
-        ch_pharokka_gbk_gz      = FASTA_PHAGE_FUNCTION_PHAROKKA(ch_anicluster_reps_fasta, ch_pharokka_db).pharokka_gbk_gz
-        ch_pharokka_output_tsv  = FASTA_PHAGE_FUNCTION_PHAROKKA.out.pharokka_final_output_tsv
-        ch_versions             = ch_versions.mix(FASTA_PHAGE_FUNCTION_PHAROKKA.out.versions)
+        ch_pharokka_output_tsv  = FASTA_PHAGEFUNCTION_PHAROKKA( ch_derep_split_fasta_gz, ch_pharokka_db ).pharokka_final_output_tsv
+        ch_versions             = ch_versions.mix( FASTA_PHAGEFUNCTION_PHAROKKA.out.versions )
     } else {
         ch_pharokka_gbk_gz      = Channel.empty()
         ch_pharokka_output_tsv  = Channel.empty()
@@ -654,12 +812,12 @@ workflow PHAGEANNOTATOR {
     /*----------------------------------------------------------------------------
         Predict virus lifestyle
     ------------------------------------------------------------------------------*/
-    if (params.run_bacphlip) {
+    if ( params.run_bacphlip ) {
         //
         // MODULE: Predict phage lifestyle with BACPHLIP
         //
-        ch_bacphlip_lifestyle_tsv   = BACPHLIP(ch_anicluster_reps_fasta).bacphlip_results
-        ch_versions                 = ch_versions.mix(BACPHLIP.out.versions)
+        ch_bacphlip_lifestyle_tsv   = BACPHLIP( ch_derep_split_fasta_gz ).bacphlip_results
+        ch_versions                 = ch_versions.mix( BACPHLIP.out.versions )
     } else {
         ch_bacphlip_lifestyle_tsv   = Channel.empty()
     }

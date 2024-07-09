@@ -24,7 +24,7 @@ process VIROMEQC_VIROMEQC {
     """
     if [ \$(zcat ${reads[0]} | grep "@" | wc -l) -gt 0 ]; then
         viromeQC.py \\
-            --input ${reads[0]} ${reads[1]} \\
+            --input ${reads} \\
             --index_dir $viromeqc_index \\
             --output ${prefix}.viromeqc.tsv \\
             --bowtie2_threads $task.cpus \\

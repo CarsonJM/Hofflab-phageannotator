@@ -2,6 +2,7 @@
 // Extend contig ends using COBRA
 //
 include { COVERM_CONTIG as COVERM_COBRA     } from '../../../modules/local/coverm/contig/main'
+include { CSVTK_SEP                         } from '../../../modules/local/csvtk/sep/main'
 include { COBRAMETA                         } from '../../../modules/nf-core/cobrameta/main'
 
 workflow FASTQFASTA_VIRUSEXTENSION_COBRA {
@@ -31,10 +32,16 @@ workflow FASTQFASTA_VIRUSEXTENSION_COBRA {
     ch_fasta_alignment_bam  = COVERM_COBRA.out.bam
     ch_versions             = ch_versions.mix(COVERM_COBRA.out.versions)
 
+    //
+    // MODULE: Remove '|provirus' suffix from genomad data
+    //
+    ch_virus_summary_mod    = CSVTK_SEP ( virus_summary_tsv, 'tsv', 'tsv').csv
+    ch_versions             = ch_versions.mix( CSVTK_SEP.out.versions )
+
     // prepare input for cobra
     ch_cobra_input = fasta_gz
         .join(ch_coverage_tsv)
-        .join(virus_summary_tsv)
+        .join(ch_virus_summary_mod)
         .join(ch_fasta_alignment_bam)
         .multiMap { it ->
             fasta: [ it[0], it[1] ]

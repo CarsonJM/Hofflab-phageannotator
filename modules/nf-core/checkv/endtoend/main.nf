@@ -50,7 +50,7 @@ process CHECKV_ENDTOEND {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        checkv: \$(checkv -h 2>&1  | sed -n 's/^.*CheckV v//; s/: assessing.*//; 1p')
+        checkv: \$(checkv -h 2>&1 | sed -n 's/^.*CheckV v//; s/: assessing.*//; 1p')
     END_VERSIONS
     """
 

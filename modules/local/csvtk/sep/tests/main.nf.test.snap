@@ -1,0 +1,68 @@
+{
+    "tsv - sep - tsv": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_sep.tsv:md5,83716e72d7b48a4415af0b91cb5442a9"
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,b980d848912e7b6792adf66e6f4396b3"
+                ],
+                "csv": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_sep.tsv:md5,83716e72d7b48a4415af0b91cb5442a9"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,b980d848912e7b6792adf66e6f4396b3"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.8.4",
+            "nextflow": "24.04.1"
+        },
+        "timestamp": "2024-06-19T11:23:30.141659909"
+    },
+    "tsv - concat - tsv - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_sep.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,b980d848912e7b6792adf66e6f4396b3"
+                ],
+                "csv": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test_sep.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,b980d848912e7b6792adf66e6f4396b3"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.8.4",
+            "nextflow": "24.04.1"
+        },
+        "timestamp": "2024-06-19T11:23:36.440738307"
+    }
+}

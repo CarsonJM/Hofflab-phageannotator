@@ -87,9 +87,9 @@ workflow PIPELINE_INITIALISATION {
     ch_input = ch_samplesheet
         .map { meta, fastq_1, fastq_2, fasta ->
             meta.run          = meta.run == null ? "0" : meta.run
-            meta.single_end   = params.single_end
+            meta.single_end   = fastq_2 ? false : true
 
-            if (params.single_end) {
+            if (meta.single_end) {
                 return [ meta, [ fastq_1 ], fasta ]
             } else {
                 return [ meta, [ fastq_1, fastq_2 ], fasta ]
@@ -163,9 +163,6 @@ def validateInputParameters() {
 // Validate channels from input samplesheet
 //
 def validateInputSamplesheet(meta, fastq_1, fastq_2, fasta ) {
-
-        if ( !fastq_2 && !params.single_end ) { error("[nf-core/mag] ERROR: Single-end data must be executed with `--single_end`. Note that it is not possible to mix single- and paired-end data in one run! Check input TSV for sample: ${meta.id}") }
-        if ( fastq_2 && params.single_end ) { error("[nf-core/mag] ERROR: Paired-end data must be executed without `--single_end`. Note that it is not possible to mix single- and paired-end data in one run! Check input TSV for sample: ${meta.id}") }
 
     return  [ meta, fastq_1, fastq_2, fasta ]
 }

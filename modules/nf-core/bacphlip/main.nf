@@ -20,12 +20,19 @@ process BACPHLIP {
 
     script:
     def args = task.ext.args ?: ''
-    def prefix = task.ext.prefix ?: "${meta.id}"
     def VERSION = '0.9.6' // WARN: Version information not provided by tool on CLI. Please update this string when bumping container versions.
+    prefix = task.ext.prefix ?: "${meta.id}"
+    fasta_name  = fasta.getName().replace(".gz", "")
     """
-    bacphlip \\
-        -i $fasta \\
-        $args
+    if [ \$(zcat ${fasta} | grep ">" | wc -l) -gt 0 ]; then
+        gunzip -c ${fasta} > ${fasta_name}
+        bacphlip \\
+            -i ${fasta_name} \\
+            ${args}
+    else
+        touch ${fasta_name}.bacphlip
+        touch ${fasta_name}.hmmsearch.tsv
+    fi
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

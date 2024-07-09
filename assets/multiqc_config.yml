@@ -11,4 +11,7 @@ report_section_order:
 
 export_plots: true
 
+fastp:
+  s_name_filenames: true
+
 disable_version_detection: true

@@ -1,0 +1,43 @@
+{
+    "fasta.gz": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.fa.gz:md5,f0d04687b9a6a108663c8e5bdb77f1d1"
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,1d109e977a900ee33a98b84c2493a2b4",
+                    "versions.yml:md5,4c8d504b9e4c3719f38a974cfd12f8f1",
+                    "versions.yml:md5,91d819751318f94b156c8aa827ac554d",
+                    "versions.yml:md5,db5434d46d7b50dca7d18ddce884971c",
+                    "versions.yml:md5,db5434d46d7b50dca7d18ddce884971c"
+                ],
+                "versions": [
+                    "versions.yml:md5,1d109e977a900ee33a98b84c2493a2b4",
+                    "versions.yml:md5,4c8d504b9e4c3719f38a974cfd12f8f1",
+                    "versions.yml:md5,91d819751318f94b156c8aa827ac554d",
+                    "versions.yml:md5,db5434d46d7b50dca7d18ddce884971c",
+                    "versions.yml:md5,db5434d46d7b50dca7d18ddce884971c"
+                ],
+                "votu_reps": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        "test.fa.gz:md5,f0d04687b9a6a108663c8e5bdb77f1d1"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.8.4",
+            "nextflow": "24.04.1"
+        },
+        "timestamp": "2024-06-19T13:40:47.271543617"
+    }
+}
