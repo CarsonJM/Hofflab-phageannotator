@@ -327,23 +327,23 @@ workflow PHAGEANNOTATOR {
             ch_versions             = ch_versions.mix( METASPADES_SINGLE.out.versions )
         }
 
-        // if ( params.run_penguin_single ) {
-        //     //
-        //     // MODULE: Assemble reads individually with MEGAHIT
-        //     //
-        //     ch_megahit_single_fasta_gz  = MEGAHIT_SINGLE( ch_bt2_fastq_gz ).contigs.map { meta, fasta ->
-        //         [ meta + [ coassembly: false ], fasta ]
-        //     }
+        if ( params.run_penguin_single ) {
+            //
+            // MODULE: Assemble reads individually with PenguiN
+            //
+            ch_penguin_single_fasta_gz  = PENGUIN_SINGLE( ch_bt2_fastq_gz ).contigs.map { meta, fasta ->
+                [ meta + [ coassembly: false ], fasta ]
+            }
 
-        //     ch_assemblies_fasta_gz  = ch_assemblies_fasta_gz.mix(ch_megahit_single_fasta_gz )
-        //     ch_versions             = ch_versions.mix( METASPADES_SINGLE.out.versions )
-        // }
+            ch_assemblies_fasta_gz  = ch_assemblies_fasta_gz.mix( ch_penguin_single_fasta_gz )
+            ch_versions             = ch_versions.mix( PENGUIN_SINGLE.out.versions )
+        }
 
-        if ( params.run_metaspades_coassembly ) {
+        if ( params.run_metaspades_coassembly || params.run_penguin_coassembly ) {
             // group and set group as new id
             ch_cat_coassembly_fastq_gz      = ch_bt2_fastq_gz
                 .map { meta, reads -> [ meta.group, meta, reads ] }
-                .groupTuple(by: 0, sort:'deep')
+                .groupTuple( by: 0, sort:'deep' )
                 .map { group, meta, reads ->
                     def meta_new                = [:]
                     meta_new.id                 = "group-$group"
@@ -360,7 +360,9 @@ workflow PHAGEANNOTATOR {
                         coassembly: meta.single_end && reads.size() >= 2 || !meta.single_end && reads.size() >= 4
                         skip_coassembly: true   // Can skip coassembly if there is not multiple samples
                 }
+        }
 
+        if ( params.run_metaspades_coassembly ) {
             //
             // MODULE: Combine reads within groups for coassembly
             //
@@ -380,7 +382,7 @@ workflow PHAGEANNOTATOR {
                 }
 
             //
-            // MODULE: Assemble reads with metaSPAdes
+            // MODULE: Co-assemble reads with metaSPAdes
             //
             METASPADES_COASSEMBLY(
                 ch_metaspades_coassembly_input.paired_end,
@@ -406,6 +408,56 @@ workflow PHAGEANNOTATOR {
                 []
             )
             ch_workdirs_to_clean    = ch_workdirs_to_clean.mix(ch_pre_spades_workdirs)
+        }
+
+        if ( params.run_megahit_coassembly ) {
+            // group and set group as new id
+            ch_megahit_coassembly_fastq_gz      = ch_bt2_fastq_gz
+                .map { meta, reads ->
+                    if ( meta.single_end ) {
+                        return [ meta.group, meta, reads[0], [] ]
+                    } else {
+                        return [ meta.group, meta, reads[0], reads[1] ]
+                    }
+                }
+                .groupTuple( by: 0, sort:'deep' )
+                .map { group, meta, reads1, reads2 ->
+                    def meta_new                = [:]
+                    meta_new.id                 = "group-$group"
+                    meta_new.group              = group
+                    meta_new.single_end         = meta.single_end[0]
+                    if ( meta_new.single_end ) {
+                        return [ meta_new, reads1.collect { it } ]
+                    } else {
+                        return [ meta_new, [ reads1.flatten(), reads2.flatten() ] ]
+                    }
+                }
+                .branch {
+                    meta, reads ->
+                        coassembly: meta.single_end && reads1.size() >= 2 || !meta.single_end && reads2.size() >= 2
+                        skip_coassembly: true   // Can skip coassembly if there is not multiple samples
+                }
+
+            //
+            // MODULE: Co-assemble reads with MEGAHIT
+            //
+            ch_megahit_co_fasta_gz = MEGAHIT_COASSEMBLY( ch_megahit_coassembly_fastq_gz.coassembly ).contigs.map{ meta, fasta ->
+                    [ meta + [ coassembly: true ], fasta ]
+                }
+            ch_versions             = ch_versions.mix( MEGAHIT_COASSEMBLY.out.versions )
+
+            ch_assemblies_fasta_gz  = ch_assemblies_fasta_gz.mix( ch_megahit_co_fasta_gz )
+        }
+
+        if ( params.run_penguin_coassembly ) {
+            //
+            // MODULE: Co-assemble reads with PenguiN
+            //
+            ch_penguin_co_fasta_gz  = PENGUIN_COASSEMBLY( ch_cat_coassembly_fastq_gz.coassembly ).contigs.map{ meta, fasta ->
+                    [ meta + [ coassembly: true ], fasta ]
+                }
+            ch_versions             = ch_versions.mix( PENGUIN_COASSEMBLY.out.versions )
+            ch_assemblies_fasta_gz  = ch_assemblies_fasta_gz.mix( ch_penguin_co_fasta_gz )
         }
     } else {
         ch_assemblies_fasta_gz = ch_fasta_gz
@@ -467,7 +519,7 @@ workflow PHAGEANNOTATOR {
     /*----------------------------------------------------------------------------
         De novo virus classification
     ------------------------------------------------------------------------------*/
-    if (params.run_genomad || params.run_cobra) {
+    if ( params.run_genomad || params.run_cobra ) {
         // create channel from params.genomad_db
         if (!params.genomad_db){
             ch_genomad_db   = null
@@ -502,7 +554,7 @@ workflow PHAGEANNOTATOR {
     /*----------------------------------------------------------------------------
         Extend viral contigs
     ------------------------------------------------------------------------------*/
-    if (params.run_cobra) {
+    if ( params.run_cobra ) {
         // filter to only single assemblies with reads available
         ch_cobra_input = ch_bt2_fastq_gz
             .map { meta, fastq -> [ meta.id, meta, fastq ] }
@@ -546,7 +598,61 @@ workflow PHAGEANNOTATOR {
 
         // replace single assemblies with cobra extended assemblies
         ch_cobra_fasta_gz = ch_genomad_fasta_gz
-            .filter { meta, fasta -> meta.coassembly == true }
+            .map { meta, fasta -> [ meta + [ extended: false ], fasta ] }
+            .mix(GENOMAD_COBRA.out.virus_fasta)
+    } else {
+        ch_cobra_fasta_gz       = ch_genomad_fasta_gz
+        ch_cobra_summary_tsv    = Channel.empty()
+    }
+
+
+    /*----------------------------------------------------------------------------
+        Resolve assembly graph
+    ------------------------------------------------------------------------------*/
+    if ( params.run_phables ) {
+        // filter to only single assemblies with reads available
+        ch_cobra_input = ch_bt2_fastq_gz
+            .map { meta, fastq -> [ meta.id, meta, fastq ] }
+            .join(ch_assemblies_fasta_gz.map { meta, fasta -> [ meta.id, meta, fasta ] } )
+            .map {
+                id, meta_fastq, fastq, meta_fasta, fasta ->
+                [ meta_fasta, fastq, fasta ]
+            }
+            .multiMap { meta, fastq, fasta ->
+                fastq: [ meta, fastq ]
+                fasta: [ meta, fasta ]
+            }
+
+        //
+        // SUBWORKFLOW: Extend assembled contigs
+        //
+        FASTQFASTA_VIRUSEXTENSION_COBRA(
+            ch_cobra_input.fastq,
+            ch_cobra_input.fasta,
+            FASTA_VIRUSCLASSIFICATION_GENOMAD.out.virus_summary_tsv,
+            "metaspades",
+            params.cobra_mink,
+            params.cobra_maxk
+        )
+        ch_extended_fasta_gz    = FASTQFASTA_VIRUSEXTENSION_COBRA.out.extended_fasta
+            .map { meta, fasta ->
+                [ meta + [ coassembly: false, extended: true ], fasta ]
+            }
+        ch_cobra_summary_tsv    = FASTQFASTA_VIRUSEXTENSION_COBRA.out.cobra_summary_tsv
+        ch_versions             = ch_versions.mix(FASTQFASTA_VIRUSEXTENSION_COBRA.out.versions)
+
+        //
+        // SUBWORKFLOW: Run geNomad on extended viral contigs
+        //
+        GENOMAD_COBRA(ch_extended_fasta_gz, FASTA_VIRUSCLASSIFICATION_GENOMAD.out.genomad_db)
+        ch_genomad_summary_tsv  = ch_genomad_summary_tsv.map { meta, summary ->
+                [ meta + [ extended: false ], summary ]
+            }
+            .mix(GENOMAD_COBRA.out.virus_summary)
+        ch_versions             = ch_versions.mix(GENOMAD_COBRA.out.versions)
+
+        // replace single assemblies with cobra extended assemblies
+        ch_cobra_fasta_gz = ch_genomad_fasta_gz
             .map { meta, fasta -> [ meta + [ extended: false ], fasta ] }
             .mix(GENOMAD_COBRA.out.virus_fasta)
     } else {

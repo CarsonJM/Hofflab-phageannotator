@@ -24,11 +24,14 @@ process PLASS_PENGUIN {
     """
     if [ \$(zcat ${fastq[0]} | grep "@" | wc -l) -gt 0 ]; then
         penguin \\
-            ${args} \\
+            guided_nuclassemble \\
             ${fastq} \\
             ${prefix}.contigs.fasta \\
+            tmp \\
             --threads ${task.cpus} \\
-            --compressed 1 2> ${prefix}.log
+            ${args} >> ${prefix}.log 2>&1
+
+            gzip ${prefix}.contigs.fasta
     else
         echo "" | gzip > ${prefix}.contigs.fasta.gz
     fi

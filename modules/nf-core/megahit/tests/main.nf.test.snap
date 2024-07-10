@@ -1,0 +1,254 @@
+{
+    "fastq.gz single": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test1"
+                        },
+                        "test1.contigs.fa.gz:md5,3055734183fc34cba4b50afbda4f34cf"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test1"
+                        },
+                        "test1.graph.fastg.gz:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "test1"
+                        },
+                        [
+                            "k119.contigs.fa.gz:md5,1daa07219f007ef01a218b9205235379",
+                            "k119.final.contigs.fa.gz:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "k141.contigs.fa.gz:md5,67d9588060fcfe255150bde0c6faa2e7",
+                            "k141.final.contigs.fa.gz:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "k21.contigs.fa.gz:md5,92425ebc3199d63e84fc3b39ca6d9df5",
+                            "k21.final.contigs.fa.gz:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "k29.contigs.fa.gz:md5,182ac16e60fe80b74ae5819f1cd0a943",
+                            "k29.final.contigs.fa.gz:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "k39.contigs.fa.gz:md5,1123a71ceb249c833c5cd7381980eebd",
+                            "k39.final.contigs.fa.gz:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "k59.contigs.fa.gz:md5,e75e0b71eafb4046985e7522c26f78f6",
+                            "k59.final.contigs.fa.gz:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "k79.contigs.fa.gz:md5,b41cf206c9bb89f5120bbad1d06d3695",
+                            "k79.final.contigs.fa.gz:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "k99.contigs.fa.gz:md5,1bdadf9264cc4b24d2462d1eb190d6c1",
+                            "k99.final.contigs.fa.gz:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        ]
+                    ]
+                ],
+                "3": [
+                    [
+                        {
+                            "id": "test1"
+                        },
+                        [
+                            "k119.addi.fa.gz:md5,b6e13719a2f674cdd83c2897c714242e",
+                            "k141.addi.fa.gz:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "k21.addi.fa.gz:md5,7670e90e49bdf964d48c57dca14d98e3",
+                            "k29.addi.fa.gz:md5,574cc67640812f33f666f543b56e4390",
+                            "k39.addi.fa.gz:md5,4ac45a551ef3a00ab341c3d0506a6714",
+                            "k59.addi.fa.gz:md5,1146126be3ddd4e47b67c22ee0fefddd",
+                            "k79.addi.fa.gz:md5,6dc5be1dd74041784d32410ebe3a0137",
+                            "k99.addi.fa.gz:md5,743c1e342b7cf9c627c0ae5d9f30d6fe"
+                        ]
+                    ]
+                ],
+                "4": [
+                    [
+                        {
+                            "id": "test1"
+                        },
+                        [
+                            "k119.local.fa.gz:md5,471e6dd6e69f87e27a1c955dc3fe85ae",
+                            "k21.local.fa.gz:md5,0efba30839632c270959096865fe88c8",
+                            "k29.local.fa.gz:md5,55f7d1380466aef8b970631b93645dcd",
+                            "k39.local.fa.gz:md5,d3617d06e260421fe7450e70d6058009",
+                            "k59.local.fa.gz:md5,eb0224fb0ab2c11a20d59dd4643dbd80",
+                            "k79.local.fa.gz:md5,1ecf999c29826e623f90ab4f78beaa11",
+                            "k99.local.fa.gz:md5,4fa1d84bfd875a18398b751d7976ad3a"
+                        ]
+                    ]
+                ],
+                "5": [
+                    [
+                        {
+                            "id": "test1"
+                        },
+                        [
+                            "k119.final.contigs.fa.gz:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "k141.final.contigs.fa.gz:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "k21.final.contigs.fa.gz:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "k29.final.contigs.fa.gz:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "k39.final.contigs.fa.gz:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "k59.final.contigs.fa.gz:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "k79.final.contigs.fa.gz:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "k99.final.contigs.fa.gz:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        ]
+                    ]
+                ],
+                "6": [
+                    "versions.yml:md5,e3c0731297c9abe2f495ab6d541ac0e6"
+                ],
+                "addi_contigs": [
+                    [
+                        {
+                            "id": "test1"
+                        },
+                        [
+                            "k119.addi.fa.gz:md5,b6e13719a2f674cdd83c2897c714242e",
+                            "k141.addi.fa.gz:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "k21.addi.fa.gz:md5,7670e90e49bdf964d48c57dca14d98e3",
+                            "k29.addi.fa.gz:md5,574cc67640812f33f666f543b56e4390",
+                            "k39.addi.fa.gz:md5,4ac45a551ef3a00ab341c3d0506a6714",
+                            "k59.addi.fa.gz:md5,1146126be3ddd4e47b67c22ee0fefddd",
+                            "k79.addi.fa.gz:md5,6dc5be1dd74041784d32410ebe3a0137",
+                            "k99.addi.fa.gz:md5,743c1e342b7cf9c627c0ae5d9f30d6fe"
+                        ]
+                    ]
+                ],
+                "contigs": [
+                    [
+                        {
+                            "id": "test1"
+                        },
+                        "test1.contigs.fa.gz:md5,3055734183fc34cba4b50afbda4f34cf"
+                    ]
+                ],
+                "graph": [
+                    [
+                        {
+                            "id": "test1"
+                        },
+                        "test1.graph.fastg.gz:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "k_contigs": [
+                    [
+                        {
+                            "id": "test1"
+                        },
+                        [
+                            "k119.contigs.fa.gz:md5,1daa07219f007ef01a218b9205235379",
+                            "k119.final.contigs.fa.gz:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "k141.contigs.fa.gz:md5,67d9588060fcfe255150bde0c6faa2e7",
+                            "k141.final.contigs.fa.gz:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "k21.contigs.fa.gz:md5,92425ebc3199d63e84fc3b39ca6d9df5",
+                            "k21.final.contigs.fa.gz:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "k29.contigs.fa.gz:md5,182ac16e60fe80b74ae5819f1cd0a943",
+                            "k29.final.contigs.fa.gz:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "k39.contigs.fa.gz:md5,1123a71ceb249c833c5cd7381980eebd",
+                            "k39.final.contigs.fa.gz:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "k59.contigs.fa.gz:md5,e75e0b71eafb4046985e7522c26f78f6",
+                            "k59.final.contigs.fa.gz:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "k79.contigs.fa.gz:md5,b41cf206c9bb89f5120bbad1d06d3695",
+                            "k79.final.contigs.fa.gz:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "k99.contigs.fa.gz:md5,1bdadf9264cc4b24d2462d1eb190d6c1",
+                            "k99.final.contigs.fa.gz:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        ]
+                    ]
+                ],
+                "kfinal_contigs": [
+                    [
+                        {
+                            "id": "test1"
+                        },
+                        [
+                            "k119.final.contigs.fa.gz:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "k141.final.contigs.fa.gz:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "k21.final.contigs.fa.gz:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "k29.final.contigs.fa.gz:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "k39.final.contigs.fa.gz:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "k59.final.contigs.fa.gz:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "k79.final.contigs.fa.gz:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "k99.final.contigs.fa.gz:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        ]
+                    ]
+                ],
+                "local_contigs": [
+                    [
+                        {
+                            "id": "test1"
+                        },
+                        [
+                            "k119.local.fa.gz:md5,471e6dd6e69f87e27a1c955dc3fe85ae",
+                            "k21.local.fa.gz:md5,0efba30839632c270959096865fe88c8",
+                            "k29.local.fa.gz:md5,55f7d1380466aef8b970631b93645dcd",
+                            "k39.local.fa.gz:md5,d3617d06e260421fe7450e70d6058009",
+                            "k59.local.fa.gz:md5,eb0224fb0ab2c11a20d59dd4643dbd80",
+                            "k79.local.fa.gz:md5,1ecf999c29826e623f90ab4f78beaa11",
+                            "k99.local.fa.gz:md5,4fa1d84bfd875a18398b751d7976ad3a"
+                        ]
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,e3c0731297c9abe2f495ab6d541ac0e6"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.8.4",
+            "nextflow": "24.04.2"
+        },
+        "timestamp": "2024-07-09T22:09:11.250826909"
+    },
+    "fastq.gz coassembly": {
+        "content": [
+            {
+                "0": [
+                    
+                ],
+                "1": [
+                    
+                ],
+                "2": [
+                    
+                ],
+                "3": [
+                    
+                ],
+                "4": [
+                    
+                ],
+                "5": [
+                    
+                ],
+                "6": [
+                    
+                ],
+                "addi_contigs": [
+                    
+                ],
+                "contigs": [
+                    
+                ],
+                "graph": [
+                    
+                ],
+                "k_contigs": [
+                    
+                ],
+                "kfinal_contigs": [
+                    
+                ],
+                "local_contigs": [
+                    
+                ],
+                "versions": [
+                    
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.8.4",
+            "nextflow": "24.04.2"
+        },
+        "timestamp": "2024-07-09T22:09:24.703875808"
+    }
+}

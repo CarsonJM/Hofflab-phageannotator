@@ -1,31 +1,68 @@
 {
     "fastq.gz": {
         "content": [
+            [
+                [
+                    {
+                        "id": "test1"
+                    },
+                    "test1.contigs.fasta.gz:md5,313bea78d04a9f1635c3f83992324b5a"
+                ]
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.8.4",
+            "nextflow": "24.04.2"
+        },
+        "timestamp": "2024-07-09T20:17:29.457426246"
+    },
+    "fastq.gz - stub": {
+        "content": [
             {
                 "0": [
-                    
+                    [
+                        {
+                            "id": "test1"
+                        },
+                        "test1.contigs.fasta.gz:md5,68b329da9893e34099c7d8ad5cb9c940"
+                    ]
                 ],
                 "1": [
-                    
+                    [
+                        {
+                            "id": "test1"
+                        },
+                        "test1.log:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
                 ],
                 "2": [
-                    
+                    "versions.yml:md5,1f54a89daa92d6f876fca291eeda3697"
                 ],
                 "contigs": [
-                    
+                    [
+                        {
+                            "id": "test1"
+                        },
+                        "test1.contigs.fasta.gz:md5,68b329da9893e34099c7d8ad5cb9c940"
+                    ]
                 ],
                 "log": [
-                    
+                    [
+                        {
+                            "id": "test1"
+                        },
+                        "test1.log:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
                 ],
                 "versions": [
-                    
+                    "versions.yml:md5,1f54a89daa92d6f876fca291eeda3697"
                 ]
             }
         ],
         "meta": {
             "nf-test": "0.8.4",
-            "nextflow": "24.04.1"
+            "nextflow": "24.04.2"
         },
-        "timestamp": "2024-07-08T16:49:37.581585688"
+        "timestamp": "2024-07-09T20:17:53.058187274"
     }
 }

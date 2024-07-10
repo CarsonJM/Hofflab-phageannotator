@@ -1,28 +1,39 @@
-Jul-08 16:49:16.130 [main] INFO  com.askimed.nf.test.App - nf-test 0.8.4
-Jul-08 16:49:16.150 [main] INFO  com.askimed.nf.test.App - Arguments: [test, /mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/modules/local/plass/penguin/tests/main.nf.test, --profile, singularity]
-Jul-08 16:49:20.000 [main] INFO  com.askimed.nf.test.App - Nextflow Version: 24.04.1
-Jul-08 16:49:20.002 [main] INFO  com.askimed.nf.test.commands.RunTestsCommand - Load config from file /mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/nf-test.config...
-Jul-08 16:49:20.496 [main] INFO  com.askimed.nf.test.commands.RunTestsCommand - Detected 1 test files.
-Jul-08 16:49:20.823 [main] INFO  com.askimed.nf.test.config.FileStaging - Copy directory '/mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/bin' to '/mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/.nf-test/tests/73fee531f213870aefdfd4594e7c53bf/meta/bin'
-Jul-08 16:49:21.127 [main] INFO  com.askimed.nf.test.config.FileStaging - Copy directory '/mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/lib' to '/mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/.nf-test/tests/73fee531f213870aefdfd4594e7c53bf/meta/lib'
-Jul-08 16:49:21.161 [main] INFO  com.askimed.nf.test.config.FileStaging - Copy directory '/mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/assets' to '/mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/.nf-test/tests/73fee531f213870aefdfd4594e7c53bf/meta/assets'
-Jul-08 16:49:22.361 [main] DEBUG com.askimed.nf.test.core.AbstractTest - Stage 0 user provided files...
-Jul-08 16:49:22.485 [main] INFO  com.askimed.nf.test.config.FileStaging - Copy directory '/mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/bin' to '/mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/.nf-test/tests/84d0ab20a29ba534bf7bfcabb3b1fc49/meta/bin'
-Jul-08 16:49:22.506 [main] INFO  com.askimed.nf.test.config.FileStaging - Copy directory '/mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/lib' to '/mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/.nf-test/tests/84d0ab20a29ba534bf7bfcabb3b1fc49/meta/lib'
-Jul-08 16:49:22.509 [main] INFO  com.askimed.nf.test.config.FileStaging - Copy directory '/mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/assets' to '/mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/.nf-test/tests/84d0ab20a29ba534bf7bfcabb3b1fc49/meta/assets'
-Jul-08 16:49:22.791 [main] DEBUG com.askimed.nf.test.core.AbstractTest - Stage 0 user provided files...
-Jul-08 16:49:22.793 [main] INFO  com.askimed.nf.test.core.TestExecutionEngine - Started test plan
-Jul-08 16:49:22.793 [main] INFO  com.askimed.nf.test.core.TestExecutionEngine - Running testsuite 'Test Process: PLASS_PENGUIN' from file '/mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/modules/local/plass/penguin/tests/main.nf.test'.
-Jul-08 16:49:22.793 [main] INFO  com.askimed.nf.test.core.TestExecutionEngine - Run test '73fee531: fastq.gz'. type: com.askimed.nf.test.lang.process.ProcessTest
-Jul-08 16:49:37.578 [main] DEBUG com.askimed.nf.test.lang.extensions.SnapshotFile - Init new snapshot file '/mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/modules/local/plass/penguin/tests/main.nf.test.snap'
-Jul-08 16:49:37.580 [main] DEBUG com.askimed.nf.test.lang.extensions.Snapshot - Snapshot 'fastq.gz' not found.
-Jul-08 16:49:37.581 [main] DEBUG com.askimed.nf.test.lang.extensions.SnapshotFile - Created snapshot 'fastq.gz'
-Jul-08 16:49:37.595 [main] DEBUG com.askimed.nf.test.lang.extensions.SnapshotFile - Wrote snapshots to file '/mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/modules/local/plass/penguin/tests/main.nf.test.snap'
-Jul-08 16:49:37.596 [main] INFO  com.askimed.nf.test.core.TestExecutionEngine - Test '73fee531: fastq.gz' finished. status: FAILED
+Jul-09 22:07:34.140 [main] INFO  com.askimed.nf.test.App - nf-test 0.8.4
+Jul-09 22:07:34.162 [main] INFO  com.askimed.nf.test.App - Arguments: [test, /workspace/Hofflab-phageannotator/modules/nf-core/megahit/tests/main.nf.test, --profile, docker]
+Jul-09 22:07:35.307 [main] INFO  com.askimed.nf.test.App - Nextflow Version: 24.04.2
+Jul-09 22:07:35.309 [main] INFO  com.askimed.nf.test.commands.RunTestsCommand - Load config from file /workspace/Hofflab-phageannotator/nf-test.config...
+Jul-09 22:07:36.467 [main] INFO  com.askimed.nf.test.commands.RunTestsCommand - Detected 1 test files.
+Jul-09 22:07:37.549 [main] INFO  com.askimed.nf.test.config.FileStaging - Copy directory '/workspace/Hofflab-phageannotator/bin' to '/workspace/Hofflab-phageannotator/.nf-test/tests/4053eb4c79813211d67e8d01701a3cd9/meta/bin'
+Jul-09 22:07:37.553 [main] INFO  com.askimed.nf.test.config.FileStaging - Copy directory '/workspace/Hofflab-phageannotator/lib' to '/workspace/Hofflab-phageannotator/.nf-test/tests/4053eb4c79813211d67e8d01701a3cd9/meta/lib'
+Jul-09 22:07:37.554 [main] INFO  com.askimed.nf.test.config.FileStaging - Copy directory '/workspace/Hofflab-phageannotator/assets' to '/workspace/Hofflab-phageannotator/.nf-test/tests/4053eb4c79813211d67e8d01701a3cd9/meta/assets'
+Jul-09 22:07:37.750 [main] DEBUG com.askimed.nf.test.core.AbstractTest - Stage 0 user provided files...
+Jul-09 22:07:37.788 [main] INFO  com.askimed.nf.test.config.FileStaging - Copy directory '/workspace/Hofflab-phageannotator/bin' to '/workspace/Hofflab-phageannotator/.nf-test/tests/f8d37b800090aa86064671a18805c88/meta/bin'
+Jul-09 22:07:37.790 [main] INFO  com.askimed.nf.test.config.FileStaging - Copy directory '/workspace/Hofflab-phageannotator/lib' to '/workspace/Hofflab-phageannotator/.nf-test/tests/f8d37b800090aa86064671a18805c88/meta/lib'
+Jul-09 22:07:37.790 [main] INFO  com.askimed.nf.test.config.FileStaging - Copy directory '/workspace/Hofflab-phageannotator/assets' to '/workspace/Hofflab-phageannotator/.nf-test/tests/f8d37b800090aa86064671a18805c88/meta/assets'
+Jul-09 22:07:37.979 [main] DEBUG com.askimed.nf.test.core.AbstractTest - Stage 0 user provided files...
+Jul-09 22:07:38.016 [main] INFO  com.askimed.nf.test.config.FileStaging - Copy directory '/workspace/Hofflab-phageannotator/bin' to '/workspace/Hofflab-phageannotator/.nf-test/tests/161b0a2620bb64dab02933c691aabd1c/meta/bin'
+Jul-09 22:07:38.020 [main] INFO  com.askimed.nf.test.config.FileStaging - Copy directory '/workspace/Hofflab-phageannotator/lib' to '/workspace/Hofflab-phageannotator/.nf-test/tests/161b0a2620bb64dab02933c691aabd1c/meta/lib'
+Jul-09 22:07:38.021 [main] INFO  com.askimed.nf.test.config.FileStaging - Copy directory '/workspace/Hofflab-phageannotator/assets' to '/workspace/Hofflab-phageannotator/.nf-test/tests/161b0a2620bb64dab02933c691aabd1c/meta/assets'
+Jul-09 22:07:38.228 [main] DEBUG com.askimed.nf.test.core.AbstractTest - Stage 0 user provided files...
+Jul-09 22:07:38.229 [main] INFO  com.askimed.nf.test.core.TestExecutionEngine - Started test plan
+Jul-09 22:07:38.230 [main] INFO  com.askimed.nf.test.core.TestExecutionEngine - Running testsuite 'Test Process: MEGAHIT' from file '/workspace/Hofflab-phageannotator/modules/nf-core/megahit/tests/main.nf.test'.
+Jul-09 22:07:38.230 [main] INFO  com.askimed.nf.test.core.TestExecutionEngine - Run test '4053eb4c: fastq.gz single'. type: com.askimed.nf.test.lang.process.ProcessTest
+Jul-09 22:09:11.248 [main] DEBUG com.askimed.nf.test.lang.extensions.SnapshotFile - Init new snapshot file '/workspace/Hofflab-phageannotator/modules/nf-core/megahit/tests/main.nf.test.snap'
+Jul-09 22:09:11.250 [main] DEBUG com.askimed.nf.test.lang.extensions.Snapshot - Snapshot 'fastq.gz single' not found.
+Jul-09 22:09:11.250 [main] DEBUG com.askimed.nf.test.lang.extensions.SnapshotFile - Created snapshot 'fastq.gz single'
+Jul-09 22:09:12.026 [main] DEBUG com.askimed.nf.test.lang.extensions.SnapshotFile - Wrote snapshots to file '/workspace/Hofflab-phageannotator/modules/nf-core/megahit/tests/main.nf.test.snap'
+Jul-09 22:09:12.027 [main] INFO  com.askimed.nf.test.core.TestExecutionEngine - Test '4053eb4c: fastq.gz single' finished. status: PASSED
+Jul-09 22:09:12.030 [main] INFO  com.askimed.nf.test.core.TestExecutionEngine - Run test 'f8d37b80: fastq.gz coassembly'. type: com.askimed.nf.test.lang.process.ProcessTest
+Jul-09 22:09:24.703 [main] DEBUG com.askimed.nf.test.lang.extensions.Snapshot - Snapshot 'fastq.gz coassembly' not found.
+Jul-09 22:09:24.704 [main] DEBUG com.askimed.nf.test.lang.extensions.SnapshotFile - Created snapshot 'fastq.gz coassembly'
+Jul-09 22:09:25.429 [main] DEBUG com.askimed.nf.test.lang.extensions.SnapshotFile - Wrote snapshots to file '/workspace/Hofflab-phageannotator/modules/nf-core/megahit/tests/main.nf.test.snap'
+Jul-09 22:09:25.430 [main] INFO  com.askimed.nf.test.core.TestExecutionEngine - Test 'f8d37b80: fastq.gz coassembly' finished. status: FAILED
 org.codehaus.groovy.runtime.powerassert.PowerAssertionError: 1 of 2 assertions failed
 	at com.askimed.nf.test.lang.extensions.GlobalMethods.assertAll(GlobalMethods.java:48)
-	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
 	at org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:107)
 	at groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:323)
 	at org.codehaus.groovy.runtime.callsite.StaticMetaMethodSite.invoke(StaticMetaMethodSite.java:44)
@@ -30,10 +41,12 @@ org.codehaus.groovy.runtime.powerassert.PowerAssertionError: 1 of 2 assertions f
 	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallStatic(CallSiteArray.java:55)
 	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callStatic(AbstractCallSite.java:217)
 	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callStatic(AbstractCallSite.java:240)
-	at main_nf$_run_closure1$_closure2$_closure5.doCall(main.nf.test:25)
-	at main_nf$_run_closure1$_closure2$_closure5.doCall(main.nf.test)
-	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at main_nf$_run_closure1$_closure3$_closure12.doCall(main.nf.test:59)
+	at main_nf$_run_closure1$_closure3$_closure12.doCall(main.nf.test)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
 	at org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:107)
 	at groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:323)
 	at org.codehaus.groovy.runtime.metaclass.ClosureMetaClass.invokeMethod(ClosureMetaClass.java:274)
@@ -55,4 +68,4 @@ org.codehaus.groovy.runtime.powerassert.PowerAssertionError: 1 of 2 assertions f
 	at picocli.CommandLine.execute(CommandLine.java:2078)
 	at com.askimed.nf.test.App.run(App.java:44)
 	at com.askimed.nf.test.App.main(App.java:51)
-Jul-08 16:49:37.601 [main] INFO  com.askimed.nf.test.core.TestExecutionEngine - Run test '84d0ab20: fastq.gz - stub'. type: com.askimed.nf.test.lang.process.ProcessTest
+Jul-09 22:09:25.432 [main] INFO  com.askimed.nf.test.core.TestExecutionEngine - Run test '161b0a26: fastq.gz - stub'. type: com.askimed.nf.test.lang.process.ProcessTest
