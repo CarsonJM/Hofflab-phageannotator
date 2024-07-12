@@ -27,26 +27,20 @@ process CHECKV_ENDTOEND {
     prefix = task.ext.prefix ?: "${meta.id}"
 
     """
-    if [ \$(zcat ${fasta} | grep ">" | wc -l) -gt 0 ]; then
-        checkv \\
-            end_to_end \\
-            $args \\
-            -t $task.cpus \\
-            -d $db \\
-            $fasta \\
-            $prefix
+    checkv \\
+        end_to_end \\
+        $args \\
+        -t $task.cpus \\
+        -d $db \\
+        $fasta \\
+        $prefix
 
-        mv ${prefix}/quality_summary.tsv ${prefix}_quality_summary.tsv
-        gzip ${prefix}/*.fna
-        cat ${prefix}/*.fna.gz > ${prefix}_viruses.fna.gz
-        mv ${prefix}/tmp/proteins.faa ${prefix}_proteins.faa
-        gzip ${prefix}_proteins.faa
-        rm -rf ./${prefix}/*
-    else
-        touch ${prefix}_quality_summary.tsv
-        echo "" | gzip > ${prefix}_viruses.fna.gz
-        echo "" | gzip > ${prefix}_proteins.faa.gz
-    fi
+    mv ${prefix}/quality_summary.tsv ${prefix}_quality_summary.tsv
+    gzip ${prefix}/*.fna
+    cat ${prefix}/*.fna.gz > ${prefix}_viruses.fna.gz
+    mv ${prefix}/tmp/proteins.faa ${prefix}_proteins.faa
+    gzip ${prefix}_proteins.faa
+    rm -rf ./${prefix}/*
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

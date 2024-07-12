@@ -1,0 +1,51 @@
+// nf-core modules test csvtk/concat
+nextflow_process {
+
+    name "Test Process FASTG2GFA"
+    script "../main.nf"
+    process "FASTG2GFA"
+
+    test("fastg") {
+
+        when {
+            process {
+                """
+                input[0] = [
+                    [ id:'test' ], // meta map
+                    [ file("${projectDir}/assets/test-datasets/fastg/test1.graph.fastg.gz", checkIfExists: true) ]
+                ]
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+    test("fastg - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = [
+                    [ id:'test' ], // meta map
+                    [ file("${projectDir}/assets/test-datasets/fastg/test1.graph.fastg.gz", checkIfExists: true) ]
+                ]
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}

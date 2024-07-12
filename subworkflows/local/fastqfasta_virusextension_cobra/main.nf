@@ -18,9 +18,9 @@ workflow FASTQFASTA_VIRUSEXTENSION_COBRA {
     ch_versions = Channel.empty()
 
     // join fastq and fasta by meta.id
-    ch_coverm_input = fastq_gz
-        .join(fasta_gz)
-        .multiMap { meta, fastq, fasta ->
+    ch_coverm_input = fasta_gz
+        .join( fastq_gz )
+        .multiMap { meta, fasta, fastq ->
             fastq: [ meta, fastq ]
             fasta: [ meta, fasta ]
         }
@@ -28,9 +28,9 @@ workflow FASTQFASTA_VIRUSEXTENSION_COBRA {
     //
     // MODULE: Calculate abundance metrics from BAM file
     //
-    ch_coverage_tsv         = COVERM_COBRA(ch_coverm_input.fastq, ch_coverm_input.fasta).alignment_results
+    ch_coverage_tsv         = COVERM_COBRA( ch_coverm_input.fastq, ch_coverm_input.fasta ).alignment_results
     ch_fasta_alignment_bam  = COVERM_COBRA.out.bam
-    ch_versions             = ch_versions.mix(COVERM_COBRA.out.versions)
+    ch_versions             = ch_versions.mix( COVERM_COBRA.out.versions )
 
     //
     // MODULE: Remove '|provirus' suffix from genomad data

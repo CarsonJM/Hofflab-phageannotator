@@ -25,23 +25,17 @@ process COVERM_CONTIG {
     def reads = !meta.single_end ? "--coupled ${fastq}" : "--single ${fastq}"
     prefix = task.ext.prefix ?: "${meta.id}"
     """
-    if [ \$(zcat ${fastq[0]} | grep "@" | wc -l) -gt 0 ]; then
-        coverm \\
-            contig \\
-            ${reads} \\
-            --reference ${fasta} \\
-            --output-file ${prefix}_alignment_results.tsv \\
-            --bam-file-cache-directory ${prefix}_bam_files \\
-            --threads ${task.cpus} \\
-            ${args} \\
-            2> ${prefix}.log
+    coverm \\
+        contig \\
+        ${reads} \\
+        --reference ${fasta} \\
+        --output-file ${prefix}_alignment_results.tsv \\
+        --bam-file-cache-directory ${prefix}_bam_files \\
+        --threads ${task.cpus} \\
+        ${args} \\
+        2> ${prefix}.log
 
-        mv ${prefix}_bam_files/*.bam ${prefix}.bam
-    else
-        touch ${prefix}_alignment_results.tsv
-        touch ${prefix}.bam
-        touch ${prefix}.log
-    fi
+    mv ${prefix}_bam_files/*.bam ${prefix}.bam
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

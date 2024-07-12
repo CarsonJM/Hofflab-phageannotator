@@ -1,0 +1,78 @@
+nextflow_process {
+
+    name "Test Process: PHABLES_RUN"
+    script "../main.nf"
+    process "PHABLES_RUN"
+
+    setup {
+        run("PHABLES_INSTALL") {
+            script "../../install/main.nf"
+            }
+        }
+
+
+    test("fastq.gz + gfa.gz") {
+
+        when {
+            process {
+                """
+                input[0] = [
+                    [ id: 'test1' ],
+                    [
+                        file("${projectDir}/assets/test-datasets/gfa/test1.assembly.gfa.gz", checkIfExists: true),
+                    ]
+                ]
+                input[1] = [
+                    [ id: 'test1' ],
+                    [
+                        file("${projectDir}/assets/test-datasets/fastqs/test1_1.fastq.gz", checkIfExists: true),
+                        file("${projectDir}/assets/test-datasets/fastqs/test1_2.fastq.gz", checkIfExists: true)
+                    ]
+                ]
+                input[2] = PHABLES_INSTALL.out.phables_db
+                """
+            }
+        }
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(process.out.fasta).match() },
+                { assert new File(process.out.log[0][1]).exists() },
+            )
+        }
+    }
+
+    test("fastq.gz - stub") {
+
+        options "-stub"
+
+        when {
+            process {
+                """
+                input[0] = [
+                    [ id: 'test1' ],
+                    [
+                        file("${projectDir}/assets/test-datasets/gfa/test1.assembly.gfa.gz", checkIfExists: true),
+                    ]
+                ]
+                input[1] = [
+                    [ id: 'test1' ],
+                    [
+                        file("${projectDir}/assets/test-datasets/fastqs/test1_1.fastq.gz", checkIfExists: true),
+                        file("${projectDir}/assets/test-datasets/fastqs/test1_2.fastq.gz", checkIfExists: true)
+                    ]
+                ]
+                input[2] = PHABLES_INSTALL.out.phables_db
+                """
+            }
+        }
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(process.out).match() },
+            )
+        }
+    }
+}

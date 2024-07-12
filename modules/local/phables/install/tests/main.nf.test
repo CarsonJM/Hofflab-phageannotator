@@ -1,0 +1,28 @@
+nextflow_process {
+
+    name "Test Process: PHABLES_INSTALL"
+    script "../main.nf"
+    process "PHABLES_INSTALL"
+
+    test("No input required") {
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(process.out.phables_db).match() }
+            )
+        }
+    }
+
+    test("No input required - stub") {
+
+        options "-stub"
+
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(process.out.phables_db).match() }
+            )
+        }
+    }
+}

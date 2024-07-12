@@ -22,19 +22,15 @@ process PLASS_PENGUIN {
     def args = task.ext.args ?: ''
     prefix = task.ext.prefix ?: "${meta.id}"
     """
-    if [ \$(zcat ${fastq[0]} | grep "@" | wc -l) -gt 0 ]; then
-        penguin \\
-            guided_nuclassemble \\
-            ${fastq} \\
-            ${prefix}.contigs.fasta \\
-            tmp \\
-            --threads ${task.cpus} \\
-            ${args} >> ${prefix}.log 2>&1
+    penguin \\
+        guided_nuclassemble \\
+        ${fastq} \\
+        ${prefix}.contigs.fasta \\
+        tmp \\
+        --threads ${task.cpus} \\
+        ${args} >> ${prefix}.log 2>&1
 
-            gzip ${prefix}.contigs.fasta
-    else
-        echo "" | gzip > ${prefix}.contigs.fasta.gz
-    fi
+        gzip ${prefix}.contigs.fasta
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

@@ -1,0 +1,95 @@
+{
+    "fastq.gz single": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test1"
+                        },
+                        "test1.scaffolds.fa.gz:md5,8cfb886d052880249275802edca20d0f"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test1"
+                        },
+                        "test1.contigs.fa.gz:md5,65a0515c4c94a8c0ceca3731b35ab3b0"
+                    ]
+                ],
+                "2": [
+                    
+                ],
+                "3": [
+                    
+                ],
+                "4": [
+                    [
+                        {
+                            "id": "test1"
+                        },
+                        "test1.assembly.gfa.gz:md5,a1d619ee02f67a80bea6980f33874155"
+                    ]
+                ],
+                "5": [
+                    [
+                        {
+                            "id": "test1"
+                        },
+                        "test1.spades.log:md5,7086f0a0c477330f0033a68c85e8aea5"
+                    ]
+                ],
+                "6": [
+                    "versions.yml:md5,9231613574938cf2948f33e287ea35b4"
+                ],
+                "contigs": [
+                    [
+                        {
+                            "id": "test1"
+                        },
+                        "test1.contigs.fa.gz:md5,65a0515c4c94a8c0ceca3731b35ab3b0"
+                    ]
+                ],
+                "gene_clusters": [
+                    
+                ],
+                "gfa": [
+                    [
+                        {
+                            "id": "test1"
+                        },
+                        "test1.assembly.gfa.gz:md5,a1d619ee02f67a80bea6980f33874155"
+                    ]
+                ],
+                "log": [
+                    [
+                        {
+                            "id": "test1"
+                        },
+                        "test1.spades.log:md5,7086f0a0c477330f0033a68c85e8aea5"
+                    ]
+                ],
+                "scaffolds": [
+                    [
+                        {
+                            "id": "test1"
+                        },
+                        "test1.scaffolds.fa.gz:md5,8cfb886d052880249275802edca20d0f"
+                    ]
+                ],
+                "transcripts": [
+                    
+                ],
+                "versions": [
+                    "versions.yml:md5,9231613574938cf2948f33e287ea35b4"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.8.4",
+            "nextflow": "24.04.1"
+        },
+        "timestamp": "2024-07-11T13:44:38.367705073"
+    }
+}

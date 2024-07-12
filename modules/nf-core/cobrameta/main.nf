@@ -30,37 +30,31 @@ process COBRAMETA {
     prefix      = task.ext.prefix ?: "${meta.id}"
     fasta_name  = fasta.getName().replace(".gz", "")
     """
-    if [ \$(zcat ${fasta} | grep ">" | wc -l) -gt 0 ]; then
-        gunzip -c ${fasta} > ${fasta_name}
-        tail ${virus_summary} -n +2 | awk '{print \$1}' > ${prefix}_viral_assemblies.txt
-        tail ${coverage} -n +2 > ${prefix}_cobra_coverage.txt
+    gunzip -c ${fasta} > ${fasta_name}
+    tail ${virus_summary} -n +2 | awk '{print \$1}' > ${prefix}_viral_assemblies.txt
+    tail ${coverage} -n +2 > ${prefix}_cobra_coverage.txt
 
-        cobra-meta \\
-            --fasta ${fasta_name} \\
-            --coverage ${prefix}_cobra_coverage.txt \\
-            --query ${prefix}_viral_assemblies.txt \\
-            --mapping ${bam} \\
-            --assembler ${assembler} \\
-            --mink ${mink} \\
-            --maxk ${maxk} \\
-            --threads ${task.cpus} \\
-            --output ${prefix} \\
-            $args
+    cobra-meta \\
+        --fasta ${fasta_name} \\
+        --coverage ${prefix}_cobra_coverage.txt \\
+        --query ${prefix}_viral_assemblies.txt \\
+        --mapping ${bam} \\
+        --assembler ${assembler} \\
+        --mink ${mink} \\
+        --maxk ${maxk} \\
+        --threads ${task.cpus} \\
+        --output ${prefix} \\
+        $args
 
-        if [ -f ${prefix}/COBRA_extended.fasta ]; then
-            gzip ${prefix}/*.fasta
-            cat ${prefix}/*.fasta.gz > ${prefix}_COBRA_extended.fasta.gz
-            mv ${prefix}/COBRA_joining_summary.txt ${prefix}_COBRA_joining_summary.txt
-            mv ${prefix}/log ${prefix}_log
-        else 
-            cp ${fasta} ${prefix}_COBRA_extended.fasta.gz
-            touch ${prefix}_COBRA_joining_summary.txt
-            mv ${prefix}/log ${prefix}_log
-        fi
-    else
+    if [ -f ${prefix}/COBRA_extended.fasta ]; then
+        gzip ${prefix}/*.fasta
+        cat ${prefix}/*.fasta.gz > ${prefix}_COBRA_extended.fasta.gz
+        mv ${prefix}/COBRA_joining_summary.txt ${prefix}_COBRA_joining_summary.txt
+        mv ${prefix}/log ${prefix}_log
+    else 
         cp ${fasta} ${prefix}_COBRA_extended.fasta.gz
         touch ${prefix}_COBRA_joining_summary.txt
-        touch ${prefix}_log
+        mv ${prefix}/log ${prefix}_log
     fi
 
     cat <<-END_VERSIONS > versions.yml

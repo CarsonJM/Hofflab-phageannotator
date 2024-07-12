@@ -1,0 +1,14 @@
+{
+    "fastq.gz + gfa.gz": {
+        "content": [
+            [
+                
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.8.4",
+            "nextflow": "24.04.1"
+        },
+        "timestamp": "2024-07-12T13:36:20.629861949"
+    }
+}

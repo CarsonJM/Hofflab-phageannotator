@@ -26,26 +26,19 @@ process IPHOP_PREDICT {
     prefix = task.ext.prefix ?: "${meta.id}"
     fasta_name  = fasta.getName().replace(".gz", "")
     """
-    if [ \$(zcat ${fasta} | grep ">" | wc -l) -gt 0 ]; then
-        gunzip -c ${fasta} > ${fasta_name}
+    gunzip -c ${fasta} > ${fasta_name}
 
-        iphop \\
-            predict \\
-            --fa_file ${fasta_name} \\
-            --out_dir iphop_results \\
-            --db_dir ${iphop_db} \\
-            --num_threads ${task.cpus} \\
-            $args
+    iphop \\
+        predict \\
+        --fa_file ${fasta_name} \\
+        --out_dir iphop_results \\
+        --db_dir ${iphop_db} \\
+        --num_threads ${task.cpus} \\
+        $args
 
-        mv iphop_results/Host_prediction_to_genus_m*.csv .
-        mv iphop_results/Host_prediction_to_genome_m*.csv .
-        mv iphop_results/Detailed_output_by_tool.csv .
-    else
-        mkdir -p iphop_results
-        touch Host_prediction_to_genus_m${min_score}.csv
-        touch Host_prediction_to_genome_m${min_score}.csv
-        touch Detailed_output_by_tool.csv
-    fi
+    mv iphop_results/Host_prediction_to_genus_m*.csv .
+    mv iphop_results/Host_prediction_to_genome_m*.csv .
+    mv iphop_results/Detailed_output_by_tool.csv .
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

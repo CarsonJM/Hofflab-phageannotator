@@ -27,24 +27,19 @@ process GENOMAD_ENDTOEND {
     def prefix = task.ext.prefix ?: "${meta.id}"
     filename = fasta.toString().tokenize('.')[0]
     """
-    if [ \$(zcat ${fasta} | grep ">" | wc -l) -gt 0 ]; then
-        genomad \\
-            end-to-end \\
-            ${fasta} \\
-            ./ \\
-            ${genomad_db} \\
-            --threads ${task.cpus} \\
-            ${args}
+    genomad \\
+        end-to-end \\
+        ${fasta} \\
+        ./ \\
+        ${genomad_db} \\
+        --threads ${task.cpus} \\
+        ${args}
 
-        mv *_summary/*_virus_summary.tsv .
-        mv *_summary/*_virus.fna .
-        gzip *_virus.fna
+    mv *_summary/*_virus_summary.tsv .
+    mv *_summary/*_virus.fna .
+    gzip *_virus.fna
 
-        rm -rf ./${filename}_*/*
-    else
-        touch ${filename}_virus_summary.tsv
-        echo "" | gzip > ${filename}_virus.fna.gz
-    fi
+    rm -rf ./${filename}_*/*
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

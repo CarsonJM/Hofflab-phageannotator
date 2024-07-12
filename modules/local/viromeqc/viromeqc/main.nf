@@ -22,18 +22,14 @@ process VIROMEQC_VIROMEQC {
     def args = task.ext.args ?: ''
     prefix = task.ext.prefix ?: "${meta.id}"
     """
-    if [ \$(zcat ${reads[0]} | grep "@" | wc -l) -gt 0 ]; then
-        viromeQC.py \\
-            --input ${reads} \\
-            --index_dir $viromeqc_index \\
-            --output ${prefix}.viromeqc.tsv \\
-            --bowtie2_threads $task.cpus \\
-            --diamond_threads $task.cpus \\
-            --sample_name $prefix \\
-            $args
-    else
-        touch ${prefix}.viromeqc.tsv
-    fi
+    viromeQC.py \\
+        --input ${reads} \\
+        --index_dir ${viromeqc_index} \\
+        --output ${prefix}.viromeqc.tsv \\
+        --bowtie2_threads ${task.cpus} \\
+        --diamond_threads ${task.cpus} \\
+        --sample_name ${prefix} \\
+        ${args}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

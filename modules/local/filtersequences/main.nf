@@ -28,24 +28,19 @@ process FILTERSEQUENCES {
     def contigs_to_keep = contigs_to_keep ? "--contigs_to_keep ${contigs_to_keep}" : "--contigs_to_keep NO_CONTIGS_TO_KEEP_FILE"
     prefix = task.ext.prefix ?: "${meta.id}"
     """
-    if [ \$(zcat ${fasta} | grep ">" | wc -l) -gt 0 ]; then
-        filtersequences.py \\
-            --input ${fasta} \\
-            --genomad_summary ${genomad_summary} \\
-            --quality_summary ${quality_summary} \\
-            --tantan ${tantan} \\
-            --nucleotide_stats ${nuc_stats} \\
-            --sample ${prefix} \\
-            --output_fasta ${prefix}_filtered.fasta \\
-            --output_tsv ${prefix}_filtering_data.tsv \\
-            ${contigs_to_keep} \\
-            ${args}
+    filtersequences.py \\
+        --input ${fasta} \\
+        --genomad_summary ${genomad_summary} \\
+        --quality_summary ${quality_summary} \\
+        --tantan ${tantan} \\
+        --nucleotide_stats ${nuc_stats} \\
+        --sample ${prefix} \\
+        --output_fasta ${prefix}_filtered.fasta \\
+        --output_tsv ${prefix}_filtering_data.tsv \\
+        ${contigs_to_keep} \\
+        ${args}
 
-        gzip ${prefix}_filtered.fasta
-    else
-        echo "" | gzip > ${prefix}_filtered.fasta.gz
-        touch ${prefix}_filtering_data.tsv
-    fi
+    gzip ${prefix}_filtered.fasta
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

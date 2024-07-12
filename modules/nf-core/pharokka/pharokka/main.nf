@@ -24,21 +24,17 @@ process PHAROKKA_PHAROKKA {
     prefix = task.ext.prefix ?: "${meta.id}"
     fasta_name  = fasta.getName().replace(".gz", "")
     """
-    if [ \$(zcat ${fasta} | grep ">" | wc -l) -gt 0 ]; then
-        gunzip -c ${fasta} > ${fasta_name}
+    gunzip -c ${fasta} > ${fasta_name}
 
-        pharokka.py \\
-            --infile ${fasta_name} \\
-            --outdir ${prefix}_pharokka \\
-            --database ${pharokka_db} \\
-            --threads ${task.cpus} \\
-            --prefix ${prefix} \\
-            $args
-        mv ${prefix}_pharokka/${prefix}_top_hits_mash_inphared.tsv ${prefix}_top_hits_mash_inphared.tsv
-        mv ${prefix}_pharokka/${prefix}_cds_final_merged_output.tsv ${prefix}_cds_final_merged_output.tsv
-    else
-        touch ${prefix}_cds_final_merged_output.tsv ${prefix}_top_hits_mash_inphared.tsv
-    fi
+    pharokka.py \\
+        --infile ${fasta_name} \\
+        --outdir ${prefix}_pharokka \\
+        --database ${pharokka_db} \\
+        --threads ${task.cpus} \\
+        --prefix ${prefix} \\
+        $args
+    mv ${prefix}_pharokka/${prefix}_top_hits_mash_inphared.tsv ${prefix}_top_hits_mash_inphared.tsv
+    mv ${prefix}_pharokka/${prefix}_cds_final_merged_output.tsv ${prefix}_cds_final_merged_output.tsv
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

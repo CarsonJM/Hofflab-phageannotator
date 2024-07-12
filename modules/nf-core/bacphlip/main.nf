@@ -24,15 +24,11 @@ process BACPHLIP {
     prefix = task.ext.prefix ?: "${meta.id}"
     fasta_name  = fasta.getName().replace(".gz", "")
     """
-    if [ \$(zcat ${fasta} | grep ">" | wc -l) -gt 0 ]; then
-        gunzip -c ${fasta} > ${fasta_name}
-        bacphlip \\
-            -i ${fasta_name} \\
-            ${args}
-    else
-        touch ${fasta_name}.bacphlip
-        touch ${fasta_name}.hmmsearch.tsv
-    fi
+    gunzip -c ${fasta} > ${fasta_name}
+
+    bacphlip \\
+        -i ${fasta_name} \\
+        ${args}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

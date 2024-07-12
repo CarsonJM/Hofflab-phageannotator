@@ -25,12 +25,12 @@ process MEGAHIT {
     script:
     def args = task.ext.args ?: ''
     def args2 = task.ext.args2 ?: ''
-    def reads_1 = reads[0].collect().join(',')
-    def prefix = task.ext.prefix ?: "${meta.i
-    if (meta.single_end) {
+    def prefix = task.ext.prefix ?: "${meta.id}"
+    def readList = reads instanceof List ? reads.collect{ it.toString() } : [reads.toString()]
+    if ( meta.single_end ) {
         """
         megahit \\
-            -1 ${reads_1} \\
+            -r ${readList.join(',')} \\
             -t $task.cpus \\
             $args \\
             --out-prefix $prefix
@@ -53,11 +53,13 @@ process MEGAHIT {
         END_VERSIONS
         """
     } else {
-        def reads_2 = reads[1].collect().join(',')
+        def read1 = []
+        def read2 = []
+        readList.eachWithIndex{ v, ix -> ( ix & 1 ? read2 : read1 ) << v }
         """
         megahit \\
-            -1 ${reads_1} \\
-            -2 ${reads_2} \\
+            -1 ${read1.join(',')} \\
+            -2 ${read1.join(',')} \\
             -t $task.cpus \\
             $args \\
             --out-prefix $prefix

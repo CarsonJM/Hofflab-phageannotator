@@ -1,2 +1,0 @@
-task_id	hash	native_id	name	status	exit	submit	duration	realtime	%cpu	peak_rss	peak_vmem	rchar	wchar
-1	37/d0bd62	87649	SEQKIT_STATS (test)	COMPLETED	0	2024-05-31 13:51:06.575	1.4s	0ms	33.6%	11.8 MB	1.2 GB	90.7 KB	324 B

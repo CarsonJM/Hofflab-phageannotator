@@ -89,7 +89,7 @@ workflow PIPELINE_INITIALISATION {
             meta.run          = meta.run == null ? "0" : meta.run
             meta.single_end   = fastq_2 ? false : true
 
-            if (meta.single_end) {
+            if ( meta.single_end ) {
                 return [ meta, [ fastq_1 ], fasta ]
             } else {
                 return [ meta, [ fastq_1, fastq_2 ], fasta ]
