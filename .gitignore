@@ -7,4 +7,7 @@ testing/
 testing*
 *.pyc
 .nf-test/
-tip_test/
+tip_*test/
+prophage_tracer_setup/
+.nf-test.log
+ictv/

@@ -5,13 +5,6 @@ nextflow_process {
     process "GENOMAD_DOWNLOAD"
 
     test("No input") {
-
-        when {
-            params {
-                use_uw_https_proxy  = false
-            }
-        }
-
         then {
             assertAll(
                 { assert process.success },
@@ -20,10 +13,9 @@ nextflow_process {
         }
     }
 
+
     test("No input - stub") {
-
         options "-stub"
-
         then {
             assertAll(
                 { assert process.success },

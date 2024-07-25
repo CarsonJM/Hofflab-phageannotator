@@ -111,7 +111,8 @@ workflow FASTA_ANICLUSTER_BLAST {
 
 
     emit:
-    votu_reps   = ch_votu_reps_fasta_gz     // [ [ meta ], fasta.gz ]   , FASTA file containing votu reps
-    derep_reps  = ch_derep_reps_fasta_gz    // [ [ meta ], fasta.gz ]   , FASTA file containing dereplicated reps
-    versions    = ch_versions               // [ versions.yml ]
+    votu_reps       = ch_votu_reps_fasta_gz     // [ [ meta ], fasta.gz ]   , FASTA file containing votu reps
+    votu_reps_tsv   = ch_reps_tsv               // [ [ meta ], tsv ]        , TSV file containing votu reps
+    derep_reps      = ch_derep_reps_fasta_gz    // [ [ meta ], fasta.gz ]   , FASTA file containing dereplicated reps
+    versions        = ch_versions               // [ versions.yml ]
 }

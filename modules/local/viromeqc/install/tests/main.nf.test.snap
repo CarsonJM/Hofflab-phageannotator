@@ -21,10 +21,10 @@
                     ]
                 ],
                 "1": [
-                    "versions.yml:md5,62af8c4ed30786021d8be4d24c27cc92"
+                    "versions.yml:md5,bb149e409b4d771630f336a219201cbb"
                 ],
                 "versions": [
-                    "versions.yml:md5,62af8c4ed30786021d8be4d24c27cc92"
+                    "versions.yml:md5,bb149e409b4d771630f336a219201cbb"
                 ],
                 "viromeqc_index": [
                     [
@@ -48,9 +48,9 @@
         ],
         "meta": {
             "nf-test": "0.8.4",
-            "nextflow": "23.10.1"
+            "nextflow": "24.04.1"
         },
-        "timestamp": "2024-02-19T17:06:23.877411726"
+        "timestamp": "2024-07-23T09:02:11.809443152"
     },
     "No input required - stub": {
         "content": [
@@ -74,10 +74,10 @@
                     ]
                 ],
                 "1": [
-                    "versions.yml:md5,62af8c4ed30786021d8be4d24c27cc92"
+                    "versions.yml:md5,bb149e409b4d771630f336a219201cbb"
                 ],
                 "versions": [
-                    "versions.yml:md5,62af8c4ed30786021d8be4d24c27cc92"
+                    "versions.yml:md5,bb149e409b4d771630f336a219201cbb"
                 ],
                 "viromeqc_index": [
                     [
@@ -101,8 +101,8 @@
         ],
         "meta": {
             "nf-test": "0.8.4",
-            "nextflow": "23.10.1"
+            "nextflow": "24.04.1"
         },
-        "timestamp": "2024-02-19T17:09:07.248281569"
+        "timestamp": "2024-07-23T09:07:58.506496795"
     }
 }

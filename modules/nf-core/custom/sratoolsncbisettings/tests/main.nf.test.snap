@@ -1,5 +1,5 @@
 {
-    "Should run without failures": {
+    "SRX6725035": {
         "content": [
             [
                 "versions.yml:md5,3d6ee88cce1ee517e198633f062589a8"
@@ -10,5 +10,28 @@
             "nextflow": "23.10.1"
         },
         "timestamp": "2024-02-28T11:47:15.824443"
+    },
+    "SRX6725035 - stub": {
+        "content": [
+            {
+                "0": [
+                    "user-settings.mkfg:md5,955e27aff2c277c2f1f0943a098888c1"
+                ],
+                "1": [
+                    "versions.yml:md5,3d6ee88cce1ee517e198633f062589a8"
+                ],
+                "ncbi_settings": [
+                    "user-settings.mkfg:md5,955e27aff2c277c2f1f0943a098888c1"
+                ],
+                "versions": [
+                    "versions.yml:md5,3d6ee88cce1ee517e198633f062589a8"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.8.4",
+            "nextflow": "24.04.1"
+        },
+        "timestamp": "2024-07-22T15:14:59.206674076"
     }
 }

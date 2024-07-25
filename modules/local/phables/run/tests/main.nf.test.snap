@@ -1,14 +1,71 @@
 {
-    "fastq.gz + gfa.gz": {
+    "fastq.gz + gfa - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test1"
+                        },
+                        "test1_null_phables_phables.fasta.gz:md5,68b329da9893e34099c7d8ad5cb9c940"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test1"
+                        },
+                        "test1_null_phables_phables.log:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "2": [
+                    "versions.yml:md5,36ef22678205006da92fe4354b0999b3"
+                ],
+                "fasta": [
+                    [
+                        {
+                            "id": "test1"
+                        },
+                        "test1_null_phables_phables.fasta.gz:md5,68b329da9893e34099c7d8ad5cb9c940"
+                    ]
+                ],
+                "log": [
+                    [
+                        {
+                            "id": "test1"
+                        },
+                        "test1_null_phables_phables.log:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,36ef22678205006da92fe4354b0999b3"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.8.4",
+            "nextflow": "24.04.1"
+        },
+        "timestamp": "2024-07-24T10:07:52.12969642"
+    },
+    "fastq.gz + gfa": {
         "content": [
             [
-                
+                [
+                    {
+                        "id": "test1"
+                    },
+                    "test1_null_phables_phables.fasta.gz:md5,dfcfab57b3001bad86c90e2cc2aa8795"
+                ]
+            ],
+            [
+                "versions.yml:md5,36ef22678205006da92fe4354b0999b3"
             ]
         ],
         "meta": {
             "nf-test": "0.8.4",
             "nextflow": "24.04.1"
         },
-        "timestamp": "2024-07-12T13:36:20.629861949"
+        "timestamp": "2024-07-24T10:07:25.462399464"
     }
 }

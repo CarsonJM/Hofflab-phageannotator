@@ -1,144 +1,80 @@
 {
-    "bacteroides_fragilis - illumina - test1_contigs_fa_gz": {
-        "content": [
-            [
-                [
-                    {
-                        "id": "test"
-                    },
-                    "quality_summary.tsv:md5,104c579b018158b1c3f016adb0b69eb3"
-                ]
-            ],
-            [
-                [
-                    {
-                        "id": "test"
-                    },
-                    "completeness.tsv:md5,7b252af89a74e8ac83a7d81727f2f716"
-                ]
-            ],
-            [
-                [
-                    {
-                        "id": "test"
-                    },
-                    "contamination.tsv:md5,cd37c2aa2aaa60cdcd798a0d989cdac4"
-                ]
-            ],
-            [
-                [
-                    {
-                        "id": "test"
-                    },
-                    "complete_genomes.tsv:md5,4afbc73b59d01b7c9fac30432a343eaf"
-                ]
-            ],
-            [
-                [
-                    {
-                        "id": "test"
-                    },
-                    "viruses.fna:md5,ea1d49a630943747f21d935d83ab4399"
-                ]
-            ],
-            [
-                "versions.yml:md5,e2b3c1c7aa54062a80b97e3c70bbb28a"
-            ]
-        ],
-        "timestamp": "2023-12-11T16:10:42.844416854"
-    },
-    "bacteroides_fragilis - illumina - test1_contigs_fa_gz - stub": {
+    "fasta.gz - stub": {
         "content": [
             {
                 "0": [
                     [
                         {
-                            "id": "test"
+                            "id": "test1"
                         },
-                        "quality_summary.tsv:md5,104c579b018158b1c3f016adb0b69eb3"
+                        "test1_quality_summary.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
                 "1": [
                     [
                         {
-                            "id": "test"
+                            "id": "test1"
                         },
-                        "completeness.tsv:md5,7b252af89a74e8ac83a7d81727f2f716"
+                        "test1_contamination.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
                 "2": [
                     [
                         {
-                            "id": "test"
+                            "id": "test1"
                         },
-                        "contamination.tsv:md5,cd37c2aa2aaa60cdcd798a0d989cdac4"
+                        "test1_completeness.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
                 "3": [
                     [
                         {
-                            "id": "test"
+                            "id": "test1"
                         },
-                        "complete_genomes.tsv:md5,4afbc73b59d01b7c9fac30432a343eaf"
+                        "test1_viruses.fna.gz:md5,68b329da9893e34099c7d8ad5cb9c940"
                     ]
                 ],
                 "4": [
                     [
                         {
-                            "id": "test"
+                            "id": "test1"
                         },
-                        "proviruses.fna:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        "test1_proteins.faa.gz:md5,68b329da9893e34099c7d8ad5cb9c940"
                     ]
                 ],
                 "5": [
-                    [
-                        {
-                            "id": "test"
-                        },
-                        "viruses.fna:md5,ea1d49a630943747f21d935d83ab4399"
-                    ]
-                ],
-                "6": [
                     "versions.yml:md5,e2b3c1c7aa54062a80b97e3c70bbb28a"
-                ],
-                "complete_genomes": [
-                    [
-                        {
-                            "id": "test"
-                        },
-                        "complete_genomes.tsv:md5,4afbc73b59d01b7c9fac30432a343eaf"
-                    ]
                 ],
                 "completeness": [
                     [
                         {
-                            "id": "test"
+                            "id": "test1"
                         },
-                        "completeness.tsv:md5,7b252af89a74e8ac83a7d81727f2f716"
+                        "test1_completeness.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
                 "contamination": [
                     [
                         {
-                            "id": "test"
+                            "id": "test1"
                         },
-                        "contamination.tsv:md5,cd37c2aa2aaa60cdcd798a0d989cdac4"
+                        "test1_contamination.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
-                "proviruses": [
+                "proteins": [
                     [
                         {
-                            "id": "test"
+                            "id": "test1"
                         },
-                        "proviruses.fna:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        "test1_proteins.faa.gz:md5,68b329da9893e34099c7d8ad5cb9c940"
                     ]
                 ],
                 "quality_summary": [
                     [
                         {
-                            "id": "test"
+                            "id": "test1"
                         },
-                        "quality_summary.tsv:md5,104c579b018158b1c3f016adb0b69eb3"
+                        "test1_quality_summary.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
                     ]
                 ],
                 "versions": [
@@ -147,13 +83,62 @@
                 "viruses": [
                     [
                         {
-                            "id": "test"
+                            "id": "test1"
                         },
-                        "viruses.fna:md5,ea1d49a630943747f21d935d83ab4399"
+                        "test1_viruses.fna.gz:md5,68b329da9893e34099c7d8ad5cb9c940"
                     ]
                 ]
             }
         ],
-        "timestamp": "2024-01-17T16:47:25.833309368"
+        "meta": {
+            "nf-test": "0.9.0",
+            "nextflow": "24.04.1"
+        },
+        "timestamp": "2024-07-24T14:00:07.284547244"
+    },
+    "fasta.gz": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test1"
+                    },
+                    "test1_quality_summary.tsv:md5,01e7069e0c3b3d36b4d8eb02845b3086"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test1"
+                    },
+                    "test1_contamination.tsv:md5,aff5543ad5c34d1adae45336c07d7364"
+                ]
+            ],
+            "test1_completeness.tsv",
+            [
+                [
+                    {
+                        "id": "test1"
+                    },
+                    "test1_viruses.fna.gz:md5,c9cebc9db75d3fd8cd58e5829cecd8b4"
+                ]
+            ],
+            [
+                [
+                    {
+                        "id": "test1"
+                    },
+                    "test1_proteins.faa.gz:md5,e0c10ef5758f5472b28a2b71071c3ce2"
+                ]
+            ],
+            [
+                "versions.yml:md5,e14433c20aa8085bf627b8ae97dde94e"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.8.4",
+            "nextflow": "24.04.1"
+        },
+        "timestamp": "2024-07-24T13:31:36.034984427"
     }
 }

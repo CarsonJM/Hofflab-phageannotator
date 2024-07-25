@@ -2,10 +2,10 @@ process FASTG2GFA {
     tag "${meta.id}"
     label 'process_low'
 
-    conda "${moduleDir}/environment.yml"
-    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/phables:1.4.0--pyhdfd78af_0':
-        'biocontainers/phables:1.4.0--pyhdfd78af_0' }"
+    // conda "${moduleDir}/environment.yml"
+    // container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
+    //     'https://depot.galaxyproject.org/singularity/phables:1.4.0--pyhdfd78af_0':
+    //     'biocontainers/phables:1.4.0--pyhdfd78af_0' }"
 
     input:
     tuple val(meta), path(fastg)

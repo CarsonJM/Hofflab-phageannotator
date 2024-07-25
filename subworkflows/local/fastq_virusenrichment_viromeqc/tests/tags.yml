@@ -1,2 +1,0 @@
-fastq_virus_enrichment_viromeqc:
-  - subworkflows/local/fastq_virus_enrichment_viromeqc/**

@@ -2,12 +2,8 @@ nextflow_process {
     name "Test Process SRATOOLS_PREFETCH"
     script "../main.nf"
     process "SRATOOLS_PREFETCH"
-    tag "modules"
-    tag "modules_nfcore"
-    tag "sratools"
-    tag "sratools/prefetch"
 
-    test("sratools/prefetch") {
+    test("DRR000774") {
 
         when {
             process {
@@ -27,7 +23,7 @@ nextflow_process {
         }
     }
 
-    test("sratools/prefetch with sralite") {
+    test("DRR000774 sralite") {
 
         when {
             process {
@@ -47,7 +43,7 @@ nextflow_process {
         }
     }
 
-    test("sratools/prefetch/stub") {
+    test("DRR000774 - stub") {
 
         options '-stub'
 

@@ -4,26 +4,33 @@ nextflow_process {
     script "../main.nf"
     process "CHECKV_DOWNLOADDATABASE"
 
-    test("No input: download only") {
 
+    test("No input: download only") {
         then {
             assertAll(
                 { assert process.success },
-                { assert snapshot(process.out.versions).match() }
+                { assert snapshot(
+                    process.out.readme,
+                    process.out.tsv,
+                    process.out.faa,
+                    file(process.out.dmnd[0]).name,
+                    file(process.out.hmm[0].find { file(it).name ==~ /.*\.hmm/ }).name,
+                    file(process.out.fna.find { file(it).name ==~ /.*\.fna/ }).name,
+                    process.out.versions
+                    ).match()
+                }
             )
         }
     }
+
 
     test("No input: download only - stub") {
-
         options "-stub"
-
         then {
             assertAll(
                 { assert process.success },
-                { assert snapshot(process.out.versions).match() }
+                { assert snapshot(process.out).match() }
             )
         }
     }
-
 }

@@ -11,7 +11,7 @@
                     ]
                 ],
                 "1": [
-                    "versions.yml:md5,de038a980ca1e484c0e34f4af3f05c2a"
+                    "versions.yml:md5,ac420fb44c91527db6f8db702ac321de"
                 ],
                 "fastx": [
                     [
@@ -22,15 +22,15 @@
                     ]
                 ],
                 "versions": [
-                    "versions.yml:md5,de038a980ca1e484c0e34f4af3f05c2a"
+                    "versions.yml:md5,ac420fb44c91527db6f8db702ac321de"
                 ]
             }
         ],
         "meta": {
             "nf-test": "0.8.4",
-            "nextflow": "23.10.1"
+            "nextflow": "24.04.1"
         },
-        "timestamp": "2024-02-19T17:03:57.945355863"
+        "timestamp": "2024-07-24T08:08:57.910688485"
     },
     "fasta.gz": {
         "content": [
@@ -40,29 +40,29 @@
                         {
                             "id": "test"
                         },
-                        "test.fasta.gz:md5,5c3970a6403ad9383b04e0e71ed69ac7"
+                        "test.fasta.gz:md5,483f4a5dfe60171c86ee9b7e6dff908b"
                     ]
                 ],
                 "1": [
-                    "versions.yml:md5,de038a980ca1e484c0e34f4af3f05c2a"
+                    "versions.yml:md5,ac420fb44c91527db6f8db702ac321de"
                 ],
                 "fastx": [
                     [
                         {
                             "id": "test"
                         },
-                        "test.fasta.gz:md5,5c3970a6403ad9383b04e0e71ed69ac7"
+                        "test.fasta.gz:md5,483f4a5dfe60171c86ee9b7e6dff908b"
                     ]
                 ],
                 "versions": [
-                    "versions.yml:md5,de038a980ca1e484c0e34f4af3f05c2a"
+                    "versions.yml:md5,ac420fb44c91527db6f8db702ac321de"
                 ]
             }
         ],
         "meta": {
             "nf-test": "0.8.4",
-            "nextflow": "23.10.1"
+            "nextflow": "24.04.1"
         },
-        "timestamp": "2024-02-19T17:03:51.240957232"
+        "timestamp": "2024-07-24T08:08:40.074388049"
     }
 }

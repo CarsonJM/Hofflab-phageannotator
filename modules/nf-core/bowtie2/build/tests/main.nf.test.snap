@@ -1,5 +1,52 @@
 {
-    "Should run without failures": {
+    "fasta - stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "genome.1.bt2:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "genome.2.bt2:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "genome.3.bt2:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "genome.4.bt2:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "genome.rev.1.bt2:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "genome.rev.2.bt2:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        ]
+                    ]
+                ],
+                "1": [
+                    "versions.yml:md5,1df11e9b82891527271c889c880d3974"
+                ],
+                "index": [
+                    [
+                        {
+                            "id": "test"
+                        },
+                        [
+                            "genome.1.bt2:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "genome.2.bt2:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "genome.3.bt2:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "genome.4.bt2:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "genome.rev.1.bt2:md5,d41d8cd98f00b204e9800998ecf8427e",
+                            "genome.rev.2.bt2:md5,d41d8cd98f00b204e9800998ecf8427e"
+                        ]
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,1df11e9b82891527271c889c880d3974"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.8.4",
+            "nextflow": "24.04.1"
+        },
+        "timestamp": "2024-07-23T08:49:58.803973062"
+    },
+    "fasta": {
         "content": [
             {
                 "0": [
@@ -40,6 +87,10 @@
                 ]
             }
         ],
-        "timestamp": "2023-11-23T11:51:01.107681997"
+        "meta": {
+            "nf-test": "0.8.4",
+            "nextflow": "24.04.1"
+        },
+        "timestamp": "2024-07-23T08:49:15.89652615"
     }
 }

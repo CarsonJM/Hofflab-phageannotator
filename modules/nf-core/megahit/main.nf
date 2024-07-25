@@ -11,13 +11,17 @@ process MEGAHIT {
     tuple val(meta), path(reads)
 
     output:
-    tuple val(meta), path("megahit_out/*.contigs.fa.gz")                            , emit: contigs
-    tuple val(meta), path("megahit_out/*.graph.fastg.gz")                           , emit: graph
-    tuple val(meta), path("megahit_out/intermediate_contigs/k*.contigs.fa.gz")      , emit: k_contigs
-    tuple val(meta), path("megahit_out/intermediate_contigs/k*.addi.fa.gz")         , emit: addi_contigs
-    tuple val(meta), path("megahit_out/intermediate_contigs/k*.local.fa.gz")        , emit: local_contigs
-    tuple val(meta), path("megahit_out/intermediate_contigs/k*.final.contigs.fa.gz"), emit: kfinal_contigs
-    path "versions.yml"                                                             , emit: versions
+    tuple val(meta), path("${prefix}.contigs.fa.gz")    , emit: contigs
+    tuple val(meta), path("${prefix}.graph.fastg.gz")   , emit: graph
+    tuple val(meta), path("${prefix}.megahit.log")      , emit: log
+    path "versions.yml"                                 , emit: versions
+    env min_kmer                                        , emit: min_kmer
+    env max_kmer                                        , emit: max_kmer
+    // tuple val(meta), path("megahit_out/intermediate_contigs/k*.contigs.fa.gz")      , emit: k_contigs
+    // tuple val(meta), path("megahit_out/intermediate_contigs/k*.addi.fa.gz")         , emit: addi_contigs
+    // tuple val(meta), path("megahit_out/intermediate_contigs/k*.local.fa.gz")        , emit: local_contigs
+    // tuple val(meta), path("megahit_out/intermediate_contigs/k*.final.contigs.fa.gz"), emit: kfinal_contigs
+    
 
     when:
     task.ext.when == null || task.ext.when
@@ -25,7 +29,7 @@ process MEGAHIT {
     script:
     def args = task.ext.args ?: ''
     def args2 = task.ext.args2 ?: ''
-    def prefix = task.ext.prefix ?: "${meta.id}"
+    prefix = task.ext.prefix ?: "${meta.id}"
     def readList = reads instanceof List ? reads.collect{ it.toString() } : [reads.toString()]
     if ( meta.single_end ) {
         """
@@ -37,15 +41,17 @@ process MEGAHIT {
 
         # create assembly graph file
         kmer_size=\$(grep "^>" megahit_out/${prefix}.contigs.fa | sed 's/>k//; s/_.*//')
-        megahit_toolkit contig2fastg \$kmer_size megahit_out/${prefix}.contigs.fa > megahit_out/${prefix}.graph.fastg
+        megahit_toolkit contig2fastg \$kmer_size megahit_out/${prefix}.contigs.fa > ${prefix}.graph.fastg
 
-        pigz \\
-            --no-name \\
-            -p $task.cpus \\
-            $args2 \\
-            megahit_out/*.fa \\
-            megahit_out/*.fastg \\
-            megahit_out/intermediate_contigs/*.fa
+        mv megahit_out/*.log ${prefix}.megahit.log
+        gzip -c megahit_out/*.contigs.fa > ${prefix}.contigs.fa.gz
+        gzip ${prefix}.graph.fastg
+
+        # identify min/max kmer size
+        kmer_string=\$(grep "k list: " ${prefix}.megahit.log | sed 's/.*k list: //; s/ .*//')
+        kmer_array=(\${kmer_string//,/ })
+        min_kmer=\$(IFS=\$'\\n'; echo "\${kmer_array[*]}" | sort -nr | tail -n 1)
+        max_kmer=\$(IFS=\$'\\n'; echo "\${kmer_array[*]}" | sort -nr | head -n 1)
 
         cat <<-END_VERSIONS > versions.yml
         "${task.process}":
@@ -66,15 +72,17 @@ process MEGAHIT {
         
         # create assembly graph file
         kmer_size=\$(grep "^>" megahit_out/${prefix}.contigs.fa | sed 's/>k//; s/_.*//')
-        megahit_toolkit contig2fastg \$kmer_size megahit_out/${prefix}.contigs.fa > megahit_out/${prefix}.graph.fastg
+        megahit_toolkit contig2fastg \$kmer_size megahit_out/${prefix}.contigs.fa > ${prefix}.graph.fastg
 
-        pigz \\
-            --no-name \\
-            -p $task.cpus \\
-            $args2 \\
-            megahit_out/*.fa \\
-            megahit_out/*.fastg \\
-            megahit_out/intermediate_contigs/*.fa
+        mv megahit_out/*.log ${prefix}.megahit.log
+        gzip -c megahit_out/*.contigs.fa > ${prefix}.contigs.fa.gz
+        gzip ${prefix}.graph.fastg
+
+        # identify min/max kmer size
+        kmer_string=\$(grep "k list: " ${prefix}.megahit.log | sed 's/.*k list: //; s/ .*//')
+        kmer_array=(\${kmer_string//,/ })
+        min_kmer=\$(IFS=\$'\\n'; echo "\${kmer_array[*]}" | sort -nr | tail -n1)
+        max_kmer=\$(IFS=\$'\\n'; echo "\${kmer_array[*]}" | sort -nr | head -n1)
 
         cat <<-END_VERSIONS > versions.yml
         "${task.process}":
@@ -87,15 +95,13 @@ process MEGAHIT {
     def args = task.ext.args ?: ''
     def args2 = task.ext.args2 ?: ''
     def reads_1 = reads[0].join(',')
-    def prefix = task.ext.prefix ?: "${meta.id}"
+    prefix = task.ext.prefix ?: "${meta.id}"
     """
-    mkdir -p megahit_out/intermediate_contigs
-    echo "" | gzip > megahit_out/${prefix}.contigs.fa.gz
-    echo "" | gzip > megahit_out/${prefix}.graph.fastg.gz
-    echo "" | gzip > megahit_out/intermediate_contigs/ktest.contigs.fa.gz
-    echo "" | gzip > megahit_out/intermediate_contigs/ktest.addi.fa.gz
-    echo "" | gzip > megahit_out/intermediate_contigs/ktest.local.fa.gz
-    echo "" | gzip > megahit_out/intermediate_contigs/ktest.final.contigs.fa.gz
+    touch ${prefix}.megahit.log
+    echo "" | gzip -c > ${prefix}.contigs.fa.gz
+    echo "" | gzip -c > ${prefix}.graph.fastg.gz
+    min_kmer=21
+    max_kmer=141
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

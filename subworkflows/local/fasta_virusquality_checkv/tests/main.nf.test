@@ -1,8 +1,8 @@
 nextflow_workflow {
 
-    name "Test Subworkflow: FASTA_VIRUS_QUALITY_CHECKV"
-    script "subworkflows/local/fasta_virus_quality_checkv/main.nf"
-    workflow "FASTA_VIRUS_QUALITY_CHECKV"
+    name "Test Subworkflow: FASTA_VIRUSQUALITY_CHECKV"
+    script "subworkflows/local/fasta_virusquality_checkv/main.nf"
+    workflow "FASTA_VIRUSQUALITY_CHECKV"
 
     // Dependencies
     tag "CHECKV_DOWNLOADDATABASE"

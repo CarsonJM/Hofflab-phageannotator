@@ -13,8 +13,8 @@ process CHECKV_ENDTOEND {
 
     output:
     tuple val(meta), path ("${prefix}_quality_summary.tsv") , emit: quality_summary
-    // tuple val(meta), path ("${prefix}_contamination.tsv")   , emit: contamination
-    // tuple val(meta), path ("${prefix}_completeness.tsv")    , emit: completeness
+    tuple val(meta), path ("${prefix}_contamination.tsv")   , emit: contamination
+    tuple val(meta), path ("${prefix}_completeness.tsv")    , emit: completeness
     tuple val(meta), path ("${prefix}_viruses.fna.gz")      , emit: viruses
     tuple val(meta), path ("${prefix}_proteins.faa.gz")     , emit: proteins
     path "versions.yml"                                     , emit: versions
@@ -29,13 +29,15 @@ process CHECKV_ENDTOEND {
     """
     checkv \\
         end_to_end \\
-        $args \\
-        -t $task.cpus \\
-        -d $db \\
-        $fasta \\
-        $prefix
+        ${args} \\
+        -t ${task.cpus} \\
+        -d ${db} \\
+        ${fasta} \\
+        ${prefix}
 
     mv ${prefix}/quality_summary.tsv ${prefix}_quality_summary.tsv
+    mv ${prefix}/contamination.tsv ${prefix}_contamination.tsv
+    mv ${prefix}/completeness.tsv ${prefix}_completeness.tsv
     gzip ${prefix}/*.fna
     cat ${prefix}/*.fna.gz > ${prefix}_viruses.fna.gz
     mv ${prefix}/tmp/proteins.faa ${prefix}_proteins.faa
@@ -44,7 +46,7 @@ process CHECKV_ENDTOEND {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        checkv: \$(checkv -h 2>&1 | sed -n 's/^.*CheckV v//; s/: assessing.*//; 1p')
+        checkv: \$(checkv -h 2>&1 | sed -n "s/Prophage Tracer V//; s/\s.*//;  2p")
     END_VERSIONS
     """
 
@@ -54,6 +56,8 @@ process CHECKV_ENDTOEND {
 
     """
     touch ${prefix}_quality_summary.tsv
+    touch ${prefix}_contamination.tsv
+    touch ${prefix}_completeness.tsv
     echo "" | gzip > ${prefix}_viruses.fna.gz
     echo "" | gzip > ${prefix}_proteins.faa.gz
 

@@ -7,21 +7,16 @@ nextflow_process {
 
 
     test("fasta.gz") {
-
         when {
-            params {
-                assembly_min_length = 5
-            }
             process {
                 """
                 input[0] = [
                     [id: 'test'],
-                    file("${projectDir}/assets/test-datasets/fastas/MEGAHIT-BUFF_01_B.contigs.fa.gz", checkIfExists: true)
+                    file(params.test_data['sarscov2']['genome']['genome_fasta'], checkIfExists: true)
                 ]
                 """
             }
         }
-
         then {
             assertAll (
                 { assert process.success },
@@ -30,21 +25,19 @@ nextflow_process {
         }
     }
 
+
     test("fasta.gz - stub") {
-
         options "-stub"
-
         when {
             process {
                 """
                 input[0] = [
                     [id: 'test'],
-                    file("${projectDir}/assets/test-datasets/fastas/MEGAHIT-BUFF_01_B.contigs.fa.gz", checkIfExists: true)
+                    file(params.test_data['sarscov2']['genome']['genome_fasta'], checkIfExists: true)
                 ]
                 """
             }
         }
-
         then {
             assertAll (
                 { assert process.success },

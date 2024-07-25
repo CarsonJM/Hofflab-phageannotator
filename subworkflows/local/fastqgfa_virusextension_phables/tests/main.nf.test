@@ -1,47 +1,106 @@
 nextflow_workflow {
 
     name "Test Subworkflow: FASTQGFA_VIRUSEXTENSION_PHABLES"
-    script "subworkflows/local/fastqgfa_contig_extension_phables/main.nf"
+    script "subworkflows/local/fastqgfa_virusextension_phables/main.nf"
     workflow "FASTQGFA_VIRUSEXTENSION_PHABLES"
 
-    test("fastq.gz + gfa.gz") {
+    setup {
+        run("PHABLES_INSTALL") {
+            script "../../../../modules/local/phables/install/main.nf"
+        }
+    }
 
+    test("fastq.gz + gfa + no db") {
         when {
             workflow {
                 """
                 input[0] = Channel.of(
                     [
-                        [ id: 'test' ],
+                        [ id: 'test1' ],
                         [
-                            file(params.modules_testdata_base_path + 'genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz', checkifExists: true),
-                            file(params.modules_testdata_base_path + 'genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz', checkifExists: true)
+                            file("${projectDir}/assets/test-datasets/fastqs/test1_1.fastq.gz", checkIfExists: true),
+                            file("${projectDir}/assets/test-datasets/fastqs/test1_2.fastq.gz", checkIfExists: true)
+                        ]
+                    ],
+                    [
+                        [ id: 'test2' ],
+                        [
+                            file("${projectDir}/assets/test-datasets/fastqs/test1_1.fastq.gz", checkIfExists: true),
+                            file("${projectDir}/assets/test-datasets/fastqs/test1_2.fastq.gz", checkIfExists: true)
                         ]
                     ]
                 )
                 input[1] = Channel.of(
                     [
-                        [ id: 'test' ],
-                        file(params.modules_testdata_base_path + 'genomics/prokaryotes/bacteroides_fragilis/illumina/fasta/test1.contigs.fa.gz', checkifExists: true)
-                    ]
-                )
-                input[2] = Channel.of(
+                        [ id: 'test1' ],
+                        [
+                            file("${projectDir}/assets/test-datasets/gfa/test1.assembly.gfa", checkIfExists: true),
+                        ]
+                    ],
                     [
-                        [ id: 'test' ],
-                        file(params.modules_testdata_base_path + 'genomics/prokaryotes/bacteroides_fragilis/illumina/tsv/test1_contigs_ids.tsv', checkifExists: true)
+                        [ id: 'test2' ],
+                        [
+                            file("${projectDir}/assets/test-datasets/gfa/test1.assembly.gfa", checkIfExists: true),
+                        ]
                     ]
                 )
-                input[3] = Channel.value( 'metaspades' )
-                input[4] = Channel.value( 27 )
-                input[5] = Channel.value( 127 )
+                input[2] = null
                 """
             }
         }
-
         then {
-            assertAll(
+            assertAll (
                 { assert workflow.success },
                 { assert snapshot(workflow.out.versions).match() },
-                { assert path(workflow.out.extended_fasta[0][1]).linesGzip.any { it.contains(">k141_177_self_circular") } }
+                { assert new File(workflow.out.phables_fasta[0][1]).exists() }
+            )
+        }
+    }
+
+
+    test("fastq.gz + gfa + db") {
+        when {
+            workflow {
+                """
+                input[0] = Channel.of(
+                    [
+                        [ id: 'test1' ],
+                        [
+                            file("${projectDir}/assets/test-datasets/fastqs/test1_1.fastq.gz", checkIfExists: true),
+                            file("${projectDir}/assets/test-datasets/fastqs/test1_2.fastq.gz", checkIfExists: true)
+                        ]
+                    ],
+                    [
+                        [ id: 'test2' ],
+                        [
+                            file("${projectDir}/assets/test-datasets/fastqs/test1_1.fastq.gz", checkIfExists: true),
+                            file("${projectDir}/assets/test-datasets/fastqs/test1_2.fastq.gz", checkIfExists: true)
+                        ]
+                    ]
+                )
+                input[1] = Channel.of(
+                    [
+                        [ id: 'test1' ],
+                        [
+                            file("${projectDir}/assets/test-datasets/gfa/test1.assembly.gfa", checkIfExists: true),
+                        ]
+                    ],
+                    [
+                        [ id: 'test2' ],
+                        [
+                            file("${projectDir}/assets/test-datasets/gfa/test1.assembly.gfa", checkIfExists: true),
+                        ]
+                    ]
+                )
+                input[2] = null
+                """
+            }
+        }
+        then {
+            assertAll (
+                { assert workflow.success },
+                { assert snapshot(workflow.out).match() },
+                { assert new File(workflow.out.phables_fasta[0][1]).exists() }
             )
         }
     }

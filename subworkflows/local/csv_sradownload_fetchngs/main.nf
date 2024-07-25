@@ -1,6 +1,7 @@
 //
 // Download SRA metadata and FastQ files
 //
+include { fromSamplesheet       } from 'plugin/nf-validation'
 // MODULES
 include { ASPERACLI             } from '../../../modules/local/fetchngs/asperacli/main'
 include { SRA_FASTQ_FTP         } from '../../../modules/local/fetchngs/sra_fastq_ftp/main'
@@ -19,23 +20,13 @@ workflow CSV_SRADOWNLOAD_FETCHNGS {
     ch_versions = Channel.empty()
 
     /*----------------------------------------------------------------------------
-        Load and parse accessions file
-    ------------------------------------------------------------------------------*/
-    //
-    // Create channels from input file provided through params.input and params.assembly_input
-    //
-    ch_sra_accessions = Channel
-        .fromSamplesheet("sra_accessions")
-
-
-    /*----------------------------------------------------------------------------
         Get SRA run information
     ------------------------------------------------------------------------------*/
     //
     // MODULE: Get SRA run information for public database ids
     //
-    SRA_IDS_TO_RUNINFO (
-        ch_sra_accessions,
+    SRA_IDS_TO_RUNINFO(
+        accessions,
         ''
     )
     ch_versions = ch_versions.mix(SRA_IDS_TO_RUNINFO.out.versions.first())
@@ -43,84 +34,85 @@ workflow CSV_SRADOWNLOAD_FETCHNGS {
     //
     // MODULE: Parse SRA run information, create file containing FTP links and read into workflow as [ meta, [reads] ]
     //
-    SRA_RUNINFO_TO_FTP (
+    SRA_RUNINFO_TO_FTP(
         SRA_IDS_TO_RUNINFO.out.tsv
     )
     ch_versions = ch_versions.mix(SRA_RUNINFO_TO_FTP.out.versions.first())
 
-    SRA_RUNINFO_TO_FTP
-        .out
-        .tsv
+    ch_sra_metadata = SRA_RUNINFO_TO_FTP.out.tsv
         .splitCsv(header:true, sep:'\t')
         .map {
-            meta, runinfo ->
-                return [ meta + [ single_end: runinfo.single_end.toBoolean(), md5_1: runinfo.md5_1, md5_2: runinfo.md5_2 ], runinfo ]
+            meta ->
+                def meta_clone          = meta.clone()
+                    meta_clone.single_end   = meta_clone.single_end.toBoolean()
+                return meta_clone
         }
         .unique()
-        .set { ch_sra_metadata }
 
-    ch_sra_metadata
+
+    ch_sra_reads = ch_sra_metadata
         .branch {
-            meta, runinfo ->
+            meta ->
                 def download_method = 'ftp'
                 // meta.fastq_aspera is a metadata string with ENA fasp links supported by Aspera
-                    // For single-end: 'fasp.sra.ebi.ac.uk:/vol1/fastq/ERR116/006/ERR1160846/ERR1160846.fastq.gz'
-                    // For paired-end: 'fasp.sra.ebi.ac.uk:/vol1/fastq/SRR130/020/SRR13055520/SRR13055520_1.fastq.gz;fasp.sra.ebi.ac.uk:/vol1/fastq/SRR130/020/SRR13055520/SRR13055520_2.fastq.gz'
-                if ( runinfo.fastq_aspera && sra_download_method == 'aspera' ) {
+                // For single-end: 'fasp.sra.ebi.ac.uk:/vol1/fastq/ERR116/006/ERR1160846/ERR1160846.fastq.gz'
+                // For paired-end: 'fasp.sra.ebi.ac.uk:/vol1/fastq/SRR130/020/SRR13055520/SRR13055520_1.fastq.gz;fasp.sra.ebi.ac.uk:/vol1/fastq/SRR130/020/SRR13055520/SRR13055520_2.fastq.gz'
+                if ( meta.fastq_aspera && sra_download_method == 'aspera' ) {
                     download_method = 'aspera'
                 }
-                if ( ( !runinfo.fastq_aspera && !runinfo.fastq_1 ) || sra_download_method == 'sratools') {
+                if ( ( !meta.fastq_aspera && !meta.fastq_1 ) || sra_download_method == 'sratools') {
                     download_method = 'sratools'
                 }
 
                 aspera: download_method == 'aspera'
-                    return [ meta, runinfo.fastq_aspera.tokenize(';').take(2) ]
+                    return [ meta, meta.fastq_aspera.tokenize(';').take(2) ]
                 ftp: download_method == 'ftp'
-                    return [ meta, [ runinfo.fastq_1, runinfo.fastq_2 ] ]
+                    return [ meta, [ meta.fastq_1, meta.fastq_2 ] ]
                 sratools: download_method == 'sratools'
-                    return [ meta, runinfo.run_accession ]
+                    return [ meta, meta.run_accession ]
         }
-        .set { ch_sra_reads }
-
 
 
     /*----------------------------------------------------------------------------
         Download FastQ files
     ------------------------------------------------------------------------------*/
-    if ( sra_download_method == 'ftp' ) {
+    if (sra_download_method == 'ftp') {
         //
         // MODULE: If FTP link is provided in run information then download FastQ directly via FTP and validate with md5sums
         //
-        ch_fastq_gz = SRA_FASTQ_FTP (
+        SRA_FASTQ_FTP(
             ch_sra_reads.ftp
-        ).fastq
+        )
+        ch_fastq_gz = SRA_FASTQ_FTP.out.fastq
         ch_versions = ch_versions.mix(SRA_FASTQ_FTP.out.versions.first())
     }
 
-    if ( sra_download_method == 'sratools' ) {
+    if (sra_download_method == 'sratools') {
         //
         // SUBWORKFLOW: Download sequencing reads without FTP links using sra-tools.
         //
-        ch_fastq_gz = FASTQ_DOWNLOAD_PREFETCH_FASTERQDUMP_SRATOOLS (
+        FASTQ_DOWNLOAD_PREFETCH_FASTERQDUMP_SRATOOLS(
             ch_sra_reads.sratools,
             params.dbgap_key ? file(params.dbgap_key, checkIfExists: true) : []
-        ).reads
+        )
+        ch_fastq_gz = FASTQ_DOWNLOAD_PREFETCH_FASTERQDUMP_SRATOOLS.out.reads
         ch_versions = ch_versions.mix(FASTQ_DOWNLOAD_PREFETCH_FASTERQDUMP_SRATOOLS.out.versions.first())
     }
 
-    if ( sra_download_method == 'aspera' ) {
+    if (sra_download_method == 'aspera') {
         //
         // MODULE: If Aspera link is provided in run information then download FastQ directly via Aspera CLI and validate with md5sums
         //
-        ch_fastq_gz = ASPERACLI (
+        ASPERACLI(
             ch_sra_reads.aspera,
             'era-fasp'
-        ).fastq
+        )
+        ch_fastq_gz = ASPERACLI.out.fastq
         ch_versions = ch_versions.mix(ASPERACLI.out.versions.first())
     }
 
     // Isolate FASTQ channel which will be added to emit block
-    ch_fastq_gz
+    ch_sra_metadata = ch_fastq_gz
         .map {
             meta, fastq ->
                 def reads = fastq instanceof List ? fastq.flatten() : [ fastq ]
@@ -130,7 +122,6 @@ workflow CSV_SRADOWNLOAD_FETCHNGS {
 
                 return [ meta_new, fastqs ]
         }
-        .set { ch_sra_metadata }
 
     emit:
     fastq       = ch_sra_metadata

@@ -20,4 +20,14 @@ process CUSTOM_SRATOOLSNCBISETTINGS {
     shell:
     config = "/LIBS/GUID = \"${UUID.randomUUID().toString()}\"\\n/libs/cloud/report_instance_identity = \"true\"\\n"
     template 'detect_ncbi_settings.sh'
+
+    stub:
+    """
+    touch user-settings.mkfg
+
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        sratools: \$(vdb-config --version 2>&1 | grep -Eo '[0-9.]+')
+    END_VERSIONS
+    """
 }

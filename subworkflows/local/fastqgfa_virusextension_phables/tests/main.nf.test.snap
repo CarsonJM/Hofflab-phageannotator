@@ -1,0 +1,30 @@
+{
+    "fastq.gz + gfa + no db": {
+        "content": [
+            [
+                "versions.yml:md5,47c9014d30b6d0dbd2912ceba0cee284",
+                "versions.yml:md5,47c9014d30b6d0dbd2912ceba0cee284",
+                "versions.yml:md5,f66a187fec28951dd902ad63bbe5a077"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.8.4",
+            "nextflow": "24.04.1"
+        },
+        "timestamp": "2024-07-24T11:22:11.043199799"
+    },
+    "fastq.gz + gfa + db": {
+        "content": [
+            [
+                "versions.yml:md5,47c9014d30b6d0dbd2912ceba0cee284",
+                "versions.yml:md5,47c9014d30b6d0dbd2912ceba0cee284",
+                "versions.yml:md5,f66a187fec28951dd902ad63bbe5a077"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.8.4",
+            "nextflow": "24.04.1"
+        },
+        "timestamp": "2024-07-24T11:50:27.627194312"
+    }
+}

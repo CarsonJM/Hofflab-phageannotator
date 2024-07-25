@@ -4,7 +4,7 @@ nextflow_process {
     script "../main.nf"
     process "SPADES"
 
-    test("fastq.gz single") {
+    test("fastq.gz paired") {
         when {
             params {
                 spades_single_args = "--meta --only-assembler"
@@ -12,10 +12,10 @@ nextflow_process {
             process {
                 """
                 input[0] = [
-                    [ id: 'test1' ],
+                    [ id:'test', single_end:false ], // meta map
                     [
-                        file("${projectDir}/assets/test-datasets/fastqs/test1_1.fastq.gz", checkIfExists: true),
-                        file("${projectDir}/assets/test-datasets/fastqs/test1_2.fastq.gz", checkIfExists: true),
+                        file(params.test_data['sarscov2']['illumina']['test_1_fastq_gz'], checkIfExists: true),
+                        file(params.test_data['sarscov2']['illumina']['test_2_fastq_gz'], checkIfExists: true)
                     ],
                     [],
                     []
@@ -43,10 +43,10 @@ nextflow_process {
             process {
                 """
                 input[0] = [
-                    [ id: 'test1' ],
+                    [ id:'test', single_end:false ], // meta map
                     [
-                        file("${projectDir}/assets/test-datasets/fastqs/test1_1.fastq.gz", checkIfExists: true),
-                        file("${projectDir}/assets/test-datasets/fastqs/test1_2.fastq.gz", checkIfExists: true),
+                        file(params.test_data['sarscov2']['illumina']['test_1_fastq_gz'], checkIfExists: true),
+                        file(params.test_data['sarscov2']['illumina']['test_2_fastq_gz'], checkIfExists: true)
                     ],
                     [],
                     []

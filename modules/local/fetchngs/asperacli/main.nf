@@ -66,4 +66,32 @@ process ASPERACLI {
         END_VERSIONS
         """
     }
+
+
+    stub:
+    def args = task.ext.args ?: ''
+    def conda_prefix = ['singularity', 'apptainer'].contains(workflow.containerEngine) ? "export CONDA_PREFIX=/usr/local" : ""
+    prefix = task.ext.prefix ?: "${meta.id}"
+    if (meta.single_end) {
+        """
+        echo "" | gzip > ${prefix}.fastq.gz
+        touch ${prefix}.fastq.gz.md5
+
+        cat <<-END_VERSIONS > versions.yml
+        "${task.process}":
+            aspera_cli: \$(ascli --version)
+        END_VERSIONS
+        """
+    } else {
+        """
+        echo "" | gzip > ${prefix}_1.fastq.gz
+        echo "" | gzip > ${prefix}_2.fastq.gz
+        touch ${prefix}.fastq.gz.md5
+
+        cat <<-END_VERSIONS > versions.yml
+        "${task.process}":
+            aspera_cli: \$(ascli --version)
+        END_VERSIONS
+        """
+    }
 }

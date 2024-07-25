@@ -50,6 +50,11 @@
                         "git_sha": "56cf5a89c2646ad50195635cf18df4028a6928ce",
                         "installed_by": ["modules"]
                     },
+                    "checkv/updatedatabase": {
+                        "branch": "master",
+                        "git_sha": "4e5f4687318f24ba944a13609d3ea6ebd890737d",
+                        "installed_by": ["modules"]
+                    },
                     "cobrameta": {
                         "branch": "master",
                         "git_sha": "647fb8e703ef352161eac8791ac0468e4727c4f7",
@@ -78,6 +83,11 @@
                     "genomad/endtoend": {
                         "branch": "master",
                         "git_sha": "9b68cbd01a704aaf2c34f6d6bc7c25e9b4670147",
+                        "installed_by": ["modules"]
+                    },
+                    "gunzip": {
+                        "branch": "master",
+                        "git_sha": "4e5f4687318f24ba944a13609d3ea6ebd890737d",
                         "installed_by": ["modules"]
                     },
                     "iphop/download": {
@@ -139,6 +149,11 @@
                         "branch": "master",
                         "git_sha": "dd935314930f972117455672f89e5cb0794719e5",
                         "installed_by": ["fastq_download_prefetch_fasterqdump_sratools"]
+                    },
+                    "untar": {
+                        "branch": "master",
+                        "git_sha": "4e5f4687318f24ba944a13609d3ea6ebd890737d",
+                        "installed_by": ["modules"]
                     }
                 }
             },

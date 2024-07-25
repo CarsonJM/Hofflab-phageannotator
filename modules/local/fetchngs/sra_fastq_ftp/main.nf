@@ -4,10 +4,10 @@ process SRA_FASTQ_FTP {
     label 'process_low'
     label 'error_retry'
 
-    conda "conda-forge::wget=1.20.1"
-    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/wget:1.20.1' :
-        'biocontainers/wget:1.20.1' }"
+    // conda "conda-forge::wget=1.20.1"
+    // container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
+    //     'https://depot.galaxyproject.org/singularity/wget:1.20.1' :
+    //     'biocontainers/wget:1.20.1' }"
 
     input:
     tuple val(meta), val(fastq)
@@ -52,6 +52,32 @@ process SRA_FASTQ_FTP {
 
         echo "${meta.md5_2}  ${prefix}_2.fastq.gz" > ${prefix}_2.fastq.gz.md5
         md5sum -c ${prefix}_2.fastq.gz.md5
+
+        cat <<-END_VERSIONS > versions.yml
+        "${task.process}":
+            wget: \$(echo \$(wget --version | head -n 1 | sed 's/^GNU Wget //; s/ .*\$//'))
+        END_VERSIONS
+        """
+    }
+
+    stub:
+    def args = task.ext.args ?: ''
+    prefix = task.ext.prefix ?: "${meta.id}"
+    if (meta.single_end) {
+        """
+        touch ${prefix}.fastq.gz.md5
+        echo "" | gzip > ${prefix}.fastq.gz
+
+        cat <<-END_VERSIONS > versions.yml
+        "${task.process}":
+            wget: \$(echo \$(wget --version | head -n 1 | sed 's/^GNU Wget //; s/ .*\$//'))
+        END_VERSIONS
+        """
+    } else {
+        """
+        touch ${prefix}.fastq.gz.md5
+        echo "" | gzip > ${prefix}_1.fastq.gz
+        echo "" | gzip > ${prefix}_2.fastq.gz
 
         cat <<-END_VERSIONS > versions.yml
         "${task.process}":

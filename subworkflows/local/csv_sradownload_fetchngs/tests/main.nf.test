@@ -1,0 +1,69 @@
+nextflow_workflow {
+
+    name "Test Subworkflow: CSV_SRADOWNLOAD_FETCHNGS"
+    script "../main.nf"
+    workflow "CSV_SRADOWNLOAD_FETCHNGS"
+
+    test("ftp") {
+        when {
+            workflow {
+                """
+                input[0] = Channel.of(
+                    "SRR13191702",
+                    "DRR028935"
+                )
+                input[1] = "ftp"
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(workflow.out).match() }
+            )
+        }
+    }
+
+    test("sratools") {
+        when {
+            workflow {
+                """
+                input[0] = Channel.of(
+                    "SRR13191702",
+                    "DRR028935"
+                )
+                input[1] = "sratools"
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(workflow.out).match() }
+            )
+        }
+    }
+
+    test("aspera") {
+        when {
+            workflow {
+                """
+                input[0] = Channel.of(
+                    "SRR13191702",
+                    "DRR028935"
+                )
+                input[1] = "aspera"
+                """
+            }
+        }
+
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(workflow.out).match() }
+            )
+        }
+    }
+}

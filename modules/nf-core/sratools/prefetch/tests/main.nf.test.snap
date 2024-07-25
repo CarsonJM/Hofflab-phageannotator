@@ -1,5 +1,5 @@
 {
-    "sratools/prefetch/stub": {
+    "DRR000774 - stub": {
         "content": [
             {
                 "0": [
@@ -38,7 +38,7 @@
         },
         "timestamp": "2024-05-17T20:07:31.627115"
     },
-    "sratools/prefetch with sralite": {
+    "DRR000774 sralite": {
         "content": [
             {
                 "0": [
@@ -77,7 +77,7 @@
         },
         "timestamp": "2024-02-28T11:49:02.309737"
     },
-    "sratools/prefetch": {
+    "DRR000774": {
         "content": [
             {
                 "0": [

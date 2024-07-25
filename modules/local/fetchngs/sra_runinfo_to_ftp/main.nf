@@ -1,6 +1,5 @@
 
 process SRA_RUNINFO_TO_FTP {
-    tag "${meta.id}"
 
     conda "conda-forge::python=3.9.5"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
@@ -8,17 +7,27 @@ process SRA_RUNINFO_TO_FTP {
         'biocontainers/python:3.9--1' }"
 
     input:
-    tuple val(meta), path(runinfo)
+    path runinfo
 
     output:
-    tuple val(meta), path("*.tsv")  , emit: tsv
-    path "versions.yml"             , emit: versions
+    path "*.tsv"        , emit: tsv
+    path "versions.yml" , emit: versions
 
     script:
     """
     sra_runinfo_to_ftp.py \\
         ${runinfo.join(',')} \\
         ${runinfo.toString().tokenize(".")[0]}.runinfo_ftp.tsv
+
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        python: \$(python --version | sed 's/Python //g')
+    END_VERSIONS
+    """
+
+    stub:
+    """
+    touch ${runinfo.toString().tokenize(".")[0]}.runinfo_ftp.tsv
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

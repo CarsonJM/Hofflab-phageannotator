@@ -47,12 +47,12 @@ process COBRAMETA {
         $args
 
     if [ -f ${prefix}/COBRA_extended.fasta ]; then
-        gzip ${prefix}/*.fasta
-        cat ${prefix}/*.fasta.gz > ${prefix}_COBRA_extended.fasta.gz
+        mv ${prefix}/COBRA_extended.fasta ${prefix}_COBRA_extended.fasta
+        gzip ${prefix}_COBRA_extended.fasta
         mv ${prefix}/COBRA_joining_summary.txt ${prefix}_COBRA_joining_summary.txt
         mv ${prefix}/log ${prefix}_log
     else 
-        cp ${fasta} ${prefix}_COBRA_extended.fasta.gz
+        echo "" | gzip > ${prefix}_COBRA_extended.fasta.gz
         touch ${prefix}_COBRA_joining_summary.txt
         mv ${prefix}/log ${prefix}_log
     fi

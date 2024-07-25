@@ -1,0 +1,180 @@
+{
+    "fastq - fastp": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test1",
+                        "single_end": false
+                    },
+                    [
+                        "test1_1.fastp.fastq.gz:md5,0057157e70a9c0e29ed33c9534e4fde1",
+                        "test1_2.fastp.fastq.gz:md5,adfca59a9c0ee4cb9c582d02b227caba"
+                    ]
+                ],
+                [
+                    {
+                        "id": "test2",
+                        "single_end": false
+                    },
+                    [
+                        "test2_1.fastp.fastq.gz:md5,b3976e3925873d15626f4755c31ffb3c",
+                        "test2_2.fastp.fastq.gz:md5,dd2b780ff5f1adedd06ae5a25b262809"
+                    ]
+                ]
+            ],
+            [
+                "versions.yml:md5,34c8bb54dc64b1d0c61b06ba41df2607",
+                "versions.yml:md5,3e1e8984113ed604f68b1f6e900c3861",
+                "versions.yml:md5,4c93c8965c1649dcb4200566f7e23c0c",
+                "versions.yml:md5,4c93c8965c1649dcb4200566f7e23c0c"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.8.4",
+            "nextflow": "24.04.1"
+        },
+        "timestamp": "2024-07-23T10:58:40.994825574"
+    },
+    "fastq - nothing": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test1",
+                        "single_end": false
+                    },
+                    [
+                        "/nf-core/test-datasets/modules/data/genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz",
+                        "/nf-core/test-datasets/modules/data/genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz"
+                    ]
+                ],
+                [
+                    {
+                        "id": "test2",
+                        "single_end": false
+                    },
+                    [
+                        "/nf-core/test-datasets/modules/data/genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test2_1.fastq.gz",
+                        "/nf-core/test-datasets/modules/data/genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test2_2.fastq.gz"
+                    ]
+                ]
+            ],
+            [
+                "versions.yml:md5,34c8bb54dc64b1d0c61b06ba41df2607"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.8.4",
+            "nextflow": "24.04.1"
+        },
+        "timestamp": "2024-07-23T11:03:53.605833263"
+    },
+    "fastq - all": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test1",
+                        "single_end": false
+                    },
+                    [
+                        "test1.unmapped_1.fastq.gz:md5,48ab5cdbf8567cf6023bd304fcf896a9",
+                        "test1.unmapped_2.fastq.gz:md5,b4246225aa4a15496991ac7c6b58563f"
+                    ]
+                ],
+                [
+                    {
+                        "id": "test2",
+                        "single_end": false
+                    },
+                    [
+                        "test2.unmapped_1.fastq.gz:md5,92e68dfac8156b01c547a26cb45e42b1",
+                        "test2.unmapped_2.fastq.gz:md5,6ded2b5f426aca4e9b29877fac4e9bff"
+                    ]
+                ]
+            ],
+            [
+                "versions.yml:md5,34c8bb54dc64b1d0c61b06ba41df2607",
+                "versions.yml:md5,3e1e8984113ed604f68b1f6e900c3861",
+                "versions.yml:md5,feb21f33bbd12d3e197721d7e99b6445"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.8.4",
+            "nextflow": "24.04.1"
+        },
+        "timestamp": "2024-07-23T11:08:00.519240896"
+    },
+    "fastq - cat/runmerge": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test1",
+                        "single_end": false
+                    },
+                    [
+                        "/nf-core/test-datasets/modules/data/genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz",
+                        "/nf-core/test-datasets/modules/data/genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz"
+                    ]
+                ],
+                [
+                    {
+                        "id": "test2",
+                        "single_end": false
+                    },
+                    [
+                        "/nf-core/test-datasets/modules/data/genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test2_1.fastq.gz",
+                        "/nf-core/test-datasets/modules/data/genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test2_2.fastq.gz"
+                    ]
+                ]
+            ],
+            [
+                "versions.yml:md5,34c8bb54dc64b1d0c61b06ba41df2607",
+                "versions.yml:md5,3e1e8984113ed604f68b1f6e900c3861"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.8.4",
+            "nextflow": "24.04.1"
+        },
+        "timestamp": "2024-07-23T10:57:50.955149342"
+    },
+    "fastq - bowtie2": {
+        "content": [
+            [
+                [
+                    {
+                        "id": "test1",
+                        "single_end": false
+                    },
+                    [
+                        "test1.unmapped_1.fastq.gz:md5,48ab5cdbf8567cf6023bd304fcf896a9",
+                        "test1.unmapped_2.fastq.gz:md5,b4246225aa4a15496991ac7c6b58563f"
+                    ]
+                ],
+                [
+                    {
+                        "id": "test2",
+                        "single_end": false
+                    },
+                    [
+                        "test2.unmapped_1.fastq.gz:md5,92e68dfac8156b01c547a26cb45e42b1",
+                        "test2.unmapped_2.fastq.gz:md5,6ded2b5f426aca4e9b29877fac4e9bff"
+                    ]
+                ]
+            ],
+            [
+                "versions.yml:md5,34c8bb54dc64b1d0c61b06ba41df2607",
+                "versions.yml:md5,3e1e8984113ed604f68b1f6e900c3861",
+                "versions.yml:md5,feb21f33bbd12d3e197721d7e99b6445"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.8.4",
+            "nextflow": "24.04.1"
+        },
+        "timestamp": "2024-07-23T11:02:51.847956443"
+    }
+}

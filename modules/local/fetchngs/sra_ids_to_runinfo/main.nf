@@ -1,6 +1,6 @@
 
 process SRA_IDS_TO_RUNINFO {
-    tag "${meta.id}"
+    tag "${id}"
     label 'error_retry'
 
     conda "conda-forge::python=3.9.5"
@@ -9,12 +9,12 @@ process SRA_IDS_TO_RUNINFO {
         'biocontainers/python:3.9--1' }"
 
     input:
-    tuple val(meta), val(id)
+    val id
     val fields
 
     output:
-    tuple val(meta), path("*.tsv")  , emit: tsv
-    path "versions.yml"             , emit: versions
+    path "*.tsv"       , emit: tsv
+    path "versions.yml", emit: versions
 
     script:
     def metadata_fields = fields ? "--ena_metadata_fields ${fields}" : ''
@@ -24,6 +24,17 @@ process SRA_IDS_TO_RUNINFO {
         id.txt \\
         ${id}.runinfo.tsv \\
         $metadata_fields
+
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        python: \$(python --version | sed 's/Python //g')
+    END_VERSIONS
+    """
+
+    stub:
+    def metadata_fields = fields ? "--ena_metadata_fields ${fields}" : ''
+    """
+    touch ${id}.runinfo.tsv
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

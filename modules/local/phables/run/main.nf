@@ -1,6 +1,8 @@
 process PHABLES_RUN {
     tag "${meta.id}"
     label 'process_high'
+    beforeScript "mkdir -p /tmp/phables_${meta.id}"
+    containerOptions "--overlay /tmp/phables_${meta.id}"
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
@@ -24,15 +26,15 @@ process PHABLES_RUN {
     def args = task.ext.args ?: ''
     prefix = task.ext.prefix ?: "${meta.id}"
     """
-    bash /usr/local/bin/_entrypoint.sh
     mkdir reads
     cp ${fastq[0]} reads/
     cp ${fastq[1]} reads/
-    mkdir phables.out
+    mkdir phables_out
 
     phables \\
         run \\
         --configfile ${projectDir}/assets/phables/config.yml \\
+        --output phables_out \\
         --input ${graph} \\
         --reads reads \\
         --threads ${task.cpus} \\

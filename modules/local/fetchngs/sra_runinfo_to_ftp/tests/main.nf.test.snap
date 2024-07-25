@@ -1,5 +1,5 @@
 {
-    "Should run without failures": {
+    "SRR13191702.runinfo.tsv": {
         "content": [
             {
                 "0": [
@@ -18,8 +18,31 @@
         ],
         "meta": {
             "nf-test": "0.8.4",
-            "nextflow": "23.10.1"
+            "nextflow": "24.04.1"
         },
-        "timestamp": "2024-02-28T11:51:45.748227"
+        "timestamp": "2024-07-22T11:07:48.234610233"
+    },
+    "SRR13191702.runinfo.tsv - stub": {
+        "content": [
+            {
+                "0": [
+                    "SRR13191702.runinfo_ftp.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "1": [
+                    "versions.yml:md5,e95f8185f665127a73622a19d321bcca"
+                ],
+                "tsv": [
+                    "SRR13191702.runinfo_ftp.tsv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "versions": [
+                    "versions.yml:md5,e95f8185f665127a73622a19d321bcca"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.8.4",
+            "nextflow": "24.04.1"
+        },
+        "timestamp": "2024-07-22T11:07:59.555529627"
     }
 }

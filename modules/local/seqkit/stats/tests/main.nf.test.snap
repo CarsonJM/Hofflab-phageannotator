@@ -30,7 +30,7 @@
             "nf-test": "0.8.4",
             "nextflow": "24.04.1"
         },
-        "timestamp": "2024-05-31T13:51:08.205431996"
+        "timestamp": "2024-07-23T20:48:01.979967253"
     },
     "fasta.gz": {
         "content": [
@@ -40,7 +40,7 @@
                         {
                             "id": "test"
                         },
-                        "test.tsv:md5,fbf6080998e35536ca67fd83f728a086"
+                        "test.tsv:md5,af2521fa0c7e1a0683e60df6292429de"
                     ]
                 ],
                 "1": [
@@ -51,7 +51,7 @@
                         {
                             "id": "test"
                         },
-                        "test.tsv:md5,fbf6080998e35536ca67fd83f728a086"
+                        "test.tsv:md5,af2521fa0c7e1a0683e60df6292429de"
                     ]
                 ],
                 "versions": [
@@ -63,6 +63,6 @@
             "nf-test": "0.8.4",
             "nextflow": "24.04.1"
         },
-        "timestamp": "2024-05-31T13:50:59.69454264"
+        "timestamp": "2024-07-23T20:47:45.376897913"
     }
 }

@@ -1,8 +1,8 @@
 nextflow_workflow {
 
-    name "Test Subworkflow: FASTQ_FASTA_CONTIG_EXTENSION_COBRA"
-    script "subworkflows/local/fastq_fasta_contig_extension_cobra/main.nf"
-    workflow "FASTQ_FASTA_CONTIG_EXTENSION_COBRA"
+    name "Test Subworkflow: FASTQFASTA_VIRUSEXTENSION_COBRA"
+    script "subworkflows/local/fastqfasta_virusextension_cobra/main.nf"
+    workflow "FASTQFASTA_VIRUSEXTENSION_COBRA"
 
     // Dependencies
     tag "BOWTIE2_BUILD"

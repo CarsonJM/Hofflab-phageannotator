@@ -1,4 +1,3 @@
-// nf-core modules test csvtk/concat
 nextflow_process {
 
     name "Test Process FASTG2GFA"
@@ -6,7 +5,6 @@ nextflow_process {
     process "FASTG2GFA"
 
     test("fastg") {
-
         when {
             process {
                 """
@@ -17,7 +15,6 @@ nextflow_process {
                 """
             }
         }
-
         then {
             assertAll(
                 { assert process.success },
@@ -26,10 +23,9 @@ nextflow_process {
         }
     }
 
+
     test("fastg - stub") {
-
         options "-stub"
-
         when {
             process {
                 """
@@ -40,7 +36,6 @@ nextflow_process {
                 """
             }
         }
-
         then {
             assertAll(
                 { assert process.success },

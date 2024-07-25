@@ -1,5 +1,5 @@
 process PLASS_PENGUIN {
-    tag "$meta.id"
+    tag "${meta.id}"
     label 'process_high'
 
     conda "${moduleDir}/environment.yml"
@@ -34,7 +34,7 @@ process PLASS_PENGUIN {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        penguin: \$(echo \$(penguin 2>&1) | sed -n 's/^.*PenguiN Version: //; 3p' ))
+        penguin: \$(echo \$(penguin 2>&1) | sed -n 's/^.*PenguiN Version: //; 3p' )
     END_VERSIONS
     """
 
@@ -47,7 +47,7 @@ process PLASS_PENGUIN {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        penguin: \$(echo \$(penguin 2>&1) | sed -n 's/^.*PenguiN Version: //; 3p' ))
+        penguin: \$(echo \$(penguin 2>&1) | sed -n 's/^.*PenguiN Version: //; 3p' )
     END_VERSIONS
     """
 }

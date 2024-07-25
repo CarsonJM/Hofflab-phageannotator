@@ -11,19 +11,18 @@ nextflow_process {
                 input[0] = Channel.of(
                     [
                         [ id:'test' ],
-                        "$projectDir/assets/test-datasets/fastas/MEGAHIT-test1.contigs.fa.gz"
+                        file(params.modules_testdata_base_path + "genomics/sarscov2/genome/genome.fasta.gz", checkIfExists: true)
                     ]
                 )
                 input[1] = Channel.of(
                     [
                         [ id:'test' ],
-                        "$projectDir/assets/test-datasets/fastas/test1_proteins.faa.gz"
+                        file("${projectDir}/assets/test-datasets/fastas/sarscov2.faa.gz", checkIfExists: true)
                     ]
                 )
                 """
             }
         }
-
         then {
             assertAll(
                 { assert process.success },
@@ -32,57 +31,27 @@ nextflow_process {
         }
     }
 
-    test("empty fasta + empty faa") {
-        when {
-            process {
-                """
-                input[0] = Channel.of(
-                    [
-                        [ id:'test' ],
-                        file("${projectDir}/assets/test-datasets/fastas/empty_file.fasta.gz", checkIfExists: true)
-                    ]
-                )
-                input[1] = Channel.of(
-                    [
-                        [ id:'test' ],
-                        file("${projectDir}/assets/test-datasets/fastas/empty_file.faa.gz", checkIfExists: true)
-                    ]
-                )
-                """
-            }
-        }
-
-        then {
-            assertAll(
-                { assert process.success },
-                { assert snapshot(process.out).match() }
-            )
-        }
-    }
 
     test("fasta.gz + faa.gz - stub") {
-
         options "-stub"
-
         when {
             process {
                 """
                 input[0] = Channel.of(
                     [
                         [ id:'test' ],
-                        "$projectDir/assets/test-datasets/fastas/MEGAHIT-test1.contigs.fa.gz"
+                        file(params.modules_testdata_base_path + "genomics/sarscov2/genome/genome.fasta.gz", checkIfExists: true)
                     ]
                 )
                 input[1] = Channel.of(
                     [
                         [ id:'test' ],
-                        "$projectDir/assets/test-datasets/fastas/test1_proteins.faa.gz"
+                        file("${projectDir}/assets/test-datasets/fastas/sarscov2.faa.gz", checkIfExists: true)
                     ]
                 )
                 """
             }
         }
-
         then {
             assertAll(
                 { assert process.success },

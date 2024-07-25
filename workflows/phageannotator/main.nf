@@ -12,6 +12,7 @@ include { getWorkDirs   } from '../../lib/NfCleanUp.groovy'
 // MODULES: Local modules
 //
 include { COVERM_CONTIG                         } from '../../modules/local/coverm/contig/main'
+include { EXTRACTVIRALASSEMBLIES                } from '../../modules/local/extractviralassemblies/main'
 include { FASTG2GFA                             } from '../../modules/local/fastg2gfa/main'
 include { FILTERSEQUENCES                       } from '../../modules/local/filtersequences/main'
 include { LOGAN_DOWNLOAD                        } from '../../modules/local/logan/download/main'
@@ -35,6 +36,7 @@ include { FASTA_VIRUSQUALITY_CHECKV         } from '../../subworkflows/local/fas
 include { FASTQ_HOSTREMOVAL_BOWTIE2         } from '../../subworkflows/local/fastq_hostremoval_bowtie2/main'
 include { FASTQ_VIRUSENRICHMENT_VIROMEQC    } from '../../subworkflows/local/fastq_virusenrichment_viromeqc/main'
 include { FASTQFASTA_VIRUSEXTENSION_COBRA   } from '../../subworkflows/local/fastqfasta_virusextension_cobra/main'
+include { FASTQGFA_VIRUSEXTENSION_PHABLES   } from '../../subworkflows/local/fastqgfa_virusextension_phables/main'
 include { methodsDescriptionText            } from '../../subworkflows/local/utils_nfcore_phageannotator_pipeline'
 
 
@@ -51,20 +53,21 @@ include { paramsSummaryMap                      } from 'plugin/nf-validation'
 //
 // MODULES: Installed directly from nf-core/modules
 //
-include { BACPHLIP                          } from '../../modules/nf-core/bacphlip/main'
-include { CAT_FASTQ as CAT_RUNMERGE         } from '../../modules/nf-core/cat/fastq/main'
-include { CAT_FASTQ as CAT_COASSEMBLY       } from '../../modules/nf-core/cat/fastq/main'
-include { CAT_CAT as CAT_VIRUSES            } from '../../modules/nf-core/cat/cat/main'
-include { FASTP                             } from '../../modules/nf-core/fastp/main'
-include { FASTP as FASTP_PREPROCESSED       } from '../../modules/nf-core/fastp/main'
-include { FASTQC as FASTQC_RAW              } from '../../modules/nf-core/fastqc/main'
-include { FASTQC as FASTQC_PREPROCESSED     } from '../../modules/nf-core/fastqc/main'
-include { GENOMAD_ENDTOEND as GENOMAD_COBRA } from '../../modules/nf-core/genomad/endtoend/main'
-include { MEGAHIT as MEGAHIT_SINGLE         } from '../../modules/nf-core/megahit/main'
-include { MEGAHIT as MEGAHIT_COASSEMBLY     } from '../../modules/nf-core/megahit/main'
-include { MULTIQC                           } from '../../modules/nf-core/multiqc/main'
-include { SPADES as METASPADES_COASSEMBLY   } from '../../modules/nf-core/spades/main'
-include { SPADES as METASPADES_SINGLE       } from '../../modules/nf-core/spades/main'
+include { BACPHLIP                              } from '../../modules/nf-core/bacphlip/main'
+include { CAT_FASTQ as CAT_RUNMERGE             } from '../../modules/nf-core/cat/fastq/main'
+include { CAT_FASTQ as CAT_COASSEMBLY           } from '../../modules/nf-core/cat/fastq/main'
+include { CAT_CAT as CAT_VIRUSES                } from '../../modules/nf-core/cat/cat/main'
+include { FASTP                                 } from '../../modules/nf-core/fastp/main'
+include { FASTP as FASTP_PREPROCESSED           } from '../../modules/nf-core/fastp/main'
+include { FASTQC as FASTQC_RAW                  } from '../../modules/nf-core/fastqc/main'
+include { FASTQC as FASTQC_PREPROCESSED         } from '../../modules/nf-core/fastqc/main'
+include { GENOMAD_ENDTOEND as GENOMAD_COBRA     } from '../../modules/nf-core/genomad/endtoend/main'
+include { GENOMAD_ENDTOEND as GENOMAD_PHABLES   } from '../../modules/nf-core/genomad/endtoend/main'
+include { MEGAHIT as MEGAHIT_SINGLE             } from '../../modules/nf-core/megahit/main'
+include { MEGAHIT as MEGAHIT_COASSEMBLY         } from '../../modules/nf-core/megahit/main'
+include { MULTIQC                               } from '../../modules/nf-core/multiqc/main'
+include { SPADES as METASPADES_COASSEMBLY       } from '../../modules/nf-core/spades/main'
+include { SPADES as METASPADES_SINGLE           } from '../../modules/nf-core/spades/main'
 
 //
 // SUBWORKFLOWS: Installed directly from nf-core/modules
@@ -642,35 +645,40 @@ workflow PHAGEANNOTATOR {
             params.cobra_mink,
             params.cobra_maxk
         )
-        ch_extended_fasta_gz    = FASTQFASTA_VIRUSEXTENSION_COBRA.out.extended_fasta
-        ch_cobra_summary_tsv    = FASTQFASTA_VIRUSEXTENSION_COBRA.out.cobra_summary_tsv
-        ch_versions             = ch_versions.mix(FASTQFASTA_VIRUSEXTENSION_COBRA.out.versions)
+        ch_cobra_prefilt_fasta_gz   = FASTQFASTA_VIRUSEXTENSION_COBRA.out.extended_fasta
+        ch_cobra_summary_tsv        = FASTQFASTA_VIRUSEXTENSION_COBRA.out.cobra_summary_tsv
+        ch_versions                 = ch_versions.mix(FASTQFASTA_VIRUSEXTENSION_COBRA.out.versions)
+
+        // remove empty fastA files from channel
+        ch_cobra_filt_fasta_gz = ch_cobra_prefilt_fasta_gz.filter { meta, fasta ->
+            try {
+                fasta.countFasta( limit: 5 ) > 1
+            } catch (EOFException) {
+                log.warn "[HoffLab/phageannotator]: ${fasta} has an EOFException, this is likely an empty gzipped file."
+            }
+        }
 
         //
-        // SUBWORKFLOW: Run geNomad on extended viral contigs
+        // MODULE: Run geNomad on extended viral contigs
         //
         ch_cobra_genomad_fasta_gz = GENOMAD_COBRA(
-            ch_extended_fasta_gz,
+            ch_cobra_filt_fasta_gz,
             FASTA_VIRUSCLASSIFICATION_GENOMAD.out.genomad_db.first()
         ).virus_fasta.map { meta, fasta ->
-                meta.assembler = meta.assembler + "_cobra"
-                [ meta + [ extended: true ], fasta ]
+                [ meta + [ assembler: meta.assember + '_cobra' ], fasta ]
             }
 
-        ch_genomad_summary_tsv  = ch_genomad_summary_tsv.map { meta, summary ->
-                [ meta + [ extended: false ], summary ]
-            }
+        ch_genomad_summary_tsv  = ch_genomad_summary_tsv
             .mix(
                 GENOMAD_COBRA.out.virus_summary.map { meta, fasta ->
                     meta.assembler = meta.assembler + "_cobra"
-                    [ meta + [ extended: true ], fasta ]
+                    [ meta, fasta ]
                 }
             )
         ch_versions             = ch_versions.mix( GENOMAD_COBRA.out.versions )
 
         // combine cobra extended viruses with unextended viruses
         ch_cobra_fasta_gz = ch_genomad_fasta_gz
-            .map { meta, fasta -> [ meta + [ extended: false ], fasta ] }
             .mix( ch_cobra_genomad_fasta_gz )
     } else {
         ch_cobra_fasta_gz       = ch_genomad_fasta_gz
@@ -687,11 +695,11 @@ workflow PHAGEANNOTATOR {
             ch_phables_db   = null
         } else {
             ch_phables_db   = Channel.value(
-                file(params.phables_db, checkIfExists:true)
+                file( params.phables_db, checkIfExists:true )
             )
         }
 
-        // filter to only megahit and metaspades assemblies with reads
+        // filter to only megahit and metaspades assemblies
         ch_assembly_graphs_phables = ch_assembly_graphs_gz.filter{ meta, graph ->
             meta.assembler.contains('metaspades_single') || meta.assembler.contains('megahit_single')
             }
@@ -703,23 +711,53 @@ workflow PHAGEANNOTATOR {
             }
 
         //
-        // MODULE: Convert FastQ to GFA file
+        // MODULE: Convert FastG to GFA file
         //
         ch_megahit_gfa_gz = FASTG2GFA( ch_branched_graphs.megahit ).gfa
 
         // combine metaspades gfa files with megahit gfa
-        ch_gfa_gz = ch_branched_graphs.metaspades.mix(ch_megahit_gfa_gz)
+        ch_gfa_gz = ch_branched_graphs.metaspades.mix( ch_megahit_gfa_gz )
 
         //
         // SUBWORKFLOW: Download and run phables
         //
-        ch_phables_fasta_gz = FASTQGFA_VIRUSEXTENSION_PHABLES(
-            ch_phables_input.fastq,
-            ch_phables_input.graph,
+        ch_phables_prefilt_fasta_gz = FASTQGFA_VIRUSEXTENSION_PHABLES(
+            ch_bt2_fastq_gz,
+            ch_gfa_gz,
             ch_phables_db
         ).phables_fasta
-        ch_versions         = ch_versions.mix( FASTQGFA_VIRUSEXTENSION_PHABLES.out.versions )
+        ch_versions                 = ch_versions.mix( FASTQGFA_VIRUSEXTENSION_PHABLES.out.versions )
 
+        // remove empty fastA files from channel
+        ch_phables_filt_fasta_gz = ch_phables_prefilt_fasta_gz.filter { meta, fasta ->
+            try {
+                fasta.countFasta( limit: 5 ) > 1
+            } catch (EOFException) {
+                log.warn "[HoffLab/phageannotator]: ${fasta} has an EOFException, this is likely an empty gzipped file."
+            }
+        }
+
+        //
+        // MODULE: Run geNomad on extended viral contigs
+        //
+        ch_phables_genomad_fasta_gz = GENOMAD_PHABLES(
+            ch_phables_filt_fasta_gz,
+            FASTA_VIRUSCLASSIFICATION_GENOMAD.out.genomad_db.first()
+        ).virus_fasta.map { meta, fasta ->
+                [ meta + [ assembler: meta.assember + '_phabes' ], fasta ]
+            }
+
+        ch_genomad_summary_tsv  = ch_genomad_summary_tsv
+            .mix(
+                GENOMAD_PHABLES.out.virus_summary.map { meta, fasta ->
+                    [ meta + [ assembler: meta.assember + '_phabes' ], fasta ]
+                }
+            )
+        ch_versions             = ch_versions.mix( GENOMAD_PHABLES.out.versions )
+
+        // combine phables extended viruses with other viruses
+        ch_phables_fasta_gz = ch_cobra_fasta_gz
+            .mix( ch_phables_genomad_fasta_gz )
     } else {
         ch_phables_fasta_gz = ch_cobra_fasta_gz
     }
@@ -728,23 +766,23 @@ workflow PHAGEANNOTATOR {
     /*----------------------------------------------------------------------------
         Assess virus quality and filter
     ------------------------------------------------------------------------------*/
-    if (params.run_checkv || params.run_nucleotide_stats) {
+    if ( params.run_checkv || params.run_nucleotide_stats ) {
         // create channel from params.checkv_db
-        if (!params.checkv_db){
+        if ( !params.checkv_db ){
             ch_checkv_db    = null
         } else {
             ch_checkv_db    = Channel.value(
-                file(params.checkv_db, checkIfExists:true)
+                file( params.checkv_db, checkIfExists:true )
             )
         }
 
         //
         // SUBWORKFLOW: Assess virus quality with CheckV
         //
-        ch_quality_summary_tsv  = FASTA_VIRUSQUALITY_CHECKV(ch_cobra_fasta_gz, ch_checkv_db).quality_summary_tsv
+        ch_quality_summary_tsv  = FASTA_VIRUSQUALITY_CHECKV(ch_phables_fasta_gz, ch_checkv_db).quality_summary_tsv
         ch_checkv_faa_gz        = FASTA_VIRUSQUALITY_CHECKV.out.proteins_faa_gz
         ch_checkv_fna_gz        = FASTA_VIRUSQUALITY_CHECKV.out.viruses_fna_gz
-        ch_versions             = ch_versions.mix(FASTA_VIRUSQUALITY_CHECKV.out.versions)
+        ch_versions             = ch_versions.mix( FASTA_VIRUSQUALITY_CHECKV.out.versions )
 
         // identify intermediate workDirs to clean
         ch_pre_checkv_workdirs  = getWorkDirs(
@@ -752,18 +790,18 @@ workflow PHAGEANNOTATOR {
             ch_quality_summary_tsv,
             []
         )
-        ch_workdirs_to_clean    = ch_workdirs_to_clean.mix(ch_pre_checkv_workdirs)
+        ch_workdirs_to_clean    = ch_workdirs_to_clean.mix( ch_pre_checkv_workdirs )
     } else {
         ch_quality_summary_tsv  = []
         ch_checkv_fna_gz        = ch_cobra_fasta_gz
     }
 
-    if (params.run_tantan) {
+    if ( params.run_tantan ) {
         //
         // MODULE: Identify low-complexity regions with tantan
         //
-        ch_tantan_tsv   = TANTAN(ch_checkv_fna_gz).tantan
-        ch_versions     = ch_versions.mix(TANTAN.out.versions)
+        ch_tantan_tsv   = TANTAN( ch_checkv_fna_gz ).tantan
+        ch_versions     = ch_versions.mix( TANTAN.out.versions )
 
         // identify intermediate workDirs to clean
         ch_pre_tantan_workdirs  = getWorkDirs(
@@ -771,15 +809,15 @@ workflow PHAGEANNOTATOR {
             ch_tantan_tsv,
             []
         )
-        ch_workdirs_to_clean    = ch_workdirs_to_clean.mix(ch_pre_tantan_workdirs)
+        ch_workdirs_to_clean    = ch_workdirs_to_clean.mix( ch_pre_tantan_workdirs )
     } else {
         ch_tantan_tsv   = []
     }
 
-    if (params.run_nucleotide_stats) {
+    if ( params.run_nucleotide_stats ) {
         // join fasta and proteins for nucleotide stats input
         ch_nuc_stats_input  = ch_checkv_fna_gz
-            .join(ch_checkv_faa_gz)
+            .join( ch_checkv_faa_gz )
             .multiMap { it ->
                 fasta: [ it[0], it[1] ]
                 proteins: [ it[0], it[2] ]
@@ -788,8 +826,8 @@ workflow PHAGEANNOTATOR {
         //
         // MODULE: Calculate nucleotide stats
         //
-        ch_nuc_stats_tsv    = NUCLEOTIDESTATS(ch_nuc_stats_input.fasta, ch_nuc_stats_input.proteins).nuc_stats
-        ch_versions         = ch_versions.mix(NUCLEOTIDESTATS.out.versions)
+        ch_nuc_stats_tsv    = NUCLEOTIDESTATS( ch_nuc_stats_input.fasta, ch_nuc_stats_input.proteins ).nuc_stats
+        ch_versions         = ch_versions.mix( NUCLEOTIDESTATS.out.versions )
 
         // identify intermediate workDirs to clean
         ch_pre_nuc_stats_workdirs   = getWorkDirs(
@@ -806,7 +844,7 @@ workflow PHAGEANNOTATOR {
     /*----------------------------------------------------------------------------
         Filter sequences based on composition, completeness, and quality
     ------------------------------------------------------------------------------*/
-    if (params.run_sequence_filtering) {
+    if ( params.run_sequence_filtering ) {
         // join all virus classification files for input
         ch_filt_input = ch_checkv_fna_gz
             .join(ch_genomad_summary_tsv)
@@ -821,9 +859,9 @@ workflow PHAGEANNOTATOR {
                 nuc_stats:          [ it[0], it[5] ]
             }
 
-        if (params.contigs_to_keep) {
+        if ( params.contigs_to_keep ) {
             ch_contigs_to_keep_tsv  = Channel.fromPath(
-                file(params.contigs_to_keep, checkIfExists: true)
+                file( params.contigs_to_keep, checkIfExists: true )
                 )
         } else {
             ch_contigs_to_keep_tsv  = []
@@ -840,8 +878,17 @@ workflow PHAGEANNOTATOR {
             ch_filt_input.nuc_stats,
             ch_contigs_to_keep_tsv
         )
-        ch_filt_fasta_gz    = FILTERSEQUENCES.out.fasta
-        ch_filt_data_tsv    = FILTERSEQUENCES.out.tsv
+        ch_filt_prefilt_fasta_gz    = FILTERSEQUENCES.out.fasta
+        ch_filt_data_tsv            = FILTERSEQUENCES.out.tsv
+
+        // remove empty fastA files from channel
+        ch_filt_fasta_gz = ch_filt_prefilt_fasta_gz.filter { meta, fasta ->
+            try {
+                fasta.countFasta( limit: 5 ) > 1
+            } catch (EOFException) {
+                log.warn "[HoffLab/phageannotator]: ${fasta} has an EOFException, this is likely an empty gzipped file."
+            }
+        }
 
         // identify intermediate workDirs to clean
         ch_pre_filt_workdirs  = getWorkDirs(
@@ -849,7 +896,7 @@ workflow PHAGEANNOTATOR {
             ch_filt_fasta_gz,
             ".*_tantan.tsv",
         )
-        ch_workdirs_to_clean    = ch_workdirs_to_clean.mix(ch_pre_filt_workdirs)
+        ch_workdirs_to_clean    = ch_workdirs_to_clean.mix( ch_pre_filt_workdirs )
     } else {
         ch_filt_fasta_gz        = ch_checkv_fna_gz
     }
@@ -916,6 +963,9 @@ workflow PHAGEANNOTATOR {
     /*----------------------------------------------------------------------------
         Predict phage hosts
     ------------------------------------------------------------------------------*/
+    if ( params.run_iphop || params.run_phist || params.run_propagate || params.run_prophage_tracer ) {
+        EXTRACTVIRALASSEMBLIES
+    }
     if ( params.run_iphop ) {
         // create channel from params.checkv_db
         if ( !params.iphop_db ){
