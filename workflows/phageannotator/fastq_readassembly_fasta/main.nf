@@ -23,7 +23,7 @@ include { TANTAN                                } from '../../modules/local/tant
 // SUBWORKFLOWS: Consisting of a mix of local and nf-core/modules
 //
 include { FASTQGFA_VIRUSEXTENSION_PHABLES   } from '../../subworkflows/local/fastqgfa_virusextension_phables/main'
-
+include { FASTQFASTA_VIRUSEXTENSION_COBRA   } from '../../subworkflows/local/fastqfasta_virusextension_cobra/main'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -241,6 +241,71 @@ workflow PHAGEANNOTATOR {
         ch_assemblies_fasta_gz  = []
         ch_assembly_graphs_gz   = []
         ch_assembly_log         = []
+    }
+
+
+    /*----------------------------------------------------------------------------
+        Extend viral contigs
+    ------------------------------------------------------------------------------*/
+    if (params.run_cobra) {
+        // filter to only single assemblies with reads available
+        ch_cobra_input = ch_genomad_fasta_gz
+            .join(ch_assembly_logs)
+            .map { meta, fasta -> [ meta.id, meta, fasta ] }
+            .combine( ch_bt2_fastq_gz.map { meta, fastq -> [ meta.id, meta, fastq ] }, by:0 )
+            .map {
+                id, meta_fasta, fasta, meta_fastq, fastq ->
+                    meta_fasta.assembler =  meta_fasta.assember + '_cobra'
+                [ meta_fasta, fastq, fasta ]
+            }
+            .filter { meta, fastq, fasta ->
+                meta.assembler.contains('metaspades_single') || meta.assembler.contains('megahit_single')
+            }
+            .multiMap { meta, fastq, fasta ->
+                fastq: [ meta, fastq ]
+                fasta: [ meta, fasta ]
+            }
+
+        //
+        // SUBWORKFLOW: Extend assembled contigs
+        //
+        FASTQFASTA_VIRUSEXTENSION_COBRA(
+            ch_cobra_input.fastq,
+            ch_cobra_input.fasta,
+            FASTA_VIRUSCLASSIFICATION_GENOMAD.out.virus_summary_tsv
+        )
+        ch_cobra_prefilt_fasta_gz   = FASTQFASTA_VIRUSEXTENSION_COBRA.out.extended_fasta
+        ch_cobra_summary_tsv        = FASTQFASTA_VIRUSEXTENSION_COBRA.out.cobra_summary_tsv
+        ch_versions                 = ch_versions.mix(FASTQFASTA_VIRUSEXTENSION_COBRA.out.versions)
+
+        // remove empty fastA files from channel
+        ch_cobra_filt_fasta_gz = ch_cobra_prefilt_fasta_gz
+            .filter { meta, fasta ->
+                try {
+                    fasta.countFasta(limit: 5) > 1
+                } catch (EOFException) {
+                    log.warn "[HoffLab/phageannotator]: ${fasta} has an EOFException, this is likely an empty gzipped file."
+                }
+            }
+
+        //
+        // MODULE: Run geNomad on extended viral contigs
+        //
+        GENOMAD_COBRA(
+            ch_cobra_filt_fasta_gz,
+            FASTA_VIRUSCLASSIFICATION_GENOMAD.out.genomad_db.first()
+        )
+        ch_cobra_genomad_fasta_gz = GENOMAD_COBRA.out.virus_fasta
+
+        ch_genomad_summary_tsv  = ch_genomad_summary_tsv.mix(GENOMAD_COBRA.out.virus_summary)
+        ch_genomad_scores_tsv   = GENOMAD_COBRA.out.agg_class
+        ch_versions             = ch_versions.mix(GENOMAD_COBRA.out.versions)
+
+        // combine cobra extended viruses with unextended viruses
+        ch_cobra_fasta_gz = ch_genomad_fasta_gz.mix(ch_cobra_genomad_fasta_gz)
+    } else {
+        ch_cobra_fasta_gz       = ch_genomad_fasta_gz
+        ch_cobra_summary_tsv    = Channel.empty()
     }
 
 

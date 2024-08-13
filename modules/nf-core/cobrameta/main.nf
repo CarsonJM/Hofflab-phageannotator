@@ -10,7 +10,7 @@ process COBRAMETA {
     input:
     tuple val(meta) , path(fasta)
     tuple val(meta2), path(coverage)
-    tuple val(meta3), path(virus_summary)
+    tuple val(meta3), path(query)
     tuple val(meta4), path(bam)
     val assembler
     val mink
