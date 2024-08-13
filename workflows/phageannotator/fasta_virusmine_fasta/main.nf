@@ -1,3 +1,8 @@
+//
+// WORKFLOW: Identify and QC viral sequences in assemblies
+//
+
+
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     IMPORT LOCAL MODULES/SUBWORKFLOWS
@@ -11,7 +16,7 @@ include { getWorkDirs   } from '../../lib/NfCleanUp.groovy'
 //
 // MODULES: Local modules
 //
-
+include { TANTAN    } from '../../modules/local/tantan/main'
 
 //
 // SUBWORKFLOWS: Consisting of a mix of local and nf-core/modules
@@ -28,7 +33,6 @@ include { FASTQFASTA_VIRUSEXTENSION_COBRA   } from '../../subworkflows/local/fas
 //
 // PLUGINS
 //
-include { paramsSummaryMap                      } from 'plugin/nf-validation'
 
 //
 // MODULES: Installed directly from nf-core/modules
@@ -44,9 +48,11 @@ include { GENOMAD_ENDTOEND as GENOMAD_COBRA     } from '../../modules/nf-core/ge
 
 workflow FASTA_VIRUSMINE_FASTA {
 
+
     take:
     ch_preprocessed_fastq_gz    // channel: [ [ meta.id, meta.group ], [ reads_1.fastq.gz, reads_2.fastq.gz ] ]
     ch_assemblies_fasta_gz      // channel: [ [ meta.id, meta.group, meta.assembler ], fasta.gz ]
+
 
     main:
     ch_versions             = Channel.empty()
@@ -79,10 +85,11 @@ workflow FASTA_VIRUSMINE_FASTA {
             ch_trfinder_fasta_gz,
             []
         )
-        ch_workdirs_to_clean        = ch_workdirs_to_clean.mix (ch_pre_trfinder_workdirs)
+        ch_workdirs_to_clean        = ch_workdirs_to_clean.mix(ch_pre_trfinder_workdirs)
     } else {
         ch_trfinder_fasta_gz    = ch_assemblies_fasta_gz
-        ch_trfinder_stats_tsv   = ch_assemblies_fasta_gz.map { meta, fasta -> [ meta, [] ] }
+        ch_trfinder_stats_tsv   = ch_assemblies_fasta_gz
+            .map { meta, fasta -> [ meta, [] ] }
     }
 
 
@@ -207,7 +214,8 @@ workflow FASTA_VIRUSMINE_FASTA {
         ch_cobra_summary_tsv    = Channel.empty()
     }
 
-        /*----------------------------------------------------------------------------
+
+    /*----------------------------------------------------------------------------
         Assess virus quality and filter
     ------------------------------------------------------------------------------*/
     if (params.run_checkv || params.run_nucleotide_stats) {
