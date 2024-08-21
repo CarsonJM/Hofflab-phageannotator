@@ -1,17 +1,30 @@
 {
-    "rmEmptyFastas + empty.fasta.gz": {
+    "getWorkDirs double": {
         "content": [
             [
-                "[[id:nonempty], /mmfs1/gscratch/pedslabs_hoffman/carsonjm/VTDB/VTDB-createdb/assets/test-datasets/fastas/test1.contigs.fa.gz]"
+                "[[id:test], /somepath/work/12/hashforworkdirtoclean/]",
+                "[[id:test], /somepath/work/24/hashforworkdirtoclean/]"
             ]
         ],
         "meta": {
             "nf-test": "0.9.0",
             "nextflow": "24.04.4"
         },
-        "timestamp": "2024-08-15T07:24:07.94855558"
+        "timestamp": "2024-08-21T15:11:26.996243745"
     },
-    "getWorkDirs": {
+    "rmEmptyFastQs + single end": {
+        "content": [
+            [
+                "[[id:nonempty, single_end:true], [/mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/assets/test-datasets/fastqs/test1_1.fastq.gz]]"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.0",
+            "nextflow": "24.04.4"
+        },
+        "timestamp": "2024-08-21T15:12:21.569049782"
+    },
+    "getWorkDirs single": {
         "content": [
             [
                 "[[id:test], /somepath/work/12/hashforworkdirtoclean/]"
@@ -21,19 +34,55 @@
             "nf-test": "0.9.0",
             "nextflow": "24.04.4"
         },
-        "timestamp": "2024-08-15T07:26:01.969474515"
+        "timestamp": "2024-08-21T15:11:13.334854816"
     },
-    "rmEmptyFastas + cleaned.fasta.gz": {
+    "rmEmptyFastAs + empty.fasta.gz": {
         "content": [
             [
-                "[[id:nonempty], /mmfs1/gscratch/pedslabs_hoffman/carsonjm/VTDB/VTDB-createdb/assets/test-datasets/fastas/test1.contigs.fa.gz]",
-                "[[id:cleaned], /mmfs1/gscratch/pedslabs_hoffman/carsonjm/VTDB/VTDB-createdb/assets/test-datasets/fastas/cleaned.fa.gz]"
+                "[[id:nonempty], /mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/assets/test-datasets/fastas/test1.contigs.fa.gz]"
             ]
         ],
         "meta": {
             "nf-test": "0.9.0",
             "nextflow": "24.04.4"
         },
-        "timestamp": "2024-08-15T07:24:14.203326806"
+        "timestamp": "2024-08-21T15:11:37.884645614"
+    },
+    "rmEmptyFastAs + cleaned.fasta.gz": {
+        "content": [
+            [
+                "[[id:nonempty], /mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/assets/test-datasets/fastas/test1.contigs.fa.gz]",
+                "[[id:cleaned], /mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/assets/test-datasets/fastas/cleaned.fa.gz]"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.0",
+            "nextflow": "24.04.4"
+        },
+        "timestamp": "2024-08-21T15:11:49.38127749"
+    },
+    "rmEmptyFastQs + paired end +  empty.fasta.gz": {
+        "content": [
+            [
+                "[[id:nonempty, single_end:false], [/mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/assets/test-datasets/fastqs/test1_1.fastq.gz, /mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/assets/test-datasets/fastqs/test1_2.fastq.gz]]"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.0",
+            "nextflow": "24.04.4"
+        },
+        "timestamp": "2024-08-21T15:11:59.947832151"
+    },
+    "rmEmptyFastQs + paired end + cleaned.fasta.gz": {
+        "content": [
+            [
+                "[[id:nonempty, single_end:false], [/mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/assets/test-datasets/fastqs/test1_1.fastq.gz, /mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/assets/test-datasets/fastqs/test1_2.fastq.gz]]"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.0",
+            "nextflow": "24.04.4"
+        },
+        "timestamp": "2024-08-21T15:12:11.10054327"
     }
 }

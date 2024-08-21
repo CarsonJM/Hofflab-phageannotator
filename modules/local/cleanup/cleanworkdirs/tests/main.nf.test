@@ -1,0 +1,59 @@
+nextflow_process {
+
+    name "Test Process: CLEANWORKDIRS"
+    script "../main.nf"
+    process "CLEANWORKDIRS"
+
+    setup {
+        run("LOGAN_DOWNLOADFILTERTRFINDER") {
+            script "../../../logan/downloadfiltertrfinder/main.nf"
+            process {
+                """
+                input[0] = Channel.fromFilePairs("${projectDir}/assets/test-datasets/samplesheets/logan.csv", size: 1 )
+                    .map { meta, accession_file ->
+                        [ [ id: meta ] , accession_file ]
+                    }
+                """
+            }
+        }
+    }
+
+    test("logan workDir") {
+        when {
+            process {
+                """
+                input[0] = LOGAN_DOWNLOADFILTERTRFINDER.out.fasta
+                    .map { meta, fasta ->
+                        [ meta, fasta.getParent().toString(), "LOGAN_DOWNLOADFILTERTRFINDER" ]
+                    }
+                """
+            }
+        }
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(file(process.out.cleaned_workdir[0][1]).name).match() }
+            )
+        }
+    }
+
+    test("stub") {
+        options "-stub"
+        when {
+            process {
+                """
+                input[0] = LOGAN_DOWNLOADFILTERTRFINDER.out.fasta
+                    .map { meta, fasta ->
+                        [ meta, fasta.getParent().toString(), "LOGAN_DOWNLOADFILTERTRFINDER" ]
+                    }
+                """
+            }
+        }
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+}

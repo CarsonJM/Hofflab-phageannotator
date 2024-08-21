@@ -3,7 +3,7 @@ nextflow_function {
     name "Test functions.nf"
     script "./functions.nf"
 
-    test("getWorkDirs") {
+    test("getWorkDirs single") {
         function "getWorkDirs"
         when {
             function {
@@ -31,8 +31,40 @@ nextflow_function {
         }
     }
 
-    test("rmEmptyFastas + empty.fasta.gz") {
-        function "rmEmptyFastas"
+    test("getWorkDirs double") {
+        function "getWorkDirs"
+        when {
+            function {
+            """
+            input[0] = Channel.of(
+                [
+                    [ id:'test' ], // meta map
+                    "/somepath/work/12/hashforworkdirtoclean/somefile.txt"
+                ],
+                [
+                    [ id:'test' ], // meta map
+                    "/somepath/work/24/hashforworkdirtoclean/somefile.txt"
+                ]
+            )
+            input[1] = Channel.of(
+                [
+                    [ id:'test' ], // meta map
+                    "/somepath/work/34/hashforworkdirdependent/someotherfile.txt"
+                ]
+            )
+            """
+            }
+        }
+        then {
+            assertAll (
+                { assert function.success },
+                { assert snapshot(function.stdout).match() }
+            )
+        }
+    }
+
+    test("rmEmptyFastAs + empty.fasta.gz") {
+        function "rmEmptyFastAs"
         when {
             function {
             """
@@ -57,8 +89,8 @@ nextflow_function {
         }
     }
 
-    test("rmEmptyFastas + cleaned.fasta.gz") {
-        function "rmEmptyFastas"
+    test("rmEmptyFastAs + cleaned.fasta.gz") {
+        function "rmEmptyFastAs"
         when {
             function {
             """
@@ -70,6 +102,88 @@ nextflow_function {
                 [
                     [ id:'cleaned' ], // meta map
                     file("${projectDir}/assets/test-datasets/fastas/cleaned.fa.gz", checkIfExists: true)
+                ]
+            )
+            """
+            }
+        }
+        then {
+            assertAll (
+                { assert function.success },
+                { assert snapshot(function.stdout).match() }
+            )
+        }
+    }
+
+    test("rmEmptyFastQs + paired end +  empty.fasta.gz") {
+        function "rmEmptyFastQs"
+        when {
+            function {
+            """
+            input[0] = Channel.of(
+                [
+                    [ id:'nonempty', single_end:false ], // meta map
+                    [
+                        file("${projectDir}/assets/test-datasets/fastqs/test1_1.fastq.gz", checkIfExists: true),
+                        file("${projectDir}/assets/test-datasets/fastqs/test1_2.fastq.gz", checkIfExists: true)
+                    ]
+                ],
+                [
+                    [ id:'empty', single_end:true ], // meta map
+                    file("${projectDir}/assets/test-datasets/fastas/empty.fa.gz", checkIfExists: true)
+                ]
+            )
+            """
+            }
+        }
+        then {
+            assertAll (
+                { assert function.success },
+                { assert snapshot(function.stdout).match() }
+            )
+        }
+    }
+
+    test("rmEmptyFastQs + paired end + cleaned.fasta.gz") {
+        function "rmEmptyFastQs"
+        when {
+            function {
+            """
+            input[0] = Channel.of(
+                [
+                    [ id:'nonempty', single_end:false], // meta map
+                    [
+                        file("${projectDir}/assets/test-datasets/fastqs/test1_1.fastq.gz", checkIfExists: true),
+                        file("${projectDir}/assets/test-datasets/fastqs/test1_2.fastq.gz", checkIfExists: true)
+                    ]
+                ],
+                [
+                    [ id:'cleaned', single_end:true ], // meta map
+                    file("${projectDir}/assets/test-datasets/fastas/cleaned.fa.gz", checkIfExists: true)
+                ]
+            )
+            """
+            }
+        }
+        then {
+            assertAll (
+                { assert function.success },
+                { assert snapshot(function.stdout).match() }
+            )
+        }
+    }
+
+    test("rmEmptyFastQs + single end") {
+        function "rmEmptyFastQs"
+        when {
+            function {
+            """
+            input[0] = Channel.of(
+                [
+                    [ id:'nonempty', single_end: true], // meta map
+                    [
+                        file("${projectDir}/assets/test-datasets/fastqs/test1_1.fastq.gz", checkIfExists: true)
+                    ]
                 ]
             )
             """

@@ -24,6 +24,7 @@ include { paramsSummaryMap  } from 'plugin/nf-validation'
 // MODULES
 //
 include { MULTIQC           } from './modules/nf-core/multiqc/main'
+include { CLEANWORKDIRS     } from './modules/local/cleanup/cleanworkdirs/main'
 
 //
 // SUBWORKFLOWS
@@ -79,8 +80,23 @@ workflow {
         PIPELINE_INITIALISATION.out.fastqs
     )
     ch_preprocessed_fastq_gz = FASTQ_READPREPROCESSING_FASTQ.out.preprocessed_fastq_gz
+    ch_workdirs_to_clean     = FASTQ_READPREPROCESSING_FASTQ.out.workdirs_to_clean
     ch_versions              = ch_versions.mix(FASTQ_READPREPROCESSING_FASTQ.out.versions)
     ch_multiqc_files         = ch_multiqc_files.mix(FASTQ_READPREPROCESSING_FASTQ.out.multiqc_files)
+
+    /*----------------------------------------------------------------------------
+        Clean intermediate files
+    ------------------------------------------------------------------------------*/
+    //
+    // MODULE: Clean intermediate files
+    //
+    if (params.remove_intermediate_files) {
+        //
+        // MODULE: Clean up intermediate working directories
+        //
+        ch_workdirs_to_clean_unique = ch_workdirs_to_clean.unique()
+        CLEANWORKDIRS(ch_workdirs_to_clean_unique)
+    }
 
     /*----------------------------------------------------------------------------
         Report generation

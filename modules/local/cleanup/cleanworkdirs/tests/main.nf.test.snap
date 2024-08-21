@@ -1,0 +1,39 @@
+{
+    "logan workDir": {
+        "content": [
+            "logan.LOGAN_DOWNLOADFILTERTRFINDER.log"
+        ],
+        "meta": {
+            "nf-test": "0.9.0",
+            "nextflow": "24.04.4"
+        },
+        "timestamp": "2024-08-20T13:38:41.428436321"
+    },
+    "stub": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "id": "logan"
+                        },
+                        "logan.LOGAN_DOWNLOADFILTERTRFINDER.log:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ],
+                "cleaned_workdir": [
+                    [
+                        {
+                            "id": "logan"
+                        },
+                        "logan.LOGAN_DOWNLOADFILTERTRFINDER.log:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ]
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.0",
+            "nextflow": "24.04.4"
+        },
+        "timestamp": "2024-08-20T13:38:51.892250846"
+    }
+}

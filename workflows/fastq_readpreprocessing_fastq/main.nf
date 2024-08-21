@@ -72,12 +72,6 @@ workflow FASTQ_READPREPROCESSING_FASTQ {
         // REMOVE EMPTY FASTQ FILES FROM CHANNEL
         ch_fastp_fastq_gz = rmEmptyFastQs(ch_fastp_prefilt_fastq_gz)
 
-        // IDENTIFY WORKDIRS TO CLEAN
-        ch_pre_fastp_workdirs = getWorkDirs(
-            ch_raw_fastq_gz,
-            ch_fastp_fastq_gz
-        )
-        ch_workdirs_to_clean = ch_workdirs_to_clean.mix(ch_pre_fastp_workdirs)
     } else {
         ch_fastp_fastq_gz = ch_raw_fastq_gz
     }
@@ -117,10 +111,13 @@ workflow FASTQ_READPREPROCESSING_FASTQ {
 
         // IDENTIFY WORKDIRS TO CLEAN
         ch_pre_merge_workdirs = getWorkDirs(
-            ch_fastp_fastq_gz,
+            ch_fastp_fastq_gz.map { meta, reads -> [ meta - meta.subMap('run'), reads[0] ] },
             ch_runmerged_fastq_gz
         )
-        ch_workdirs_to_clean = ch_workdirs_to_clean.mix(ch_pre_merge_workdirs)
+        ch_pre_merge_workdirs.view()
+        ch_workdirs_to_clean = ch_workdirs_to_clean.mix(
+            ch_pre_merge_workdirs.map { meta, dir -> [ meta, dir, 'FASTP' ] }
+        )
     } else {
         ch_runmerged_fastq_gz = ch_fastp_fastq_gz
     }
@@ -148,7 +145,7 @@ workflow FASTQ_READPREPROCESSING_FASTQ {
         // SUBWORKFLOW: Remove host reads using Bowtie2
         //
         FASTQ_HOSTREMOVAL_BOWTIE2(
-            ch_fastp_fastq_gz,
+            ch_runmerged_fastq_gz,
             ch_bowtie2_host_fasta,
             ch_bowtie2_host_index
         )
@@ -161,12 +158,14 @@ workflow FASTQ_READPREPROCESSING_FASTQ {
 
         // IDENTIFY WORKDIRS TO CLEAN
         ch_pre_bt2_workdirs = getWorkDirs(
-            ch_fastp_fastq_gz,
+            ch_runmerged_fastq_gz.map { meta, reads -> [ meta, reads[0] ] },
             ch_bt2_fastq_gz
         )
-        ch_workdirs_to_clean = ch_workdirs_to_clean.mix(ch_pre_bt2_workdirs)
+        ch_workdirs_to_clean = ch_workdirs_to_clean.mix(
+            ch_pre_bt2_workdirs.map { meta, dir -> [ meta, dir, 'CAT_RUNMERGE' ] }
+        )
     } else {
-        ch_bt2_fastq_gz  = ch_fastp_fastq_gz
+        ch_bt2_fastq_gz  = ch_runmerged_fastq_gz
     }
 
     /*----------------------------------------------------------------------------
@@ -210,9 +209,10 @@ workflow FASTQ_READPREPROCESSING_FASTQ {
     }
 
     emit:
-    preprocessed_fastq_gz   = ch_bt2_fastq_gz   // channel: [ [ meta.id, meta.group ], [ reads_1.fastq.gz, reads_2.fastq.gz ] ]
-    multiqc_files           = ch_multiqc_files  // channel: /path.to/multiqc_files
-    versions                = ch_versions       // channel: [ path(versions.yml) ]
+    preprocessed_fastq_gz   = ch_bt2_fastq_gz       // channel: [ [ meta.id, meta.group ], [ reads_1.fastq.gz, reads_2.fastq.gz ] ]
+    workdirs_to_clean       = ch_workdirs_to_clean  // channel: [ [ meta ], [ workdir ], [ module_name ] ]
+    multiqc_files           = ch_multiqc_files      // channel: /path.to/multiqc_files
+    versions                = ch_versions           // channel: [ path(versions.yml) ]
 }
 
 /*
