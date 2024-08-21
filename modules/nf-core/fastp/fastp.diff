@@ -1,0 +1,47 @@
+Changes in module 'nf-core/fastp'
+--- /dev/null
++++ modules/nf-core/fastp/nextflow.config
+@@ -0,0 +1,41 @@
++process {
++    withName: FASTP {
++        ext.prefix = { "${meta.id}_fastp"}
++        ext.args = [
++            params.fastp_args ? params.fastp_args : "",
++        ].join(" ").trim()
++        publishDir = [
++            [
++                path: { "${params.outdir}/ReadPreprocessing/fastp" },
++                mode: params.publish_dir_mode,
++                pattern: '*.json'
++            ],
++            [
++                path: { "${params.outdir}/ReadPreprocessing/fastp" },
++                mode: params.publish_dir_mode,
++                pattern: '*.html'
++            ]
++        ]
++    }
++
++    withName: FASTP_PREPROCESSED {
++        ext.prefix = { "${meta.id}_preprocessed" }
++        ext.args = [
++            params.fastp_args ? params.fastp_args : "",
++        ].join(" ").trim()
++        publishDir = [
++            [
++                path: { "${params.outdir}/ReadPreprocessing/fastp" },
++                mode: params.publish_dir_mode,
++                pattern: '*.json',
++                enabled: false
++            ],
++            [
++                path: { "${params.outdir}/ReadPreprocessing/fastp" },
++                mode: params.publish_dir_mode,
++                pattern: '*.html',
++                enabled: false
++            ]
++        ]
++    }
++}
+
+************************************************************

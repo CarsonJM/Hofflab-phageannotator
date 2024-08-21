@@ -1,0 +1,720 @@
+digraph G {
+	node [shape=note,colorscheme=pastel19
+];
+	rankdir=LR;
+	"modules/nf-core/samtools/stats/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/local/tantan/main.nf" [label="modules/
+local/
+tantan/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/local/tantan/main.nf" -> "workflows/phageannotator/main.nf";
+	"modules/local/tantan/main.nf" -> "modules/local/tantan/tests/main.nf.test";
+	"modules/nf-core/bowtie2/align/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"modules/nf-core/bowtie2/align/tests/main.nf.test.snap" -> "modules/nf-core/bowtie2/align/tests/main.nf.test";
+	"subworkflows/local/fasta_virusclassification_genomad/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"subworkflows/local/fasta_virusclassification_genomad/tests/main.nf.test.snap" -> "subworkflows/local/fasta_virusclassification_genomad/tests/main.nf.test";
+	"modules/local/trfinder/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/local/viromeqc/viromeqc/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/nf-core/spades/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/nf-core/genomad/download/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"modules/nf-core/genomad/download/tests/main.nf.test.snap" -> "modules/nf-core/genomad/download/tests/main.nf.test";
+	"modules/nf-core/gunzip/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/nf-core/multiqc/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"modules/nf-core/multiqc/tests/main.nf.test.snap" -> "modules/nf-core/multiqc/tests/main.nf.test";
+	"modules/nf-core/cat/fastq/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/nf-core/samtools/index/main.nf" [label="modules/
+nf-core/
+samtools/
+index/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/nf-core/samtools/index/main.nf" -> "modules/nf-core/samtools/index/tests/main.nf.test";
+	"subworkflows/local/csv_sradownload_fetchngs/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/nf-core/megahit/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/nf-core/pharokka/installdatabases/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/nf-core/bacphlip/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/nf-core/fastp/main.nf" [label="modules/
+nf-core/
+fastp/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/nf-core/fastp/main.nf" -> "workflows/phageannotator/fastq_readpreprocessing_fastq/main.nf";
+	"modules/nf-core/fastp/main.nf" -> "modules/nf-core/fastp/tests/main.nf.test";
+	"modules/nf-core/fastp/main.nf" -> "workflows/phageannotator/main.nf";
+	"subworkflows/nf-core/utils_nfcore_pipeline/tests/main.function.nf.test" [label="main.function.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/nf-core/custom/sratoolsncbisettings/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"subworkflows/local/fastqfasta_virusextension_cobra/main.nf" [label="subworkflows/
+local/
+fastqfasta_virusextension_cobra/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"subworkflows/local/fastqfasta_virusextension_cobra/main.nf" -> "subworkflows/local/fastqfasta_virusextension_cobra/tests/main.nf.test";
+	"subworkflows/local/fastqfasta_virusextension_cobra/main.nf" -> "workflows/phageannotator/main.nf";
+	"modules/local/seqkit/stats/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/nf-core/checkv/downloaddatabase/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/nf-core/pharokka/installdatabases/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"modules/nf-core/pharokka/installdatabases/tests/main.nf.test.snap" -> "modules/nf-core/pharokka/installdatabases/tests/main.nf.test";
+	"modules/nf-core/custom/sratoolsncbisettings/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"modules/nf-core/custom/sratoolsncbisettings/tests/main.nf.test.snap" -> "modules/nf-core/custom/sratoolsncbisettings/tests/main.nf.test";
+	"subworkflows/local/fastq_virusenrichment_viromeqc/main.nf" [label="subworkflows/
+local/
+fastq_virusenrichment_viromeqc/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"subworkflows/local/fastq_virusenrichment_viromeqc/main.nf" -> "subworkflows/local/fastq_virusenrichment_viromeqc/tests/main.nf.test";
+	"subworkflows/local/fastq_virusenrichment_viromeqc/main.nf" -> "workflows/phageannotator/fastq_readpreprocessing_fastq/main.nf";
+	"subworkflows/local/fastq_virusenrichment_viromeqc/main.nf" -> "workflows/phageannotator/main.nf";
+	"modules/nf-core/blast/makeblastdb/main.nf" [label="modules/
+nf-core/
+blast/
+makeblastdb/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/nf-core/blast/makeblastdb/main.nf" -> "modules/nf-core/blast/blastn/tests/main.nf.test";
+	"modules/nf-core/blast/makeblastdb/main.nf" -> "modules/nf-core/blast/makeblastdb/tests/main.nf.test";
+	"modules/nf-core/blast/makeblastdb/main.nf" -> "subworkflows/local/fasta_anicluster_blast/main.nf";
+	"modules/local/csvtk/sep/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/nf-core/iphop/predict/main.nf" [label="modules/
+nf-core/
+iphop/
+predict/
+main.nf", shape="box3d", fillcolor="1", style="rounded,filled"]
+	"modules/nf-core/iphop/predict/main.nf" -> "subworkflows/local/fasta_phagehost_iphop/main.nf";
+	"subworkflows/local/fastqfasta_provirusactivity_propagate/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/local/plass/penguin/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/local/seqkit/seq/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"modules/local/seqkit/seq/tests/main.nf.test.snap" -> "modules/local/seqkit/seq/tests/main.nf.test";
+	"modules/local/fetchngs/sra_ids_to_runinfo/main.nf" [label="modules/
+local/
+fetchngs/
+sra_ids_to_runinfo/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/local/fetchngs/sra_ids_to_runinfo/main.nf" -> "subworkflows/local/csv_sradownload_fetchngs/main.nf";
+	"modules/local/fetchngs/sra_ids_to_runinfo/main.nf" -> "modules/local/fetchngs/sra_ids_to_runinfo/tests/main.nf.test";
+	"modules/local/seqkit/seq/main.nf" [label="modules/
+local/
+seqkit/
+seq/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/local/seqkit/seq/main.nf" -> "modules/local/seqkit/seq/tests/main.nf.test";
+	"modules/local/seqkit/seq/main.nf" -> "workflows/phageannotator/main.nf";
+	"modules/nf-core/checkv/endtoend/main.nf" [label="modules/
+nf-core/
+checkv/
+endtoend/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/nf-core/checkv/endtoend/main.nf" -> "modules/nf-core/checkv/endtoend/tests/main.nf.test";
+	"modules/nf-core/checkv/endtoend/main.nf" -> "subworkflows/local/fasta_virusquality_checkv/main.nf";
+	"modules/local/tantan/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/local/logan/download/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"modules/local/logan/download/tests/main.nf.test.snap" -> "modules/local/logan/download/tests/main.nf.test";
+	"modules/local/fetchngs/sra_ids_to_runinfo/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"modules/local/fetchngs/sra_ids_to_runinfo/tests/main.nf.test.snap" -> "modules/local/fetchngs/sra_ids_to_runinfo/tests/main.nf.test";
+	"modules/nf-core/cat/cat/main.nf" [label="modules/
+nf-core/
+cat/
+cat/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/nf-core/cat/cat/main.nf" -> "subworkflows/local/fastqfasta_provirusactivity_prophagetracer/main.nf";
+	"modules/nf-core/cat/cat/main.nf" -> "subworkflows/local/fastqfasta_provirusactivity_propagate/main.nf";
+	"modules/nf-core/cat/cat/main.nf" -> "workflows/phageannotator/main.nf";
+	"modules/nf-core/cat/cat/main.nf" -> "modules/nf-core/cat/cat/tests/main.nf.test";
+	"modules/local/fetchngs/asperacli/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/nf-core/fastqc/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/local/seqkit/stats/main.nf" [label="modules/
+local/
+seqkit/
+stats/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/local/seqkit/stats/main.nf" -> "modules/local/seqkit/stats/tests/main.nf.test";
+	"modules/local/seqkit/stats/main.nf" -> "workflows/phageannotator/main.nf";
+	"modules/local/fetchngs/sra_fastq_ftp/main.nf" [label="modules/
+local/
+fetchngs/
+sra_fastq_ftp/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/local/fetchngs/sra_fastq_ftp/main.nf" -> "subworkflows/local/csv_sradownload_fetchngs/main.nf";
+	"modules/local/fetchngs/sra_fastq_ftp/main.nf" -> "modules/local/fetchngs/sra_fastq_ftp/tests/main.nf.test";
+	"modules/nf-core/spades/main.nf" [label="modules/
+nf-core/
+spades/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/nf-core/spades/main.nf" -> "workflows/phageannotator/main.nf";
+	"modules/nf-core/spades/main.nf" -> "modules/nf-core/spades/tests/main.nf.test";
+	"modules/nf-core/checkv/updatedatabase/main.nf" [label="modules/
+nf-core/
+checkv/
+updatedatabase/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/nf-core/checkv/updatedatabase/main.nf" -> "modules/nf-core/checkv/updatedatabase/tests/main.nf.test";
+	"subworkflows/local/fastqgfa_virusextension_phables/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"subworkflows/local/fastqgfa_virusextension_phables/tests/main.nf.test.snap" -> "subworkflows/local/fastqgfa_virusextension_phables/tests/main.nf.test";
+	"subworkflows/local/fasta_phagefunction_pharokka/main.nf" [label="subworkflows/
+local/
+fasta_phagefunction_pharokka/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"subworkflows/local/fasta_phagefunction_pharokka/main.nf" -> "workflows/phageannotator/main.nf";
+	"subworkflows/local/fasta_phagefunction_pharokka/main.nf" -> "subworkflows/local/fasta_phagefunction_pharokka/tests/main.nf.test";
+	"modules/local/fetchngs/sra_ids_to_runinfo/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"subworkflows/nf-core/utils_nextflow_pipeline/tests/main.function.nf.test" [label="main.function.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/nf-core/bowtie2/align/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/nf-core/pharokka/installdatabases/main.nf" [label="modules/
+nf-core/
+pharokka/
+installdatabases/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/nf-core/pharokka/installdatabases/main.nf" -> "modules/nf-core/pharokka/installdatabases/tests/main.nf.test";
+	"modules/nf-core/pharokka/installdatabases/main.nf" -> "subworkflows/local/fasta_phagefunction_pharokka/main.nf";
+	"modules/nf-core/pharokka/installdatabases/main.nf" -> "modules/nf-core/pharokka/pharokka/tests/main.nf.test";
+	"subworkflows/nf-core/utils_nfvalidation_plugin/main.nf" [label="subworkflows/
+nf-core/
+utils_nfvalidation_plugin/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"subworkflows/nf-core/utils_nfvalidation_plugin/main.nf" -> "subworkflows/nf-core/utils_nfvalidation_plugin/tests/main.nf.test";
+	"subworkflows/nf-core/utils_nfvalidation_plugin/main.nf" -> "subworkflows/local/utils_nfcore_phageannotator_pipeline/main.nf";
+	"subworkflows/local/fasta_phagefunction_pharokka/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"subworkflows/local/fasta_phagefunction_pharokka/tests/main.nf.test.snap" -> "subworkflows/local/fasta_phagefunction_pharokka/tests/main.nf.test";
+	"modules/nf-core/iphop/download/main.nf" [label="modules/
+nf-core/
+iphop/
+download/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/nf-core/iphop/download/main.nf" -> "modules/nf-core/iphop/download/tests/main.nf.test";
+	"modules/nf-core/iphop/download/main.nf" -> "subworkflows/local/fasta_phagehost_iphop/main.nf";
+	"workflows/phageannotator/main.nf" [label="workflows/
+phageannotator/
+main.nf", shape="box3d", fillcolor="1", style="rounded,filled"]
+	"subworkflows/local/fastq_virusenrichment_viromeqc/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"subworkflows/local/fastq_virusenrichment_viromeqc/tests/main.nf.test.snap" -> "subworkflows/local/fastq_virusenrichment_viromeqc/tests/main.nf.test";
+	"modules/nf-core/checkv/endtoend/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"modules/nf-core/checkv/endtoend/tests/main.nf.test.snap" -> "modules/nf-core/checkv/endtoend/tests/main.nf.test";
+	"modules/nf-core/untar/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"subworkflows/local/fastqfasta_provirusactivity_prophagetracer/main.nf" [label="subworkflows/
+local/
+fastqfasta_provirusactivity_prophagetracer/
+main.nf", shape="box3d", fillcolor="1", style="rounded,filled"]
+	"modules/local/fastg2gfa/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"modules/local/fastg2gfa/tests/main.nf.test.snap" -> "modules/local/fastg2gfa/tests/main.nf.test";
+	"subworkflows/nf-core/utils_nextflow_pipeline/main.nf" [label="subworkflows/
+nf-core/
+utils_nextflow_pipeline/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"subworkflows/nf-core/utils_nextflow_pipeline/main.nf" -> "subworkflows/nf-core/utils_nextflow_pipeline/tests/main.function.nf.test";
+	"subworkflows/nf-core/utils_nextflow_pipeline/main.nf" -> "subworkflows/nf-core/utils_nextflow_pipeline/tests/main.workflow.nf.test";
+	"subworkflows/nf-core/utils_nextflow_pipeline/main.nf" -> "subworkflows/local/utils_nfcore_phageannotator_pipeline/main.nf";
+	"modules/nf-core/pharokka/pharokka/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"subworkflows/local/fastqfasta_virusextension_cobra/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"subworkflows/local/fastqfasta_virusextension_cobra/tests/main.nf.test.snap" -> "subworkflows/local/fastqfasta_virusextension_cobra/tests/main.nf.test";
+	"modules/nf-core/cat/cat/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/nf-core/checkv/downloaddatabase/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"modules/nf-core/checkv/downloaddatabase/tests/main.nf.test.snap" -> "modules/nf-core/checkv/downloaddatabase/tests/main.nf.test";
+	"subworkflows/local/fastq_virusenrichment_viromeqc/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/nf-core/cat/fastq/main.nf" [label="modules/
+nf-core/
+cat/
+fastq/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/nf-core/cat/fastq/main.nf" -> "workflows/phageannotator/fastq_readpreprocessing_fastq/main.nf";
+	"modules/nf-core/cat/fastq/main.nf" -> "modules/nf-core/cat/fastq/tests/main.nf.test";
+	"modules/nf-core/cat/fastq/main.nf" -> "workflows/phageannotator/main.nf";
+	"modules/nf-core/samtools/index/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"lib/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/nf-core/samtools/stats/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"modules/nf-core/samtools/stats/tests/main.nf.test.snap" -> "modules/nf-core/samtools/stats/tests/main.nf.test";
+	"workflows/phageannotator/fastq_readpreprocessing_fastq/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"workflows/phageannotator/fastq_readpreprocessing_fastq/tests/main.nf.test.snap" -> "workflows/phageannotator/fastq_readpreprocessing_fastq/tests/main.nf.test";
+	"modules/nf-core/seqkit/grep/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"subworkflows/local/fasta_virusquality_checkv/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"subworkflows/local/fasta_virusquality_checkv/tests/main.nf.test.snap" -> "subworkflows/local/fasta_virusquality_checkv/tests/main.nf.test";
+	"modules/nf-core/seqkit/grep/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"modules/nf-core/seqkit/grep/tests/main.nf.test.snap" -> "modules/nf-core/seqkit/grep/tests/main.nf.test";
+	"subworkflows/local/fasta_phagefunction_pharokka/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"subworkflows/local/utils_nfcore_phageannotator_pipeline/main.nf" [label="subworkflows/
+local/
+utils_nfcore_phageannotator_pipeline/
+main.nf", shape="box3d", fillcolor="1", style="rounded,filled"]
+	"subworkflows/local/utils_nfcore_phageannotator_pipeline/main.nf" -> "workflows/phageannotator/main.nf";
+	"modules/local/seqkit/split/main.nf" [label="modules/
+local/
+seqkit/
+split/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/local/seqkit/split/main.nf" -> "modules/local/seqkit/split/tests/main.nf.test";
+	"modules/local/seqkit/split/main.nf" -> "workflows/phageannotator/main.nf";
+	"lib/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"lib/main.nf.test.snap" -> "lib/main.nf.test";
+	"modules/nf-core/blast/makeblastdb/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"modules/nf-core/blast/makeblastdb/tests/main.nf.test.snap" -> "modules/nf-core/blast/makeblastdb/tests/main.nf.test";
+	"modules/nf-core/cat/cat/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"modules/nf-core/cat/cat/tests/main.nf.test.snap" -> "modules/nf-core/cat/cat/tests/main.nf.test";
+	"modules/nf-core/samtools/index/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"modules/nf-core/samtools/index/tests/main.nf.test.snap" -> "modules/nf-core/samtools/index/tests/main.nf.test";
+	"subworkflows/nf-core/utils_nfcore_pipeline/tests/main.workflow.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"subworkflows/nf-core/utils_nfcore_pipeline/tests/main.workflow.nf.test.snap" -> "subworkflows/nf-core/utils_nfcore_pipeline/tests/main.workflow.nf.test";
+	"modules/nf-core/iphop/download/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/nf-core/sratools/prefetch/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"modules/nf-core/sratools/prefetch/tests/main.nf.test.snap" -> "modules/nf-core/sratools/prefetch/tests/main.nf.test";
+	"subworkflows/local/fasta_phagehost_iphop/main.nf" [label="subworkflows/
+local/
+fasta_phagehost_iphop/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"subworkflows/local/fasta_phagehost_iphop/main.nf" -> "subworkflows/local/fasta_phagehost_iphop/tests/main.nf.test";
+	"subworkflows/local/fasta_phagehost_iphop/main.nf" -> "workflows/phageannotator/main.nf";
+	"modules/local/viromeqc/install/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/local/fetchngs/sra_runinfo_to_ftp/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/local/trfinder/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"modules/local/trfinder/tests/main.nf.test.snap" -> "modules/local/trfinder/tests/main.nf.test";
+	"modules/local/fastg2gfa/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"workflows/phageannotator/fasta_virusmine_fasta/main.nf" [label="workflows/
+phageannotator/
+fasta_virusmine_fasta/
+main.nf", shape="box3d", fillcolor="1", style="rounded,filled"]
+	"subworkflows/local/fasta_virusquality_checkv/main.nf" [label="subworkflows/
+local/
+fasta_virusquality_checkv/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"subworkflows/local/fasta_virusquality_checkv/main.nf" -> "workflows/phageannotator/main.nf";
+	"subworkflows/local/fasta_virusquality_checkv/main.nf" -> "subworkflows/local/fasta_virusquality_checkv/tests/main.nf.test";
+	"modules/nf-core/bowtie2/build/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"modules/nf-core/bowtie2/build/tests/main.nf.test.snap" -> "modules/nf-core/bowtie2/build/tests/main.nf.test";
+	"modules/local/phist/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/local/prophagetracer/wgs/main.nf" [label="modules/
+local/
+prophagetracer/
+wgs/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/local/prophagetracer/wgs/main.nf" -> "modules/local/prophagetracer/wgs/tests/main.nf.test";
+	"subworkflows/local/fastqfasta_virusextension_cobra/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/local/seqkit/seq/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/nf-core/seqkit/grep/main.nf" [label="modules/
+nf-core/
+seqkit/
+grep/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/nf-core/seqkit/grep/main.nf" -> "modules/nf-core/seqkit/grep/tests/main.nf.test";
+	"modules/nf-core/seqkit/grep/main.nf" -> "subworkflows/local/fasta_anicluster_blast/main.nf";
+	"modules/nf-core/cobrameta/main.nf" [label="modules/
+nf-core/
+cobrameta/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/nf-core/cobrameta/main.nf" -> "modules/nf-core/cobrameta/tests/main.nf.test";
+	"modules/nf-core/cobrameta/main.nf" -> "subworkflows/local/fastqfasta_virusextension_cobra/main.nf";
+	"workflows/phageannotator/fasta_virusanalysis_tsv/virus_analyze.nf" [label="workflows/
+phageannotator/
+fasta_virusanalysis_tsv/
+virus_analyze.nf", shape="box3d", fillcolor="1", style="rounded,filled"]
+	"modules/local/phables/install/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/nf-core/genomad/endtoend/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/local/prophagetracer/wgs/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/local/logan/download/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/nf-core/fastqc/main.nf" [label="modules/
+nf-core/
+fastqc/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/nf-core/fastqc/main.nf" -> "workflows/phageannotator/fastq_readpreprocessing_fastq/main.nf";
+	"modules/nf-core/fastqc/main.nf" -> "modules/nf-core/fastqc/tests/main.nf.test";
+	"modules/nf-core/fastqc/main.nf" -> "workflows/phageannotator/main.nf";
+	"modules/local/fetchngs/sra_fastq_ftp/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"modules/local/fetchngs/sra_fastq_ftp/tests/main.nf.test.snap" -> "modules/local/fetchngs/sra_fastq_ftp/tests/main.nf.test";
+	"modules/local/fetchngs/asperacli/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"modules/local/fetchngs/asperacli/tests/main.nf.test.snap" -> "modules/local/fetchngs/asperacli/tests/main.nf.test";
+	"subworkflows/local/fasta_virusquality_checkv/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/local/checkv/aniclust/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"modules/local/checkv/aniclust/tests/main.nf.test.snap" -> "modules/local/checkv/aniclust/tests/main.nf.test";
+	"modules/local/phables/run/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"modules/local/phables/run/tests/main.nf.test.snap" -> "modules/local/phables/run/tests/main.nf.test";
+	"subworkflows/nf-core/utils_nextflow_pipeline/tests/main.function.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"subworkflows/nf-core/utils_nextflow_pipeline/tests/main.function.nf.test.snap" -> "subworkflows/nf-core/utils_nextflow_pipeline/tests/main.function.nf.test";
+	"modules/local/coverm/contig/main.nf" [label="modules/
+local/
+coverm/
+contig/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/local/coverm/contig/main.nf" -> "workflows/phageannotator/main.nf";
+	"modules/local/coverm/contig/main.nf" -> "modules/local/coverm/contig/tests/main.nf.test";
+	"modules/local/coverm/contig/main.nf" -> "subworkflows/local/fastqfasta_virusextension_cobra/main.nf";
+	"modules/nf-core/genomad/download/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/local/trfinder/main.nf" [label="modules/
+local/
+trfinder/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/local/trfinder/main.nf" -> "modules/local/trfinder/tests/main.nf.test";
+	"modules/nf-core/sratools/prefetch/main.nf" [label="modules/
+nf-core/
+sratools/
+prefetch/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/nf-core/sratools/prefetch/main.nf" -> "subworkflows/nf-core/fastq_download_prefetch_fasterqdump_sratools/main.nf";
+	"modules/nf-core/sratools/prefetch/main.nf" -> "modules/nf-core/sratools/prefetch/tests/main.nf.test";
+	"subworkflows/local/fastq_hostremoval_bowtie2/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"subworkflows/local/fastq_hostremoval_bowtie2/tests/main.nf.test.snap" -> "subworkflows/local/fastq_hostremoval_bowtie2/tests/main.nf.test";
+	"modules/local/phables/run/main.nf" [label="modules/
+local/
+phables/
+run/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/local/phables/run/main.nf" -> "modules/local/phables/run/tests/main.nf.test";
+	"modules/local/phables/run/main.nf" -> "subworkflows/local/fastqgfa_virusextension_phables/main.nf";
+	"modules/nf-core/pharokka/pharokka/main.nf" [label="modules/
+nf-core/
+pharokka/
+pharokka/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/nf-core/pharokka/pharokka/main.nf" -> "subworkflows/local/fasta_phagefunction_pharokka/main.nf";
+	"modules/nf-core/pharokka/pharokka/main.nf" -> "modules/nf-core/pharokka/pharokka/tests/main.nf.test";
+	"modules/local/fetchngs/sra_runinfo_to_ftp/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"modules/local/fetchngs/sra_runinfo_to_ftp/tests/main.nf.test.snap" -> "modules/local/fetchngs/sra_runinfo_to_ftp/tests/main.nf.test";
+	"modules/nf-core/sratools/prefetch/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"subworkflows/nf-core/utils_nfvalidation_plugin/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"lib/functions.nf" [label="lib/
+functions.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"lib/functions.nf" -> "lib/main.nf.test";
+	"modules/nf-core/genomad/endtoend/main.nf" [label="modules/
+nf-core/
+genomad/
+endtoend/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/nf-core/genomad/endtoend/main.nf" -> "workflows/phageannotator/main.nf";
+	"modules/nf-core/genomad/endtoend/main.nf" -> "modules/nf-core/genomad/endtoend/tests/main.nf.test";
+	"modules/nf-core/genomad/endtoend/main.nf" -> "subworkflows/local/fasta_virusclassification_genomad/main.nf";
+	"modules/nf-core/samtools/stats/main.nf" [label="modules/
+nf-core/
+samtools/
+stats/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/nf-core/samtools/stats/main.nf" -> "modules/nf-core/samtools/stats/tests/main.nf.test";
+	"modules/nf-core/cat/fastq/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"modules/nf-core/cat/fastq/tests/main.nf.test.snap" -> "modules/nf-core/cat/fastq/tests/main.nf.test";
+	"modules/nf-core/sratools/fasterqdump/main.nf" [label="modules/
+nf-core/
+sratools/
+fasterqdump/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/nf-core/sratools/fasterqdump/main.nf" -> "modules/nf-core/sratools/fasterqdump/tests/main.nf.test";
+	"modules/nf-core/sratools/fasterqdump/main.nf" -> "subworkflows/nf-core/fastq_download_prefetch_fasterqdump_sratools/main.nf";
+	"workflows/phageannotator/fastq_readassembly_fasta/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"subworkflows/local/fasta_virusclassification_genomad/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"subworkflows/nf-core/fastq_download_prefetch_fasterqdump_sratools/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"subworkflows/nf-core/fastq_download_prefetch_fasterqdump_sratools/tests/main.nf.test.snap" -> "subworkflows/nf-core/fastq_download_prefetch_fasterqdump_sratools/tests/main.nf.test";
+	"modules/local/nucleotidestats/main.nf" [label="modules/
+local/
+nucleotidestats/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/local/nucleotidestats/main.nf" -> "workflows/phageannotator/main.nf";
+	"modules/local/nucleotidestats/main.nf" -> "modules/local/nucleotidestats/tests/main.nf.test";
+	"modules/nf-core/bowtie2/align/main.nf" [label="modules/
+nf-core/
+bowtie2/
+align/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/nf-core/bowtie2/align/main.nf" -> "modules/nf-core/bowtie2/align/tests/main.nf.test";
+	"modules/nf-core/bowtie2/align/main.nf" -> "subworkflows/local/fastq_hostremoval_bowtie2/main.nf";
+	"subworkflows/local/fasta_anicluster_blast/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/local/plass/penguin/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"modules/local/plass/penguin/tests/main.nf.test.snap" -> "modules/local/plass/penguin/tests/main.nf.test";
+	"subworkflows/local/fasta_virusclassification_genomad/main.nf" [label="subworkflows/
+local/
+fasta_virusclassification_genomad/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"subworkflows/local/fasta_virusclassification_genomad/main.nf" -> "workflows/phageannotator/main.nf";
+	"subworkflows/local/fasta_virusclassification_genomad/main.nf" -> "subworkflows/local/fasta_virusclassification_genomad/tests/main.nf.test";
+	"modules/nf-core/gunzip/main.nf" [label="modules/
+nf-core/
+gunzip/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/nf-core/gunzip/main.nf" -> "subworkflows/local/fastqfasta_provirusactivity_prophagetracer/main.nf";
+	"modules/nf-core/gunzip/main.nf" -> "subworkflows/local/fastqfasta_provirusactivity_propagate/main.nf";
+	"modules/nf-core/gunzip/main.nf" -> "modules/nf-core/gunzip/tests/main.nf.test";
+	"modules/local/csvtk/sep/main.nf" [label="modules/
+local/
+csvtk/
+sep/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/local/csvtk/sep/main.nf" -> "modules/local/csvtk/sep/tests/main.nf.test";
+	"modules/local/csvtk/sep/main.nf" -> "subworkflows/local/fastqfasta_virusextension_cobra/main.nf";
+	"modules/nf-core/pharokka/pharokka/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"modules/nf-core/pharokka/pharokka/tests/main.nf.test.snap" -> "modules/nf-core/pharokka/pharokka/tests/main.nf.test";
+	"workflows/phageannotator/fasta_virusannotation_tsv/virus_annotate.nf" [label="workflows/
+phageannotator/
+fasta_virusannotation_tsv/
+virus_annotate.nf", shape="box3d", fillcolor="1", style="rounded,filled"]
+	"modules/nf-core/multiqc/main.nf" [label="modules/
+nf-core/
+multiqc/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/nf-core/multiqc/main.nf" -> "modules/nf-core/multiqc/tests/main.nf.test";
+	"modules/nf-core/multiqc/main.nf" -> "workflows/phageannotator/main.nf";
+	"modules/nf-core/multiqc/main.nf" -> "main.nf";
+	"modules/local/csvtk/sep/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"modules/local/csvtk/sep/tests/main.nf.test.snap" -> "modules/local/csvtk/sep/tests/main.nf.test";
+	"modules/local/checkv/aniclust/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/nf-core/sratools/fasterqdump/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/nf-core/blast/blastn/main.nf" [label="modules/
+nf-core/
+blast/
+blastn/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/nf-core/blast/blastn/main.nf" -> "modules/nf-core/blast/blastn/tests/main.nf.test";
+	"modules/nf-core/blast/blastn/main.nf" -> "subworkflows/local/fasta_anicluster_blast/main.nf";
+	"subworkflows/local/csv_sradownload_fetchngs/main.nf" [label="subworkflows/
+local/
+csv_sradownload_fetchngs/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"subworkflows/local/csv_sradownload_fetchngs/main.nf" -> "workflows/phageannotator/main.nf";
+	"subworkflows/local/csv_sradownload_fetchngs/main.nf" -> "subworkflows/local/csv_sradownload_fetchngs/tests/main.nf.test";
+	"modules/nf-core/cobrameta/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/local/phables/install/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"modules/local/phables/install/tests/main.nf.test.snap" -> "modules/local/phables/install/tests/main.nf.test";
+	"modules/nf-core/blast/blastn/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/nf-core/checkv/downloaddatabase/main.nf" [label="modules/
+nf-core/
+checkv/
+downloaddatabase/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/nf-core/checkv/downloaddatabase/main.nf" -> "modules/nf-core/checkv/downloaddatabase/tests/main.nf.test";
+	"modules/nf-core/checkv/downloaddatabase/main.nf" -> "modules/nf-core/checkv/endtoend/tests/main.nf.test";
+	"modules/nf-core/checkv/downloaddatabase/main.nf" -> "modules/nf-core/checkv/updatedatabase/tests/main.nf.test";
+	"modules/nf-core/checkv/downloaddatabase/main.nf" -> "subworkflows/local/fasta_virusquality_checkv/main.nf";
+	"modules/local/seqkit/stats/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"modules/local/seqkit/stats/tests/main.nf.test.snap" -> "modules/local/seqkit/stats/tests/main.nf.test";
+	"modules/local/viromeqc/install/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"modules/local/viromeqc/install/tests/main.nf.test.snap" -> "modules/local/viromeqc/install/tests/main.nf.test";
+	"modules/local/tantan/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"modules/local/tantan/tests/main.nf.test.snap" -> "modules/local/tantan/tests/main.nf.test";
+	"modules/local/coverm/contig/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/nf-core/genomad/download/main.nf" [label="modules/
+nf-core/
+genomad/
+download/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/nf-core/genomad/download/main.nf" -> "modules/nf-core/genomad/endtoend/tests/main.nf.test";
+	"modules/nf-core/genomad/download/main.nf" -> "modules/nf-core/genomad/download/tests/main.nf.test";
+	"modules/nf-core/genomad/download/main.nf" -> "subworkflows/local/fasta_virusclassification_genomad/main.nf";
+	"modules/nf-core/genomad/download/main.nf" -> "subworkflows/local/fasta_virusclassification_genomad/tests/main.nf.test";
+	"main.nf" [label="main.nf", shape="box3d", fillcolor="1", style="rounded,filled"]
+	"subworkflows/local/fasta_anicluster_blast/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"subworkflows/local/fasta_anicluster_blast/tests/main.nf.test.snap" -> "subworkflows/local/fasta_anicluster_blast/tests/main.nf.test";
+	"modules/local/fetchngs/asperacli/main.nf" [label="modules/
+local/
+fetchngs/
+asperacli/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/local/fetchngs/asperacli/main.nf" -> "subworkflows/local/csv_sradownload_fetchngs/main.nf";
+	"modules/local/fetchngs/asperacli/main.nf" -> "modules/local/fetchngs/asperacli/tests/main.nf.test";
+	"modules/local/prophagetracer/wgs/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"modules/local/prophagetracer/wgs/tests/main.nf.test.snap" -> "modules/local/prophagetracer/wgs/tests/main.nf.test";
+	"modules/local/viromeqc/install/main.nf" [label="modules/
+local/
+viromeqc/
+install/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/local/viromeqc/install/main.nf" -> "subworkflows/local/fastq_virusenrichment_viromeqc/tests/main.nf.test";
+	"modules/local/viromeqc/install/main.nf" -> "modules/local/viromeqc/install/tests/main.nf.test";
+	"modules/local/viromeqc/install/main.nf" -> "modules/local/viromeqc/viromeqc/tests/main.nf.test";
+	"modules/local/viromeqc/install/main.nf" -> "subworkflows/local/fastq_virusenrichment_viromeqc/main.nf";
+	"subworkflows/local/fastq_hostremoval_bowtie2/main.nf" [label="subworkflows/
+local/
+fastq_hostremoval_bowtie2/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"subworkflows/local/fastq_hostremoval_bowtie2/main.nf" -> "workflows/phageannotator/fastq_readpreprocessing_fastq/main.nf";
+	"subworkflows/local/fastq_hostremoval_bowtie2/main.nf" -> "subworkflows/local/fastq_hostremoval_bowtie2/tests/main.nf.test";
+	"subworkflows/local/fastq_hostremoval_bowtie2/main.nf" -> "workflows/phageannotator/main.nf";
+	"modules/nf-core/cobrameta/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"modules/nf-core/cobrameta/tests/main.nf.test.snap" -> "modules/nf-core/cobrameta/tests/main.nf.test";
+	"subworkflows/nf-core/fastq_download_prefetch_fasterqdump_sratools/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"subworkflows/local/csv_sradownload_fetchngs/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"subworkflows/local/csv_sradownload_fetchngs/tests/main.nf.test.snap" -> "subworkflows/local/csv_sradownload_fetchngs/tests/main.nf.test";
+	"modules/local/phist/main.nf" [label="modules/
+local/
+phist/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/local/phist/main.nf" -> "modules/local/phist/tests/main.nf.test";
+	"subworkflows/local/fasta_phagehost_iphop/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"subworkflows/local/fasta_phagehost_iphop/tests/main.nf.test.snap" -> "subworkflows/local/fasta_phagehost_iphop/tests/main.nf.test";
+	"workflows/phageannotator/fastq_readpreprocessing_fastq/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/nf-core/fastp/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/nf-core/spades/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"modules/nf-core/spades/tests/main.nf.test.snap" -> "modules/nf-core/spades/tests/main.nf.test";
+	"modules/local/cleanup/cleanworkdirs/main.nf" [label="modules/
+local/
+cleanup/
+cleanworkdirs/
+main.nf", shape="box3d", fillcolor="1", style="rounded,filled"]
+	"modules/local/checkv/anicalc/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/nf-core/bowtie2/build/main.nf" [label="modules/
+nf-core/
+bowtie2/
+build/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/nf-core/bowtie2/build/main.nf" -> "modules/nf-core/bowtie2/align/tests/main.nf.test";
+	"modules/nf-core/bowtie2/build/main.nf" -> "modules/nf-core/bowtie2/build/tests/main.nf.test";
+	"modules/nf-core/bowtie2/build/main.nf" -> "subworkflows/local/fastq_hostremoval_bowtie2/main.nf";
+	"modules/nf-core/sratools/fasterqdump/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"modules/nf-core/sratools/fasterqdump/tests/main.nf.test.snap" -> "modules/nf-core/sratools/fasterqdump/tests/main.nf.test";
+	"modules/nf-core/fastqc/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"modules/nf-core/fastqc/tests/main.nf.test.snap" -> "modules/nf-core/fastqc/tests/main.nf.test";
+	"modules/nf-core/checkv/endtoend/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"subworkflows/local/fasta_anicluster_blast/main.nf" [label="subworkflows/
+local/
+fasta_anicluster_blast/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"subworkflows/local/fasta_anicluster_blast/main.nf" -> "subworkflows/local/fasta_anicluster_blast/tests/main.nf.test";
+	"subworkflows/local/fasta_anicluster_blast/main.nf" -> "workflows/phageannotator/main.nf";
+	"modules/nf-core/multiqc/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/nf-core/custom/sratoolsncbisettings/main.nf" [label="modules/
+nf-core/
+custom/
+sratoolsncbisettings/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/nf-core/custom/sratoolsncbisettings/main.nf" -> "subworkflows/nf-core/fastq_download_prefetch_fasterqdump_sratools/main.nf";
+	"modules/nf-core/custom/sratoolsncbisettings/main.nf" -> "modules/nf-core/custom/sratoolsncbisettings/tests/main.nf.test";
+	"subworkflows/local/fastq_hostremoval_bowtie2/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/local/logan/download/main.nf" [label="modules/
+local/
+logan/
+download/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/local/logan/download/main.nf" -> "workflows/phageannotator/main.nf";
+	"modules/local/logan/download/main.nf" -> "modules/local/logan/download/tests/main.nf.test";
+	"modules/nf-core/genomad/endtoend/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"modules/nf-core/genomad/endtoend/tests/main.nf.test.snap" -> "modules/nf-core/genomad/endtoend/tests/main.nf.test";
+	"subworkflows/nf-core/fastq_download_prefetch_fasterqdump_sratools/main.nf" [label="subworkflows/
+nf-core/
+fastq_download_prefetch_fasterqdump_sratools/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"subworkflows/nf-core/fastq_download_prefetch_fasterqdump_sratools/main.nf" -> "subworkflows/local/csv_sradownload_fetchngs/main.nf";
+	"subworkflows/nf-core/fastq_download_prefetch_fasterqdump_sratools/main.nf" -> "subworkflows/nf-core/fastq_download_prefetch_fasterqdump_sratools/tests/main.nf.test";
+	"modules/nf-core/untar/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"modules/nf-core/untar/tests/main.nf.test.snap" -> "modules/nf-core/untar/tests/main.nf.test";
+	"modules/local/coverm/contig/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"modules/local/coverm/contig/tests/main.nf.test.snap" -> "modules/local/coverm/contig/tests/main.nf.test";
+	"subworkflows/local/fastqgfa_virusextension_phables/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"subworkflows/local/fasta_phagehost_iphop/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/local/fastg2gfa/main.nf" [label="modules/
+local/
+fastg2gfa/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/local/fastg2gfa/main.nf" -> "workflows/phageannotator/main.nf";
+	"modules/local/fastg2gfa/main.nf" -> "modules/local/fastg2gfa/tests/main.nf.test";
+	"modules/nf-core/blast/makeblastdb/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/local/phables/run/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/local/fetchngs/sra_fastq_ftp/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/nf-core/untar/main.nf" [label="modules/
+nf-core/
+untar/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/nf-core/untar/main.nf" -> "modules/nf-core/sratools/fasterqdump/tests/main.nf.test";
+	"modules/nf-core/untar/main.nf" -> "modules/nf-core/untar/tests/main.nf.test";
+	"modules/nf-core/megahit/main.nf" [label="modules/
+nf-core/
+megahit/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/nf-core/megahit/main.nf" -> "workflows/phageannotator/main.nf";
+	"modules/nf-core/megahit/main.nf" -> "modules/nf-core/megahit/tests/main.nf.test";
+	"modules/local/filtersequences/main.nf" [label="modules/
+local/
+filtersequences/
+main.nf", shape="box3d", fillcolor="1", style="rounded,filled"]
+	"modules/local/filtersequences/main.nf" -> "workflows/phageannotator/main.nf";
+	"workflows/phageannotator/fastq_readassembly_fasta/main.nf" [label="workflows/
+phageannotator/
+fastq_readassembly_fasta/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"workflows/phageannotator/fastq_readassembly_fasta/main.nf" -> "workflows/phageannotator/fastq_readassembly_fasta/tests/main.nf.test";
+	"modules/nf-core/gunzip/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"modules/nf-core/gunzip/tests/main.nf.test.snap" -> "modules/nf-core/gunzip/tests/main.nf.test";
+	"modules/local/nucleotidestats/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"modules/local/nucleotidestats/tests/main.nf.test.snap" -> "modules/local/nucleotidestats/tests/main.nf.test";
+	"modules/nf-core/bowtie2/build/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/local/viromeqc/viromeqc/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"modules/local/viromeqc/viromeqc/tests/main.nf.test.snap" -> "modules/local/viromeqc/viromeqc/tests/main.nf.test";
+	"modules/nf-core/checkv/updatedatabase/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/local/nucleotidestats/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/local/seqkit/split/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"modules/local/seqkit/split/tests/main.nf.test.snap" -> "modules/local/seqkit/split/tests/main.nf.test";
+	"subworkflows/nf-core/utils_nextflow_pipeline/tests/main.workflow.nf.test" [label="main.workflow.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/local/seqkit/split/tests/main.nf.test" [label="main.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/local/checkv/anicalc/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"modules/local/checkv/anicalc/tests/main.nf.test.snap" -> "modules/local/checkv/anicalc/tests/main.nf.test";
+	"modules/nf-core/fastp/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"modules/nf-core/fastp/tests/main.nf.test.snap" -> "modules/nf-core/fastp/tests/main.nf.test";
+	"subworkflows/local/fastqgfa_virusextension_phables/main.nf" [label="subworkflows/
+local/
+fastqgfa_virusextension_phables/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"subworkflows/local/fastqgfa_virusextension_phables/main.nf" -> "workflows/phageannotator/main.nf";
+	"subworkflows/local/fastqgfa_virusextension_phables/main.nf" -> "subworkflows/local/fastqgfa_virusextension_phables/tests/main.nf.test";
+	"subworkflows/nf-core/utils_nfcore_pipeline/tests/main.workflow.nf.test" [label="main.workflow.nf.test", fillcolor="2", style="rounded,filled"]
+	"modules/nf-core/bacphlip/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"modules/nf-core/bacphlip/tests/main.nf.test.snap" -> "modules/nf-core/bacphlip/tests/main.nf.test";
+	"subworkflows/nf-core/utils_nfcore_pipeline/tests/main.function.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"subworkflows/nf-core/utils_nfcore_pipeline/tests/main.function.nf.test.snap" -> "subworkflows/nf-core/utils_nfcore_pipeline/tests/main.function.nf.test";
+	"modules/local/phables/install/main.nf" [label="modules/
+local/
+phables/
+install/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/local/phables/install/main.nf" -> "modules/local/phables/install/tests/main.nf.test";
+	"modules/local/phables/install/main.nf" -> "modules/local/phables/run/tests/main.nf.test";
+	"modules/local/phables/install/main.nf" -> "subworkflows/local/fastqgfa_virusextension_phables/main.nf";
+	"modules/local/phables/install/main.nf" -> "subworkflows/local/fastqgfa_virusextension_phables/tests/main.nf.test";
+	"modules/nf-core/megahit/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"modules/nf-core/megahit/tests/main.nf.test.snap" -> "modules/nf-core/megahit/tests/main.nf.test";
+	"modules/local/checkv/anicalc/main.nf" [label="modules/
+local/
+checkv/
+anicalc/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/local/checkv/anicalc/main.nf" -> "modules/local/checkv/anicalc/tests/main.nf.test";
+	"modules/local/checkv/anicalc/main.nf" -> "subworkflows/local/fasta_anicluster_blast/main.nf";
+	"modules/local/fetchngs/sra_runinfo_to_ftp/main.nf" [label="modules/
+local/
+fetchngs/
+sra_runinfo_to_ftp/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/local/fetchngs/sra_runinfo_to_ftp/main.nf" -> "subworkflows/local/csv_sradownload_fetchngs/main.nf";
+	"modules/local/fetchngs/sra_runinfo_to_ftp/main.nf" -> "modules/local/fetchngs/sra_runinfo_to_ftp/tests/main.nf.test";
+	"modules/local/checkv/aniclust/main.nf" [label="modules/
+local/
+checkv/
+aniclust/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/local/checkv/aniclust/main.nf" -> "modules/local/checkv/aniclust/tests/main.nf.test";
+	"modules/local/checkv/aniclust/main.nf" -> "subworkflows/local/fasta_anicluster_blast/main.nf";
+	"modules/nf-core/blast/blastn/tests/main.nf.test.snap" [label="Snapshot", shape="cylinder"]
+	"modules/nf-core/blast/blastn/tests/main.nf.test.snap" -> "modules/nf-core/blast/blastn/tests/main.nf.test";
+	"modules/nf-core/bacphlip/main.nf" [label="modules/
+nf-core/
+bacphlip/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/nf-core/bacphlip/main.nf" -> "modules/nf-core/bacphlip/tests/main.nf.test";
+	"modules/nf-core/bacphlip/main.nf" -> "workflows/phageannotator/main.nf";
+	"modules/local/viromeqc/viromeqc/main.nf" [label="modules/
+local/
+viromeqc/
+viromeqc/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/local/viromeqc/viromeqc/main.nf" -> "modules/local/viromeqc/viromeqc/tests/main.nf.test";
+	"modules/local/viromeqc/viromeqc/main.nf" -> "subworkflows/local/fastq_virusenrichment_viromeqc/main.nf";
+	"subworkflows/nf-core/utils_nfcore_pipeline/main.nf" [label="subworkflows/
+nf-core/
+utils_nfcore_pipeline/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"subworkflows/nf-core/utils_nfcore_pipeline/main.nf" -> "subworkflows/nf-core/utils_nfcore_pipeline/tests/main.function.nf.test";
+	"subworkflows/nf-core/utils_nfcore_pipeline/main.nf" -> "subworkflows/nf-core/utils_nfcore_pipeline/tests/main.workflow.nf.test";
+	"subworkflows/nf-core/utils_nfcore_pipeline/main.nf" -> "workflows/phageannotator/main.nf";
+	"subworkflows/nf-core/utils_nfcore_pipeline/main.nf" -> "subworkflows/local/utils_nfcore_phageannotator_pipeline/main.nf";
+	"subworkflows/nf-core/utils_nfcore_pipeline/main.nf" -> "main.nf";
+	"workflows/phageannotator/fastq_readpreprocessing_fastq/main.nf" [label="workflows/
+phageannotator/
+fastq_readpreprocessing_fastq/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"workflows/phageannotator/fastq_readpreprocessing_fastq/main.nf" -> "workflows/phageannotator/fastq_readpreprocessing_fastq/tests/main.nf.test";
+	"modules/local/plass/penguin/main.nf" [label="modules/
+local/
+plass/
+penguin/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"modules/local/plass/penguin/main.nf" -> "modules/local/plass/penguin/tests/main.nf.test";
+	"modules/local/plass/penguin/main.nf" -> "workflows/phageannotator/main.nf";
+	"subworkflows/local/fastqfasta_provirusactivity_propagate/main.nf" [label="subworkflows/
+local/
+fastqfasta_provirusactivity_propagate/
+main.nf", shape="box3d", fillcolor="3", style="rounded,filled"]
+	"subworkflows/local/fastqfasta_provirusactivity_propagate/main.nf" -> "subworkflows/local/fastqfasta_provirusactivity_propagate/tests/main.nf.test";
+}

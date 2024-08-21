@@ -26,7 +26,7 @@ workflow FASTQ_VIRUSENRICHMENT_VIROMEQC {
     //
     // MODULE: Estimate viral enrichment
     //
-    ch_enrichment_tsv   = VIROMEQC_VIROMEQC(fastq_gz, ch_viromeqc_db).enrichment
+    ch_enrichment_tsv   = VIROMEQC_VIROMEQC(fastq_gz, ch_viromeqc_db.first()).enrichment
     ch_versions         = ch_versions.mix(VIROMEQC_VIROMEQC.out.versions)
 
     emit:

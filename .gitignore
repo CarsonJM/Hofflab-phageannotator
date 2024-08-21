@@ -11,3 +11,4 @@ tip_*test/
 prophage_tracer_setup/
 .nf-test.log
 ictv/
+nf-test-parallel/*

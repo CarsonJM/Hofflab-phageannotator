@@ -1,87 +1,4 @@
 {
-    "fastq.gz single + fasta.gz + no index": {
-        "content": [
-            {
-                "0": [
-                    [
-                        {
-                            "id": "test1",
-                            "single_end": true
-                        },
-                        "test1.unmapped.fastq.gz:md5,a5c8a6eba31fcce5851f640c9fe7be06"
-                    ],
-                    [
-                        {
-                            "id": "test2",
-                            "single_end": true
-                        },
-                        "test2.unmapped.fastq.gz:md5,694edf9011f8a5a817aa0ffc76949eee"
-                    ]
-                ],
-                "1": [
-                    "versions.yml:md5,7527172e0c4466b67ac3676f720ad480",
-                    "versions.yml:md5,a2f4bc7f555b5b1c334c97961644d42b"
-                ],
-                "2": [
-                    [
-                        {
-                            "id": "test1",
-                            "single_end": true
-                        },
-                        "test1.bowtie2.log:md5,4f0c3b544eb7cf59349777f978d30a4c"
-                    ],
-                    [
-                        {
-                            "id": "test2",
-                            "single_end": true
-                        },
-                        "test2.bowtie2.log:md5,30012a1bb8de3e4190b65373111e8e23"
-                    ]
-                ],
-                "fastq_gz": [
-                    [
-                        {
-                            "id": "test1",
-                            "single_end": true
-                        },
-                        "test1.unmapped.fastq.gz:md5,a5c8a6eba31fcce5851f640c9fe7be06"
-                    ],
-                    [
-                        {
-                            "id": "test2",
-                            "single_end": true
-                        },
-                        "test2.unmapped.fastq.gz:md5,694edf9011f8a5a817aa0ffc76949eee"
-                    ]
-                ],
-                "mqc": [
-                    [
-                        {
-                            "id": "test1",
-                            "single_end": true
-                        },
-                        "test1.bowtie2.log:md5,4f0c3b544eb7cf59349777f978d30a4c"
-                    ],
-                    [
-                        {
-                            "id": "test2",
-                            "single_end": true
-                        },
-                        "test2.bowtie2.log:md5,30012a1bb8de3e4190b65373111e8e23"
-                    ]
-                ],
-                "versions": [
-                    "versions.yml:md5,7527172e0c4466b67ac3676f720ad480",
-                    "versions.yml:md5,a2f4bc7f555b5b1c334c97961644d42b"
-                ]
-            }
-        ],
-        "meta": {
-            "nf-test": "0.8.4",
-            "nextflow": "24.04.1"
-        },
-        "timestamp": "2024-07-23T10:19:41.929841148"
-    },
     "fastq.gz paired + fasta.gz + no index": {
         "content": [
             {
@@ -92,8 +9,8 @@
                             "single_end": false
                         },
                         [
-                            "test1.unmapped_1.fastq.gz:md5,9a8ee9c49de46f6e931b8ce0565a195b",
-                            "test1.unmapped_2.fastq.gz:md5,762a0af72c5f7645c1570f24cdbad25c"
+                            "test1_bowtie2.unmapped_1.fastq.gz:md5,6924a0e4bf760ad3ad6a4a5ab0020ce1",
+                            "test1_bowtie2.unmapped_2.fastq.gz:md5,bc64507de9b0fafce1757cae39ff3e7a"
                         ]
                     ],
                     [
@@ -102,8 +19,8 @@
                             "single_end": false
                         },
                         [
-                            "test2.unmapped_1.fastq.gz:md5,92e68dfac8156b01c547a26cb45e42b1",
-                            "test2.unmapped_2.fastq.gz:md5,6ded2b5f426aca4e9b29877fac4e9bff"
+                            "test2_bowtie2.unmapped_1.fastq.gz:md5,40d41a369939ab5eaefd14813594eceb",
+                            "test2_bowtie2.unmapped_2.fastq.gz:md5,0323f20f5ce1d80c7f9cfaeb19b462ea"
                         ]
                     ]
                 ],
@@ -117,14 +34,14 @@
                             "id": "test1",
                             "single_end": false
                         },
-                        "test1.bowtie2.log:md5,0ef5489587715bef80b17bf7ee8cfbec"
+                        "test1_bowtie2.bowtie2.log:md5,a947ef5d3656c605d3266370a2690275"
                     ],
                     [
                         {
                             "id": "test2",
                             "single_end": false
                         },
-                        "test2.bowtie2.log:md5,5695e2378d328bb4ce028c68615e6a37"
+                        "test2_bowtie2.bowtie2.log:md5,69e4dad267a8ffd19ad21c294bc9433b"
                     ]
                 ],
                 "fastq_gz": [
@@ -134,8 +51,8 @@
                             "single_end": false
                         },
                         [
-                            "test1.unmapped_1.fastq.gz:md5,9a8ee9c49de46f6e931b8ce0565a195b",
-                            "test1.unmapped_2.fastq.gz:md5,762a0af72c5f7645c1570f24cdbad25c"
+                            "test1_bowtie2.unmapped_1.fastq.gz:md5,6924a0e4bf760ad3ad6a4a5ab0020ce1",
+                            "test1_bowtie2.unmapped_2.fastq.gz:md5,bc64507de9b0fafce1757cae39ff3e7a"
                         ]
                     ],
                     [
@@ -144,8 +61,8 @@
                             "single_end": false
                         },
                         [
-                            "test2.unmapped_1.fastq.gz:md5,92e68dfac8156b01c547a26cb45e42b1",
-                            "test2.unmapped_2.fastq.gz:md5,6ded2b5f426aca4e9b29877fac4e9bff"
+                            "test2_bowtie2.unmapped_1.fastq.gz:md5,40d41a369939ab5eaefd14813594eceb",
+                            "test2_bowtie2.unmapped_2.fastq.gz:md5,0323f20f5ce1d80c7f9cfaeb19b462ea"
                         ]
                     ]
                 ],
@@ -155,14 +72,14 @@
                             "id": "test1",
                             "single_end": false
                         },
-                        "test1.bowtie2.log:md5,0ef5489587715bef80b17bf7ee8cfbec"
+                        "test1_bowtie2.bowtie2.log:md5,a947ef5d3656c605d3266370a2690275"
                     ],
                     [
                         {
                             "id": "test2",
                             "single_end": false
                         },
-                        "test2.bowtie2.log:md5,5695e2378d328bb4ce028c68615e6a37"
+                        "test2_bowtie2.bowtie2.log:md5,69e4dad267a8ffd19ad21c294bc9433b"
                     ]
                 ],
                 "versions": [
@@ -172,10 +89,10 @@
             }
         ],
         "meta": {
-            "nf-test": "0.8.4",
-            "nextflow": "24.04.1"
+            "nf-test": "0.9.0",
+            "nextflow": "24.04.4"
         },
-        "timestamp": "2024-07-23T10:19:21.399962453"
+        "timestamp": "2024-08-20T10:45:20.478514699"
     },
     "fastq.gz paired + fasta.gz + bt2": {
         "content": [
@@ -187,8 +104,8 @@
                             "single_end": false
                         },
                         [
-                            "test1.unmapped_1.fastq.gz:md5,9a8ee9c49de46f6e931b8ce0565a195b",
-                            "test1.unmapped_2.fastq.gz:md5,762a0af72c5f7645c1570f24cdbad25c"
+                            "test1_bowtie2.unmapped_1.fastq.gz:md5,6924a0e4bf760ad3ad6a4a5ab0020ce1",
+                            "test1_bowtie2.unmapped_2.fastq.gz:md5,bc64507de9b0fafce1757cae39ff3e7a"
                         ]
                     ],
                     [
@@ -197,8 +114,8 @@
                             "single_end": false
                         },
                         [
-                            "test2.unmapped_1.fastq.gz:md5,92e68dfac8156b01c547a26cb45e42b1",
-                            "test2.unmapped_2.fastq.gz:md5,6ded2b5f426aca4e9b29877fac4e9bff"
+                            "test2_bowtie2.unmapped_1.fastq.gz:md5,40d41a369939ab5eaefd14813594eceb",
+                            "test2_bowtie2.unmapped_2.fastq.gz:md5,0323f20f5ce1d80c7f9cfaeb19b462ea"
                         ]
                     ]
                 ],
@@ -211,14 +128,14 @@
                             "id": "test1",
                             "single_end": false
                         },
-                        "test1.bowtie2.log:md5,0ef5489587715bef80b17bf7ee8cfbec"
+                        "test1_bowtie2.bowtie2.log:md5,a947ef5d3656c605d3266370a2690275"
                     ],
                     [
                         {
                             "id": "test2",
                             "single_end": false
                         },
-                        "test2.bowtie2.log:md5,5695e2378d328bb4ce028c68615e6a37"
+                        "test2_bowtie2.bowtie2.log:md5,69e4dad267a8ffd19ad21c294bc9433b"
                     ]
                 ],
                 "fastq_gz": [
@@ -228,8 +145,8 @@
                             "single_end": false
                         },
                         [
-                            "test1.unmapped_1.fastq.gz:md5,9a8ee9c49de46f6e931b8ce0565a195b",
-                            "test1.unmapped_2.fastq.gz:md5,762a0af72c5f7645c1570f24cdbad25c"
+                            "test1_bowtie2.unmapped_1.fastq.gz:md5,6924a0e4bf760ad3ad6a4a5ab0020ce1",
+                            "test1_bowtie2.unmapped_2.fastq.gz:md5,bc64507de9b0fafce1757cae39ff3e7a"
                         ]
                     ],
                     [
@@ -238,8 +155,8 @@
                             "single_end": false
                         },
                         [
-                            "test2.unmapped_1.fastq.gz:md5,92e68dfac8156b01c547a26cb45e42b1",
-                            "test2.unmapped_2.fastq.gz:md5,6ded2b5f426aca4e9b29877fac4e9bff"
+                            "test2_bowtie2.unmapped_1.fastq.gz:md5,40d41a369939ab5eaefd14813594eceb",
+                            "test2_bowtie2.unmapped_2.fastq.gz:md5,0323f20f5ce1d80c7f9cfaeb19b462ea"
                         ]
                     ]
                 ],
@@ -249,14 +166,14 @@
                             "id": "test1",
                             "single_end": false
                         },
-                        "test1.bowtie2.log:md5,0ef5489587715bef80b17bf7ee8cfbec"
+                        "test1_bowtie2.bowtie2.log:md5,a947ef5d3656c605d3266370a2690275"
                     ],
                     [
                         {
                             "id": "test2",
                             "single_end": false
                         },
-                        "test2.bowtie2.log:md5,5695e2378d328bb4ce028c68615e6a37"
+                        "test2_bowtie2.bowtie2.log:md5,69e4dad267a8ffd19ad21c294bc9433b"
                     ]
                 ],
                 "versions": [
@@ -265,9 +182,9 @@
             }
         ],
         "meta": {
-            "nf-test": "0.8.4",
-            "nextflow": "24.04.1"
+            "nf-test": "0.9.0",
+            "nextflow": "24.04.4"
         },
-        "timestamp": "2024-07-23T10:20:02.813456758"
+        "timestamp": "2024-08-20T10:51:46.525642255"
     }
 }

@@ -6,14 +6,13 @@
 //
 // FUNCTIONS: Local functions
 //
-include { getWorkDirs   } from '../../../lib/NfCleanUp.groovy'
+include { getWorkDirs; rmEmptyFastAs; rmEmptyFastQs } from '../../../lib/functions.nf'
 
 //
 // SUBWORKFLOWS: Consisting of a mix of local and nf-core/modules
 //
 include { FASTQ_HOSTREMOVAL_BOWTIE2         } from '../../../subworkflows/local/fastq_hostremoval_bowtie2/main'
 include { FASTQ_VIRUSENRICHMENT_VIROMEQC    } from '../../../subworkflows/local/fastq_virusenrichment_viromeqc/main'
-
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -27,7 +26,6 @@ include { CAT_FASTQ as CAT_RUNMERGE         } from '../../../modules/nf-core/cat
 include { FASTP                             } from '../../../modules/nf-core/fastp/main'
 include { FASTQC as FASTQC_RAW              } from '../../../modules/nf-core/fastqc/main'
 include { FASTQC as FASTQC_PREPROCESSED     } from '../../../modules/nf-core/fastqc/main'
-
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -52,7 +50,6 @@ workflow FASTQ_READPREPROCESSING_FASTQ {
     )
     ch_multiqc_files    = ch_multiqc_files.mix(FASTQC_RAW.out.zip.collect{it[1]})
     ch_versions         = ch_versions.mix(FASTQC_RAW.out.versions.first())
-
 
     /*----------------------------------------------------------------------------
         Read merging
@@ -90,25 +87,24 @@ workflow FASTQ_READPREPROCESSING_FASTQ {
         // IDENTIFY WORKDIRS TO CLEAN
         ch_pre_merge_workdirs = getWorkDirs(
             ch_raw_fastq_gz,
-            ch_runmerged_fastq_gz,
-            []
+            ch_runmerged_fastq_gz
         )
         ch_workdirs_to_clean = ch_workdirs_to_clean.mix(ch_pre_merge_workdirs)
     } else {
         ch_runmerged_fastq_gz = ch_raw_fastq_gz
     }
 
-
     /*----------------------------------------------------------------------------
         Read Preprocessing
     ------------------------------------------------------------------------------*/
-    if ( params.run_fastp ) {
+    if (params.run_fastp) {
         //
         // MODULE: Run fastp on raw reads
         //
         FASTP(
             ch_runmerged_fastq_gz,
             [],
+            false,
             false,
             false
         )
@@ -117,34 +113,17 @@ workflow FASTQ_READPREPROCESSING_FASTQ {
         ch_multiqc_files            = ch_multiqc_files.mix(FASTP.out.json.collect{ it[1] })
 
         // REMOVE EMPTY FASTQ FILES FROM CHANNEL
-        ch_fastp_fastq_gz = ch_fastp_prefilt_fastq_gz
-            .filter { meta, fastq ->
-                if ( meta.single_end ) {
-                    try {
-                        fastq.countFastq(limit: 10) > 1
-                    } catch (EOFException) {
-                        log.warn "[HoffLab/phageannotator]: ${fastq} has an EOFException, this is likely an empty gzipped file."
-                    }
-                } else {
-                    try {
-                        fastq[0].countLines( limit: 10 ) > 1
-                    } catch (EOFException) {
-                        log.warn "[HoffLab/phageannotator]: ${fastq[0]} has an EOFException, this is likely an empty gzipped file."
-                    }
-                }
-            }
+        ch_fastp_fastq_gz = rmEmptyFastQs(ch_fastp_prefilt_fastq_gz)
 
         // IDENTIFY WORKDIRS TO CLEAN
         ch_pre_fastp_workdirs = getWorkDirs(
             ch_runmerged_fastq_gz,
-            ch_fastp_fastq_gz,
-            []
+            ch_fastp_fastq_gz
         )
         ch_workdirs_to_clean = ch_workdirs_to_clean.mix(ch_pre_fastp_workdirs)
     } else {
         ch_fastp_fastq_gz = ch_runmerged_fastq_gz
     }
-
 
     /*----------------------------------------------------------------------------
         Host read removal
@@ -178,34 +157,17 @@ workflow FASTQ_READPREPROCESSING_FASTQ {
         ch_multiqc_files        = ch_multiqc_files.mix(FASTQ_HOSTREMOVAL_BOWTIE2.out.mqc.collect{ it[1] })
 
         // REMOVE EMPTY FASTQ FILES FROM CHANNEL
-        ch_bt2_fastq_gz = ch_bt2_prefilt_fastq_gz
-            .filter { meta, fastq ->
-                if (meta.single_end) {
-                    try {
-                        fastq.countFastq(limit: 10) > 1
-                    } catch (EOFException) {
-                        log.warn "[HoffLab/phageannotator]: ${fastq} has an EOFException, this is likely an empty gzipped file."
-                    }
-                } else {
-                    try {
-                        fastq[0].countLines(limit: 10) > 1
-                    } catch (EOFException) {
-                        log.warn "[HoffLab/phageannotator]: ${fastq[0]} has an EOFException, this is likely an empty gzipped file."
-                    }
-                }
-            }
+        ch_bt2_fastq_gz = rmEmptyFastQs(ch_bt2_prefilt_fastq_gz)
 
         // IDENTIFY WORKDIRS TO CLEAN
         ch_pre_bt2_workdirs = getWorkDirs(
             ch_fastp_fastq_gz,
-            ch_bt2_fastq_gz,
-            []
+            ch_bt2_fastq_gz
         )
         ch_workdirs_to_clean = ch_workdirs_to_clean.mix(ch_pre_bt2_workdirs)
     } else {
         ch_bt2_fastq_gz  = ch_fastp_fastq_gz
     }
-
 
     /*----------------------------------------------------------------------------
         Preprocessing analysis
@@ -220,8 +182,6 @@ workflow FASTQ_READPREPROCESSING_FASTQ {
         ch_multiqc_files    = ch_multiqc_files.mix(FASTQC_PREPROCESSED.out.zip.collect{it[1]})
         ch_versions         = ch_versions.mix(FASTQC_PREPROCESSED.out.versions.first())
     }
-
-
 
     /*----------------------------------------------------------------------------
         Estimate virus enrichment

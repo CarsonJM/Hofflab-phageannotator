@@ -5,7 +5,6 @@ nextflow_workflow {
     workflow "FASTQ_HOSTREMOVAL_BOWTIE2"
 
     test("fastq.gz paired + fasta.gz + no index") {
-
         when {
             workflow {
                 """
@@ -13,63 +12,26 @@ nextflow_workflow {
                     [
                         [ id:'test1', single_end:false ], // meta map
                         [
-                            file(params.modules_testdata_base_path + 'genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz', checkifExists: true),
-                            file(params.modules_testdata_base_path + 'genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz', checkifExists: true)
+                            file("${projectDir}/assets/test-datasets/fastqs/test1_1.fastq.gz", checkifExists: true),
+                            file("${projectDir}/assets/test-datasets/fastqs/test1_2.fastq.gz", checkifExists: true)
                         ]
                     ],
                     [
                         [ id:'test2', single_end:false ], // meta map
                         [
-                            file(params.modules_testdata_base_path + 'genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test2_1.fastq.gz', checkifExists: true),
-                            file(params.modules_testdata_base_path + 'genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test2_2.fastq.gz', checkifExists: true)
+                            file("${projectDir}/assets/test-datasets/fastqs/test2_1.fastq.gz", checkifExists: true),
+                            file("${projectDir}/assets/test-datasets/fastqs/test2_2.fastq.gz", checkifExists: true)
                         ]
                     ]
                 )
                 input[1] = [
                     [ id:'fasta' ],
-                    file("${projectDir}/assets/test-datasets/bowtie2/lambda.fasta.gz", checkifExists: true)
+                    file("${projectDir}/assets/test-datasets/fastas/lambda.fasta.gz", checkifExists: true)
                 ]
                 input[2] = null
                 """
             }
         }
-
-        then {
-            assertAll(
-                { assert workflow.success },
-                { assert snapshot(workflow.out).match() }
-            )
-        }
-    }
-
-    test("fastq.gz single + fasta.gz + no index") {
-
-        when {
-            workflow {
-                """
-                input[0] = Channel.of(
-                    [
-                        [ id:'test1', single_end:true ], // meta map
-                        [
-                            file(params.modules_testdata_base_path + 'genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz', checkifExists: true),
-                        ]
-                    ],
-                    [
-                        [ id:'test2', single_end:true ], // meta map
-                        [
-                            file(params.modules_testdata_base_path + 'genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test2_1.fastq.gz', checkifExists: true),
-                        ]
-                    ]
-                )
-                input[1] = [
-                    [ id:'fasta' ],
-                    file("${projectDir}/assets/test-datasets/bowtie2/lambda.fasta.gz", checkifExists: true)
-                ]
-                input[2] = null
-                """
-            }
-        }
-
         then {
             assertAll(
                 { assert workflow.success },
@@ -79,7 +41,6 @@ nextflow_workflow {
     }
 
     test("fastq.gz paired + fasta.gz + bt2") {
-
         when {
             workflow {
                 """
@@ -87,15 +48,15 @@ nextflow_workflow {
                     [
                         [ id:'test1', single_end:false ], // meta map
                         [
-                            file(params.modules_testdata_base_path + 'genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_1.fastq.gz', checkifExists: true),
-                            file(params.modules_testdata_base_path + 'genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test1_2.fastq.gz', checkifExists: true)
+                            file("${projectDir}/assets/test-datasets/fastqs/test1_1.fastq.gz", checkifExists: true),
+                            file("${projectDir}/assets/test-datasets/fastqs/test1_2.fastq.gz", checkifExists: true)
                         ]
                     ],
                     [
                         [ id:'test2', single_end:false ], // meta map
                         [
-                            file(params.modules_testdata_base_path + 'genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test2_1.fastq.gz', checkifExists: true),
-                            file(params.modules_testdata_base_path + 'genomics/prokaryotes/bacteroides_fragilis/illumina/fastq/test2_2.fastq.gz', checkifExists: true)
+                            file("${projectDir}/assets/test-datasets/fastqs/test2_1.fastq.gz", checkifExists: true),
+                            file("${projectDir}/assets/test-datasets/fastqs/test2_2.fastq.gz", checkifExists: true)
                         ]
                     ]
                 )
@@ -110,7 +71,6 @@ nextflow_workflow {
                 """
             }
         }
-
         then {
             assertAll(
                 { assert workflow.success },

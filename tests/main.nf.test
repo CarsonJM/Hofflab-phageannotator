@@ -1,0 +1,36 @@
+nextflow_pipeline {
+
+    name "Test pipeline"
+    script "../main.nf"
+
+    test("Test full pipeline") {
+        config "../conf/test_full.config"
+        when {
+            params {
+                outdir = "$outputDir"
+            }
+        }
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    path("$outputDir/ReadPreprocessing/")
+                ).match() }
+            )
+        }
+    }
+
+    test("Test nothing") {
+        config "../conf/test_nothing.config"
+        when {
+            params {
+                outdir = "$outputDir"
+            }
+        }
+        then {
+            assertAll(
+                { assert workflow.success }
+            )
+        }
+    }
+}

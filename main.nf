@@ -69,16 +69,10 @@ workflow HOFFLAB_PHAGEANNOTATOR {
         Load and parse accessions file
     ------------------------------------------------------------------------------*/
     //
-    // Create channels from input file provided through params.input and params.assembly_input
-    //
-    ch_sra_accessions = Channel
-        .fromSamplesheet("sra_accessions")
-
-    //
     // SUBWORKFLOW: Download SRA reads
     //
     if (params.sra_accessions) {
-        ch_sra_fastq_gz     = CSV_SRADOWNLOAD_FETCHNGS(ch_sra_accessions, params.sra_download_method).fastq
+        ch_sra_fastq_gz     = CSV_SRADOWNLOAD_FETCHNGS(params.sra_accessions, params.sra_download_method).fastq
         ch_versions         = ch_versions.mix(CSV_SRADOWNLOAD_FETCHNGS.out.versions)
         ch_input_fastq_gz   = input_fastq_gz.mix(ch_sra_fastq_gz)
     } else {

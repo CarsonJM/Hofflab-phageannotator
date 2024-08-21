@@ -1,0 +1,39 @@
+{
+    "rmEmptyFastas + empty.fasta.gz": {
+        "content": [
+            [
+                "[[id:nonempty], /mmfs1/gscratch/pedslabs_hoffman/carsonjm/VTDB/VTDB-createdb/assets/test-datasets/fastas/test1.contigs.fa.gz]"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.0",
+            "nextflow": "24.04.4"
+        },
+        "timestamp": "2024-08-15T07:24:07.94855558"
+    },
+    "getWorkDirs": {
+        "content": [
+            [
+                "[[id:test], /somepath/work/12/hashforworkdirtoclean/]"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.0",
+            "nextflow": "24.04.4"
+        },
+        "timestamp": "2024-08-15T07:26:01.969474515"
+    },
+    "rmEmptyFastas + cleaned.fasta.gz": {
+        "content": [
+            [
+                "[[id:nonempty], /mmfs1/gscratch/pedslabs_hoffman/carsonjm/VTDB/VTDB-createdb/assets/test-datasets/fastas/test1.contigs.fa.gz]",
+                "[[id:cleaned], /mmfs1/gscratch/pedslabs_hoffman/carsonjm/VTDB/VTDB-createdb/assets/test-datasets/fastas/cleaned.fa.gz]"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.0",
+            "nextflow": "24.04.4"
+        },
+        "timestamp": "2024-08-15T07:24:14.203326806"
+    }
+}

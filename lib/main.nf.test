@@ -1,0 +1,85 @@
+nextflow_function {
+
+    name "Test functions.nf"
+    script "./functions.nf"
+
+    test("getWorkDirs") {
+        function "getWorkDirs"
+        when {
+            function {
+            """
+            input[0] = Channel.of(
+                [
+                    [ id:'test' ], // meta map
+                    "/somepath/work/12/hashforworkdirtoclean/somefile.txt"
+                ]
+            )
+            input[1] = Channel.of(
+                [
+                    [ id:'test' ], // meta map
+                    "/somepath/work/34/hashforworkdirdependent/someotherfile.txt"
+                ]
+            )
+            """
+            }
+        }
+        then {
+            assertAll (
+                { assert function.success },
+                { assert snapshot(function.stdout).match() }
+            )
+        }
+    }
+
+    test("rmEmptyFastas + empty.fasta.gz") {
+        function "rmEmptyFastas"
+        when {
+            function {
+            """
+            input[0] = Channel.of(
+                [
+                    [ id:'nonempty' ], // meta map
+                    file("${projectDir}/assets/test-datasets/fastas/test1.contigs.fa.gz", checkIfExists: true)
+                ],
+                [
+                    [ id:'empty' ], // meta map
+                    file("${projectDir}/assets/test-datasets/fastas/empty.fa.gz", checkIfExists: true)
+                ]
+            )
+            """
+            }
+        }
+        then {
+            assertAll (
+                { assert function.success },
+                { assert snapshot(function.stdout).match() }
+            )
+        }
+    }
+
+    test("rmEmptyFastas + cleaned.fasta.gz") {
+        function "rmEmptyFastas"
+        when {
+            function {
+            """
+            input[0] = Channel.of(
+                [
+                    [ id:'nonempty' ], // meta map
+                    file("${projectDir}/assets/test-datasets/fastas/test1.contigs.fa.gz", checkIfExists: true)
+                ],
+                [
+                    [ id:'cleaned' ], // meta map
+                    file("${projectDir}/assets/test-datasets/fastas/cleaned.fa.gz", checkIfExists: true)
+                ]
+            )
+            """
+            }
+        }
+        then {
+            assertAll (
+                { assert function.success },
+                { assert snapshot(function.stdout).match() }
+            )
+        }
+    }
+}

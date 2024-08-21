@@ -1,14 +1,14 @@
 {
     "sarscov2 - [fastq1, fastq2], large_index, fasta, false, false - bam": {
         "content": [
-            "test.bam",
+            "test_bowtie2.bam",
             [
                 [
                     {
                         "id": "test",
                         "single_end": false
                     },
-                    "test.bowtie2.log:md5,bd89ce1b28c93bf822bae391ffcedd19"
+                    "test_bowtie2.bowtie2.log:md5,bd89ce1b28c93bf822bae391ffcedd19"
                 ]
             ],
             [
@@ -19,10 +19,10 @@
             ]
         ],
         "meta": {
-            "nf-test": "0.8.4",
-            "nextflow": "23.10.1"
+            "nf-test": "0.9.0",
+            "nextflow": "24.04.4"
         },
-        "timestamp": "2024-03-18T13:19:25.337323"
+        "timestamp": "2024-08-20T11:42:35.417351198"
     },
     "sarscov2 - fastq, index, fasta, false, false - sam2": {
         "content": [
@@ -39,7 +39,7 @@
                         "id": "test",
                         "single_end": true
                     },
-                    "test.bowtie2.log:md5,7b8a9e61b7646da1089b041333c41a87"
+                    "test_bowtie2.bowtie2.log:md5,7b8a9e61b7646da1089b041333c41a87"
                 ]
             ],
             [
@@ -50,32 +50,32 @@
             ]
         ],
         "meta": {
-            "nf-test": "0.8.4",
-            "nextflow": "23.10.1"
+            "nf-test": "0.9.0",
+            "nextflow": "24.04.4"
         },
-        "timestamp": "2024-03-18T12:31:40.337129939"
+        "timestamp": "2024-08-20T11:42:13.836354206"
     },
     "sarscov2 - [fastq1, fastq2], index, fasta, true, true - cram": {
         "content": [
-            "test.cram",
-            "test.cram.crai"
+            "test_bowtie2.cram",
+            "test_bowtie2.cram.crai"
         ],
         "meta": {
-            "nf-test": "0.8.4",
-            "nextflow": "23.10.1"
+            "nf-test": "0.9.0",
+            "nextflow": "24.04.4"
         },
-        "timestamp": "2024-03-19T08:46:08.033126014"
+        "timestamp": "2024-08-20T12:26:11.389494275"
     },
     "sarscov2 - fastq, index, fasta, false, false - bam": {
         "content": [
-            "test.bam",
+            "test_bowtie2.bam",
             [
                 [
                     {
                         "id": "test",
                         "single_end": true
                     },
-                    "test.bowtie2.log:md5,7b8a9e61b7646da1089b041333c41a87"
+                    "test_bowtie2.bowtie2.log:md5,7b8a9e61b7646da1089b041333c41a87"
                 ]
             ],
             [
@@ -86,21 +86,21 @@
             ]
         ],
         "meta": {
-            "nf-test": "0.8.4",
-            "nextflow": "23.10.1"
+            "nf-test": "0.9.0",
+            "nextflow": "24.04.4"
         },
-        "timestamp": "2024-03-18T12:58:55.482166476"
+        "timestamp": "2024-08-20T11:42:04.560954677"
     },
     "sarscov2 - fastq, index, fasta, true, false - bam": {
         "content": [
-            "test.bam",
+            "test_bowtie2.bam",
             [
                 [
                     {
                         "id": "test",
                         "single_end": true
                     },
-                    "test.bowtie2.log:md5,7b8a9e61b7646da1089b041333c41a87"
+                    "test_bowtie2.bowtie2.log:md5,7b8a9e61b7646da1089b041333c41a87"
                 ]
             ],
             [
@@ -111,21 +111,21 @@
             ]
         ],
         "meta": {
-            "nf-test": "0.8.4",
-            "nextflow": "23.10.1"
+            "nf-test": "0.9.0",
+            "nextflow": "24.04.4"
         },
-        "timestamp": "2024-03-18T13:19:55.741244"
+        "timestamp": "2024-08-20T11:39:50.364816683"
     },
     "sarscov2 - fastq, large_index, fasta, false, false - bam": {
         "content": [
-            "test.bam",
+            "test_bowtie2.bam",
             [
                 [
                     {
                         "id": "test",
                         "single_end": true
                     },
-                    "test.bowtie2.log:md5,7b8a9e61b7646da1089b041333c41a87"
+                    "test_bowtie2.bowtie2.log:md5,7b8a9e61b7646da1089b041333c41a87"
                 ]
             ],
             [
@@ -136,21 +136,21 @@
             ]
         ],
         "meta": {
-            "nf-test": "0.8.4",
-            "nextflow": "23.10.1"
+            "nf-test": "0.9.0",
+            "nextflow": "24.04.4"
         },
-        "timestamp": "2024-03-18T13:19:09.604979"
+        "timestamp": "2024-08-20T12:29:50.433844699"
     },
     "sarscov2 - fastq, index, fasta, false, true - bam": {
         "content": [
-            "test.bam",
+            "test_bowtie2.bam",
             [
                 [
                     {
                         "id": "test",
                         "single_end": true
                     },
-                    "test.bowtie2.log:md5,7b8a9e61b7646da1089b041333c41a87"
+                    "test_bowtie2.bowtie2.log:md5,7b8a9e61b7646da1089b041333c41a87"
                 ]
             ],
             [
@@ -161,16 +161,16 @@
             ]
         ],
         "meta": {
-            "nf-test": "0.8.4",
-            "nextflow": "23.10.1"
+            "nf-test": "0.9.0",
+            "nextflow": "24.04.4"
         },
-        "timestamp": "2024-03-18T13:18:22.547322"
+        "timestamp": "2024-08-20T11:46:02.668558478"
     },
     "sarscov2 - fastq, index, fasta, true, false - stub": {
         "content": [
-            "test.bam",
-            "test.csi",
-            "test.bowtie2.log",
+            "test_bowtie2.bam",
+            "test_bowtie2.csi",
+            "test_bowtie2.bowtie2.log",
             [
                 
             ],
@@ -179,21 +179,21 @@
             ]
         ],
         "meta": {
-            "nf-test": "0.8.4",
-            "nextflow": "23.10.1"
+            "nf-test": "0.9.0",
+            "nextflow": "24.04.4"
         },
-        "timestamp": "2024-03-18T13:02:09.557518106"
+        "timestamp": "2024-08-20T11:42:57.20553367"
     },
     "sarscov2 - [fastq1, fastq2], index, fasta, false, false - bam": {
         "content": [
-            "test.bam",
+            "test_bowtie2.bam",
             [
                 [
                     {
                         "id": "test",
                         "single_end": false
                     },
-                    "test.bowtie2.log:md5,bd89ce1b28c93bf822bae391ffcedd19"
+                    "test_bowtie2.bowtie2.log:md5,bd89ce1b28c93bf822bae391ffcedd19"
                 ]
             ],
             [
@@ -204,16 +204,16 @@
             ]
         ],
         "meta": {
-            "nf-test": "0.8.4",
-            "nextflow": "23.10.1"
+            "nf-test": "0.9.0",
+            "nextflow": "24.04.4"
         },
-        "timestamp": "2024-03-18T13:18:38.78064"
+        "timestamp": "2024-08-20T11:39:23.693653118"
     },
     "sarscov2 - [fastq1, fastq2], index, fasta, false, false - stub": {
         "content": [
-            "test.bam",
-            "test.csi",
-            "test.bowtie2.log",
+            "test_bowtie2.bam",
+            "test_bowtie2.csi",
+            "test_bowtie2.bowtie2.log",
             [
                 
             ],
@@ -222,10 +222,10 @@
             ]
         ],
         "meta": {
-            "nf-test": "0.8.4",
-            "nextflow": "23.10.1"
+            "nf-test": "0.9.0",
+            "nextflow": "24.04.4"
         },
-        "timestamp": "2024-03-18T13:20:26.047111"
+        "timestamp": "2024-08-20T11:53:01.423050465"
     },
     "sarscov2 - fastq, index, fasta, false, false - sam": {
         "content": [
@@ -242,7 +242,7 @@
                         "id": "test",
                         "single_end": true
                     },
-                    "test.bowtie2.log:md5,7b8a9e61b7646da1089b041333c41a87"
+                    "test_bowtie2.bowtie2.log:md5,7b8a9e61b7646da1089b041333c41a87"
                 ]
             ],
             [
@@ -253,21 +253,21 @@
             ]
         ],
         "meta": {
-            "nf-test": "0.8.4",
-            "nextflow": "23.10.1"
+            "nf-test": "0.9.0",
+            "nextflow": "24.04.4"
         },
-        "timestamp": "2024-03-18T12:31:26.668053751"
+        "timestamp": "2024-08-20T11:52:34.656806525"
     },
     "sarscov2 - [fastq1, fastq2], index, fasta, true, false - bam": {
         "content": [
-            "test.bam",
+            "test_bowtie2.bam",
             [
                 [
                     {
                         "id": "test",
                         "single_end": false
                     },
-                    "test.bowtie2.log:md5,bd89ce1b28c93bf822bae391ffcedd19"
+                    "test_bowtie2.bowtie2.log:md5,bd89ce1b28c93bf822bae391ffcedd19"
                 ]
             ],
             [
@@ -278,21 +278,21 @@
             ]
         ],
         "meta": {
-            "nf-test": "0.8.4",
-            "nextflow": "23.10.1"
+            "nf-test": "0.9.0",
+            "nextflow": "24.04.4"
         },
-        "timestamp": "2024-03-18T13:19:40.606135"
+        "timestamp": "2024-08-20T11:46:35.648800164"
     },
     "sarscov2 - [fastq1, fastq2], index, fasta, false, true - bam": {
         "content": [
-            "test.bam",
+            "test_bowtie2.bam",
             [
                 [
                     {
                         "id": "test",
                         "single_end": false
                     },
-                    "test.bowtie2.log:md5,bd89ce1b28c93bf822bae391ffcedd19"
+                    "test_bowtie2.bowtie2.log:md5,bd89ce1b28c93bf822bae391ffcedd19"
                 ]
             ],
             [
@@ -303,9 +303,9 @@
             ]
         ],
         "meta": {
-            "nf-test": "0.8.4",
-            "nextflow": "23.10.1"
+            "nf-test": "0.9.0",
+            "nextflow": "24.04.4"
         },
-        "timestamp": "2024-03-18T13:18:54.194648"
+        "timestamp": "2024-08-20T12:25:49.04782896"
     }
 }
