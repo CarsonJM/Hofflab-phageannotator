@@ -17,7 +17,7 @@
 #SBATCH --output=/mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/nf-test-parallel/%A_%a.outerr # where STDOUT goes
 #SBATCH --error=/mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/nf-test-parallel/%A_%a.outerr # where STDERR goes
 
-#SBATCH --array=1-5%5
+#SBATCH --array=1-2%2
 
 # activate nf-core environment
 micromamba activate nf-core
@@ -30,17 +30,13 @@ micromamba activate nf-core
 # run nf-test on each file in the array
 nf-test \
 test \
-/mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/modules/local/viromeqc/install/main.nf \
-/mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/modules/nf-core/fastp/main.nf \
-/mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/modules/nf-core/fastqc/main.nf \
-/mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/modules/nf-core/bowtie2/build/main.nf \
-/mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/modules/nf-core/cat/fastq/main.nf \
+--only-changed \
 --related-tests \
 --follow-dependencies \
 --tap /mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/nf-test-parallel/${SLURM_ARRAY_TASK_ID}.tap \
 --profile +nfcore_hyak \
---silent \
---shard ${SLURM_ARRAY_TASK_ID}/5 \
-# --updateSnapshot \
-# --cleanSnapshot \
+--verbose \
+--shard ${SLURM_ARRAY_TASK_ID}/2 \
+--updateSnapshot \
+--cleanSnapshot \
 --log /mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/nf-test-parallel/${SLURM_ARRAY_TASK_ID}.log

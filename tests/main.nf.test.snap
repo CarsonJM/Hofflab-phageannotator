@@ -1,0 +1,25 @@
+{
+    "Test full pipeline": {
+        "content": [
+            [
+                [
+                    [
+                        "test1_bowtie2.bowtie2.log:md5,8ce8175c5f51082650261f055cbbf3b6",
+                        "test2_bowtie2.bowtie2.log:md5,eca3f78e609726044284e043086aa239"
+                    ]
+                ],
+                [
+                    [
+                        "test1.viromeqc.tsv:md5,6f4ae1c53adcc95904b75094fe88f3a6",
+                        "test2.viromeqc.tsv:md5,946a0e362b608df1f33c17b64c5a2408"
+                    ]
+                ]
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.0",
+            "nextflow": "24.04.4"
+        },
+        "timestamp": "2024-08-21T10:46:11.564832732"
+    }
+}

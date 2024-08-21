@@ -6,13 +6,13 @@
 //
 // FUNCTIONS: Local functions
 //
-include { getWorkDirs; rmEmptyFastAs; rmEmptyFastQs } from '../../../lib/functions.nf'
+include { getWorkDirs; rmEmptyFastAs; rmEmptyFastQs } from '../../lib/functions.nf'
 
 //
 // SUBWORKFLOWS: Consisting of a mix of local and nf-core/modules
 //
-include { FASTQ_HOSTREMOVAL_BOWTIE2         } from '../../../subworkflows/local/fastq_hostremoval_bowtie2/main'
-include { FASTQ_VIRUSENRICHMENT_VIROMEQC    } from '../../../subworkflows/local/fastq_virusenrichment_viromeqc/main'
+include { FASTQ_HOSTREMOVAL_BOWTIE2         } from '../../subworkflows/local/fastq_hostremoval_bowtie2/main'
+include { FASTQ_VIRUSENRICHMENT_VIROMEQC    } from '../../subworkflows/local/fastq_virusenrichment_viromeqc/main'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -22,10 +22,10 @@ include { FASTQ_VIRUSENRICHMENT_VIROMEQC    } from '../../../subworkflows/local/
 //
 // MODULES: Installed directly from nf-core/modules
 //
-include { CAT_FASTQ as CAT_RUNMERGE         } from '../../../modules/nf-core/cat/fastq/main'
-include { FASTP                             } from '../../../modules/nf-core/fastp/main'
-include { FASTQC as FASTQC_RAW              } from '../../../modules/nf-core/fastqc/main'
-include { FASTQC as FASTQC_PREPROCESSED     } from '../../../modules/nf-core/fastqc/main'
+include { CAT_FASTQ as CAT_RUNMERGE         } from '../../modules/nf-core/cat/fastq/main'
+include { FASTP                             } from '../../modules/nf-core/fastp/main'
+include { FASTQC as FASTQC_RAW              } from '../../modules/nf-core/fastqc/main'
+include { FASTQC as FASTQC_PREPROCESSED     } from '../../modules/nf-core/fastqc/main'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -52,11 +52,42 @@ workflow FASTQ_READPREPROCESSING_FASTQ {
     ch_versions         = ch_versions.mix(FASTQC_RAW.out.versions.first())
 
     /*----------------------------------------------------------------------------
+        Read Preprocessing
+    ------------------------------------------------------------------------------*/
+    if (params.run_fastp) {
+        //
+        // MODULE: Run fastp on raw reads
+        //
+        FASTP(
+            ch_raw_fastq_gz,
+            [],
+            false,
+            false,
+            false
+        )
+        ch_fastp_prefilt_fastq_gz   = FASTP.out.reads
+        ch_versions                 = ch_versions.mix(FASTP.out.versions)
+        ch_multiqc_files            = ch_multiqc_files.mix(FASTP.out.json.collect{ it[1] })
+
+        // REMOVE EMPTY FASTQ FILES FROM CHANNEL
+        ch_fastp_fastq_gz = rmEmptyFastQs(ch_fastp_prefilt_fastq_gz)
+
+        // IDENTIFY WORKDIRS TO CLEAN
+        ch_pre_fastp_workdirs = getWorkDirs(
+            ch_raw_fastq_gz,
+            ch_fastp_fastq_gz
+        )
+        ch_workdirs_to_clean = ch_workdirs_to_clean.mix(ch_pre_fastp_workdirs)
+    } else {
+        ch_fastp_fastq_gz = ch_raw_fastq_gz
+    }
+
+    /*----------------------------------------------------------------------------
         Read merging
     ------------------------------------------------------------------------------*/
     if (params.perform_run_merging) {
         // prepare reads for concatenating within runs
-        ch_reads_forcat = ch_raw_fastq_gz
+        ch_reads_forcat = ch_fastp_fastq_gz
             .map { meta, reads -> [ meta - meta.subMap('run'), reads ] }
             .groupTuple()
             .branch {
@@ -86,43 +117,12 @@ workflow FASTQ_READPREPROCESSING_FASTQ {
 
         // IDENTIFY WORKDIRS TO CLEAN
         ch_pre_merge_workdirs = getWorkDirs(
-            ch_raw_fastq_gz,
+            ch_fastp_fastq_gz,
             ch_runmerged_fastq_gz
         )
         ch_workdirs_to_clean = ch_workdirs_to_clean.mix(ch_pre_merge_workdirs)
     } else {
-        ch_runmerged_fastq_gz = ch_raw_fastq_gz
-    }
-
-    /*----------------------------------------------------------------------------
-        Read Preprocessing
-    ------------------------------------------------------------------------------*/
-    if (params.run_fastp) {
-        //
-        // MODULE: Run fastp on raw reads
-        //
-        FASTP(
-            ch_runmerged_fastq_gz,
-            [],
-            false,
-            false,
-            false
-        )
-        ch_fastp_prefilt_fastq_gz   = FASTP.out.reads
-        ch_versions                 = ch_versions.mix(FASTP.out.versions)
-        ch_multiqc_files            = ch_multiqc_files.mix(FASTP.out.json.collect{ it[1] })
-
-        // REMOVE EMPTY FASTQ FILES FROM CHANNEL
-        ch_fastp_fastq_gz = rmEmptyFastQs(ch_fastp_prefilt_fastq_gz)
-
-        // IDENTIFY WORKDIRS TO CLEAN
-        ch_pre_fastp_workdirs = getWorkDirs(
-            ch_runmerged_fastq_gz,
-            ch_fastp_fastq_gz
-        )
-        ch_workdirs_to_clean = ch_workdirs_to_clean.mix(ch_pre_fastp_workdirs)
-    } else {
-        ch_fastp_fastq_gz = ch_runmerged_fastq_gz
+        ch_runmerged_fastq_gz = ch_fastp_fastq_gz
     }
 
     /*----------------------------------------------------------------------------
