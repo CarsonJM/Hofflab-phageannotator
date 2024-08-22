@@ -40,8 +40,6 @@ include { softwareVersionsToYAML    } from './subworkflows/nf-core/utils_nfcore_
 //
 include { FASTQ_READPREPROCESSING_FASTQ } from './workflows/fastq_readpreprocessing_fastq/main'
 
-
-
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     NAMED WORKFLOWS FOR PIPELINE

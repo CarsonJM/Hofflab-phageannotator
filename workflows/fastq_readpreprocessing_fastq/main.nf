@@ -106,18 +106,19 @@ workflow FASTQ_READPREPROCESSING_FASTQ {
                 [ meta, new_reads ]
             }
 
-        // Combine single run and multi-run-merged data
-        ch_runmerged_fastq_gz = ch_cat_reads_fastq_gz.mix(ch_reads_forcat_skipped)
-
         // IDENTIFY WORKDIRS TO CLEAN
         ch_pre_merge_workdirs = getWorkDirs(
             ch_fastp_fastq_gz.map { meta, reads -> [ meta - meta.subMap('run'), reads[0] ] },
-            ch_runmerged_fastq_gz
+            ch_cat_reads_fastq_gz
         )
-        ch_pre_merge_workdirs.view()
+
+        // Clean fastp fastas for merged sequences
         ch_workdirs_to_clean = ch_workdirs_to_clean.mix(
             ch_pre_merge_workdirs.map { meta, dir -> [ meta, dir, 'FASTP' ] }
         )
+
+        // Combine single run and multi-run-merged data
+        ch_runmerged_fastq_gz = ch_cat_reads_fastq_gz.mix(ch_reads_forcat_skipped)
     } else {
         ch_runmerged_fastq_gz = ch_fastp_fastq_gz
     }
@@ -152,6 +153,8 @@ workflow FASTQ_READPREPROCESSING_FASTQ {
         ch_bt2_prefilt_fastq_gz = FASTQ_HOSTREMOVAL_BOWTIE2.out.fastq_gz
         ch_versions             = ch_versions.mix(FASTQ_HOSTREMOVAL_BOWTIE2.out.versions)
         ch_multiqc_files        = ch_multiqc_files.mix(FASTQ_HOSTREMOVAL_BOWTIE2.out.mqc.collect{ it[1] })
+
+        ch_bt2_prefilt_fastq_gz.view()
 
         // REMOVE EMPTY FASTQ FILES FROM CHANNEL
         ch_bt2_fastq_gz = rmEmptyFastQs(ch_bt2_prefilt_fastq_gz)
