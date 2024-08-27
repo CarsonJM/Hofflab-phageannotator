@@ -1,7 +1,0 @@
-name: "tantan"
-channels:
-  - conda-forge
-  - bioconda
-  - defaults
-dependencies:
-  - "tantan::49=h43eeafb_0"

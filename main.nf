@@ -23,8 +23,9 @@ include { paramsSummaryMap  } from 'plugin/nf-validation'
 //
 // MODULES
 //
-include { MULTIQC           } from './modules/nf-core/multiqc/main'
 include { CLEANWORKDIRS     } from './modules/local/cleanup/cleanworkdirs/main'
+include { MULTIQC           } from './modules/nf-core/multiqc/main'
+
 
 //
 // SUBWORKFLOWS
@@ -39,6 +40,7 @@ include { softwareVersionsToYAML    } from './subworkflows/nf-core/utils_nfcore_
 // WORKFLOWS
 //
 include { FASTQ_READPREPROCESSING_FASTQ } from './workflows/fastq_readpreprocessing_fastq/main'
+include { FASTQ_READASSEMBLY_FASTA      } from './workflows/fastq_readassembly_fasta/main'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -68,23 +70,30 @@ workflow {
         params.input
     )
 
-    /*----------------------------------------------------------------------------
-        Load and parse accessions file
-    ------------------------------------------------------------------------------*/
     //
     // WORKFLOW: Run read preprocessing
     //
     FASTQ_READPREPROCESSING_FASTQ(
         PIPELINE_INITIALISATION.out.fastqs
     )
-    ch_preprocessed_fastq_gz = FASTQ_READPREPROCESSING_FASTQ.out.preprocessed_fastq_gz
-    ch_workdirs_to_clean     = FASTQ_READPREPROCESSING_FASTQ.out.workdirs_to_clean
-    ch_versions              = ch_versions.mix(FASTQ_READPREPROCESSING_FASTQ.out.versions)
-    ch_multiqc_files         = ch_multiqc_files.mix(FASTQ_READPREPROCESSING_FASTQ.out.multiqc_files)
+    ch_preprocessed_fastq_gz    = FASTQ_READPREPROCESSING_FASTQ.out.preprocessed_fastq_gz
+    ch_workdirs_to_clean        = FASTQ_READPREPROCESSING_FASTQ.out.workdirs_to_clean
+    ch_versions                 = ch_versions.mix(FASTQ_READPREPROCESSING_FASTQ.out.versions)
+    ch_multiqc_files            = ch_multiqc_files.mix(FASTQ_READPREPROCESSING_FASTQ.out.multiqc_files)
 
-    /*----------------------------------------------------------------------------
-        Clean intermediate files
-    ------------------------------------------------------------------------------*/
+
+    //
+    // WORKFLOW: Run read assembly
+    //
+    FASTQ_READASSEMBLY_FASTA(
+        ch_preprocessed_fastq_gz
+    )
+    ch_assembly_fasta_gz    = FASTQ_READASSEMBLY_FASTA.out.assemblies_fasta_gz
+    ch_versions             = ch_versions.mix(FASTQ_READASSEMBLY_FASTA.out.versions)
+    ch_multiqc_files        = ch_multiqc_files.mix(FASTQ_READASSEMBLY_FASTA.out.multiqc_files)
+
+
+
     //
     // MODULE: Clean intermediate files
     //

@@ -1,7 +1,0 @@
-name: "nucleotidestats"
-channels:
-  - conda-forge
-  - bioconda
-  - defaults
-dependencies:
-  - "biopython::1.81"

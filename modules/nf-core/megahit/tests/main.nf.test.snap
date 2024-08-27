@@ -1,136 +1,139 @@
 {
-    "fastq.gz single": {
+    "sarscov2 - fastq - se": {
         "content": [
             [
-                [
-                    {
-                        "id": "test1",
-                        "single_end": true
-                    },
-                    "test1.contigs.fa.gz:md5,0663ebb8cf2764698820e0c16793e4f6"
-                ]
-            ],
-            [
                 "versions.yml:md5,e3c0731297c9abe2f495ab6d541ac0e6"
-            ],
-            [
-                "21"
-            ],
-            [
-                "141"
             ]
         ],
         "meta": {
-            "nf-test": "0.8.4",
-            "nextflow": "24.04.1"
+            "nf-test": "0.9.0",
+            "nextflow": "24.04.3"
         },
-        "timestamp": "2024-07-24T08:08:53.488611621"
+        "timestamp": "2024-07-25T10:20:02.764235061"
     },
-    "fastq.gz paired": {
+    "sarscov2 - fastq - pe": {
         "content": [
             [
-                [
-                    {
-                        "id": "test1",
-                        "single_end": false
-                    },
-                    "test1.contigs.fa.gz:md5,5789b08fc853f418bfcfe770c1ee9fc0"
-                ]
-            ],
-            [
                 "versions.yml:md5,e3c0731297c9abe2f495ab6d541ac0e6"
-            ],
-            [
-                "21"
-            ],
-            [
-                "141"
             ]
         ],
         "meta": {
-            "nf-test": "0.8.4",
-            "nextflow": "24.04.1"
+            "nf-test": "0.9.0",
+            "nextflow": "24.04.3"
         },
-        "timestamp": "2024-07-24T08:09:57.506132965"
+        "timestamp": "2024-07-25T10:20:47.028761896"
     },
-    "fastq.gz paired coassembly": {
+    "sarscov2 - stub": {
         "content": [
-            [
-                [
-                    {
-                        "id": "test1",
-                        "single_end": false
-                    },
-                    "test1.contigs.fa.gz:md5,7047e707fd3ba799813e4dc3cfd9f859"
+            {
+                "0": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": true
+                        },
+                        "test.contigs.fa.gz:md5,68b329da9893e34099c7d8ad5cb9c940"
+                    ]
+                ],
+                "1": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": true
+                        },
+                        [
+                            "k21.contigs.fa.gz:md5,68b329da9893e34099c7d8ad5cb9c940",
+                            "k21.final.contigs.fa.gz:md5,68b329da9893e34099c7d8ad5cb9c940"
+                        ]
+                    ]
+                ],
+                "2": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": true
+                        },
+                        "k21.addi.fa.gz:md5,68b329da9893e34099c7d8ad5cb9c940"
+                    ]
+                ],
+                "3": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": true
+                        },
+                        "k21.local.fa.gz:md5,68b329da9893e34099c7d8ad5cb9c940"
+                    ]
+                ],
+                "4": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": true
+                        },
+                        "k21.final.contigs.fa.gz:md5,68b329da9893e34099c7d8ad5cb9c940"
+                    ]
+                ],
+                "5": [
+                    "versions.yml:md5,e3c0731297c9abe2f495ab6d541ac0e6"
+                ],
+                "addi_contigs": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": true
+                        },
+                        "k21.addi.fa.gz:md5,68b329da9893e34099c7d8ad5cb9c940"
+                    ]
+                ],
+                "contigs": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": true
+                        },
+                        "test.contigs.fa.gz:md5,68b329da9893e34099c7d8ad5cb9c940"
+                    ]
+                ],
+                "k_contigs": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": true
+                        },
+                        [
+                            "k21.contigs.fa.gz:md5,68b329da9893e34099c7d8ad5cb9c940",
+                            "k21.final.contigs.fa.gz:md5,68b329da9893e34099c7d8ad5cb9c940"
+                        ]
+                    ]
+                ],
+                "kfinal_contigs": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": true
+                        },
+                        "k21.final.contigs.fa.gz:md5,68b329da9893e34099c7d8ad5cb9c940"
+                    ]
+                ],
+                "local_contigs": [
+                    [
+                        {
+                            "id": "test",
+                            "single_end": true
+                        },
+                        "k21.local.fa.gz:md5,68b329da9893e34099c7d8ad5cb9c940"
+                    ]
+                ],
+                "versions": [
+                    "versions.yml:md5,e3c0731297c9abe2f495ab6d541ac0e6"
                 ]
-            ],
-            [
-                "versions.yml:md5,e3c0731297c9abe2f495ab6d541ac0e6"
-            ],
-            [
-                "21"
-            ],
-            [
-                "141"
-            ]
+            }
         ],
         "meta": {
-            "nf-test": "0.8.4",
-            "nextflow": "24.04.1"
+            "nf-test": "0.9.0",
+            "nextflow": "24.04.3"
         },
-        "timestamp": "2024-07-24T08:12:15.319314298"
-    },
-    "fastq.gz paired - stub": {
-        "content": [
-            [
-                [
-                    {
-                        "id": "test1"
-                    },
-                    "test1.contigs.fa.gz:md5,68b329da9893e34099c7d8ad5cb9c940"
-                ]
-            ],
-            [
-                "versions.yml:md5,e3c0731297c9abe2f495ab6d541ac0e6"
-            ],
-            [
-                "21"
-            ],
-            [
-                "141"
-            ]
-        ],
-        "meta": {
-            "nf-test": "0.8.4",
-            "nextflow": "24.04.1"
-        },
-        "timestamp": "2024-07-24T08:13:41.926765658"
-    },
-    "fastq.gz single coassembly": {
-        "content": [
-            [
-                [
-                    {
-                        "id": "test1",
-                        "single_end": true
-                    },
-                    "test1.contigs.fa.gz:md5,ba7cd8b6a67f15d108515b8c34de1787"
-                ]
-            ],
-            [
-                "versions.yml:md5,e3c0731297c9abe2f495ab6d541ac0e6"
-            ],
-            [
-                "21"
-            ],
-            [
-                "141"
-            ]
-        ],
-        "meta": {
-            "nf-test": "0.8.4",
-            "nextflow": "24.04.1"
-        },
-        "timestamp": "2024-07-24T08:13:23.325507172"
+        "timestamp": "2024-07-25T10:03:05.77753221"
     }
 }

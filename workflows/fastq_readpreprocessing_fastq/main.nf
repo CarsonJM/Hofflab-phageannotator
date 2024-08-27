@@ -154,8 +154,6 @@ workflow FASTQ_READPREPROCESSING_FASTQ {
         ch_versions             = ch_versions.mix(FASTQ_HOSTREMOVAL_BOWTIE2.out.versions)
         ch_multiqc_files        = ch_multiqc_files.mix(FASTQ_HOSTREMOVAL_BOWTIE2.out.mqc.collect{ it[1] })
 
-        ch_bt2_prefilt_fastq_gz.view()
-
         // REMOVE EMPTY FASTQ FILES FROM CHANNEL
         ch_bt2_fastq_gz = rmEmptyFastQs(ch_bt2_prefilt_fastq_gz)
 

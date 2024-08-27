@@ -1,30 +1,34 @@
-# Snakemake config
-input:
-output: 'phables.out/'
-log: 'phables/phables.log'
-
-# Databases
-databases: "phables_db"
-
-# Profile
-profile:
-
-# Job resources for use with Snakemake profiles
-  # jobCPU will be scaled down if running locally with less than 8 threads
-  # jobMem is ignored when running locally
-resources:
-  jobCPU: 8
-  jobMem: 16000       # in Mb
-
-# Phable parameters
-minlength: 2000
-mincov: 10
+alpha: 1.2
 compcount: 200
+conda_prefix: /opt/conda/lib/python3.10/site-packages/phables/workflow/conda
+configfile: /mmfs1/gscratch/pedslabs_hoffman/carsonjm/CarsonJM/HoffLab-phageannotator/assets/phables/config.yml
+covtol: 100
+databases: phables_db
+evalue: 1.0e-10
+input: group-test1.gfa
+log: phables_out/phables.log
+longreads: false
 maxpaths: 10
 mgfrac: 0.2
-evalue: 1E-10
+mincov: 10
+minlength: 2000
+output: phables_out
+prefix: test2_megahit_coassembly_phables_phables
+profile: null
+reads: reads
+resources:
+  jobCPU: 8
+  jobMem: 16000
 seqidentity: 0.3
-covtol: 100
-alpha: 1.2
-longreads: False
-prefix:
+snake_args: []
+snake_default:
+- --rerun-incomplete
+- --printshellcmds
+- --nolock
+- --show-failed-logs
+system_config: /opt/conda/lib/python3.10/site-packages/phables/config/config.yaml
+threads: 12
+use_conda: false
+yaml
+threads: 12
+use_conda: false

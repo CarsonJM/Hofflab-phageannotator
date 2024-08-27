@@ -1,0 +1,234 @@
+nextflow_workflow {
+
+    name "Test Subworkflow: FASTQ_READPREPROCESSING_FASTQ"
+    script "../main.nf"
+    workflow "FASTQ_READPREPROCESSING_FASTQ"
+
+    test("fastq + cat/runmerge") {
+        when {
+            params {
+                perform_run_merging = true
+            }
+            workflow {
+                """
+                input[0] = Channel.of(
+                    [
+                        [ id:'test1', single_end:false ], // meta map
+                        [
+                            file("${projectDir}/assets/test-datasets/fastqs/test1_1.fastq.gz", checkifExists: true),
+                            file("${projectDir}/assets/test-datasets/fastqs/test1_2.fastq.gz", checkifExists: true)
+                        ]
+                    ],
+                    [
+                        [ id:'test2', single_end:false ], // meta map
+                        [
+                            file("${projectDir}/assets/test-datasets/fastqs/test2_1.fastq.gz", checkifExists: true),
+                            file("${projectDir}/assets/test-datasets/fastqs/test2_2.fastq.gz", checkifExists: true)
+                        ]
+                    ]
+                )
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    workflow.out.preprocessed_fastq_gz,
+                    workflow.out.versions,
+                    ).match()
+                }
+            )
+        }
+    }
+
+    test("fastq + fastp") {
+        when {
+            params {
+                run_fastp   = true
+            }
+            workflow {
+                """
+                input[0] = Channel.of(
+                    [
+                        [ id:'test1', single_end:false ], // meta map
+                        [
+                            file("${projectDir}/assets/test-datasets/fastqs/test1_1.fastq.gz", checkifExists: true),
+                            file("${projectDir}/assets/test-datasets/fastqs/test1_2.fastq.gz", checkifExists: true)
+                        ]
+                    ],
+                    [
+                        [ id:'test2', single_end:false ], // meta map
+                        [
+                            file("${projectDir}/assets/test-datasets/fastqs/test2_1.fastq.gz", checkifExists: true),
+                            file("${projectDir}/assets/test-datasets/fastqs/test2_2.fastq.gz", checkifExists: true)
+                        ]
+                    ]
+                )
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    workflow.out.preprocessed_fastq_gz,
+                    workflow.out.versions,
+                    ).match()
+                }
+            )
+        }
+    }
+
+    test("fastq + bowtie2") {
+        when {
+            params {
+                run_bowtie2_host_removal    = true
+                bowtie2_custom_host_fasta   = "${projectDir}/assets/test-datasets/bowtie2/lambda.fasta.gz"
+            }
+            workflow {
+                """
+                input[0] = Channel.of(
+                    [
+                        [ id:'test1', single_end:false ], // meta map
+                        [
+                            file("${projectDir}/assets/test-datasets/fastqs/test1_1.fastq.gz", checkifExists: true),
+                            file("${projectDir}/assets/test-datasets/fastqs/test1_2.fastq.gz", checkifExists: true)
+                        ]
+                    ],
+                    [
+                        [ id:'test2', single_end:false ], // meta map
+                        [
+                            file("${projectDir}/assets/test-datasets/fastqs/test2_1.fastq.gz", checkifExists: true),
+                            file("${projectDir}/assets/test-datasets/fastqs/test2_2.fastq.gz", checkifExists: true)
+                        ]
+                    ]
+                )
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    workflow.out.preprocessed_fastq_gz,
+                    workflow.out.versions,
+                    ).match()
+                }
+            )
+        }
+    }
+
+    test("fastq + viromeqc") {
+        when {
+            params {
+                run_viromeqc    = true
+            }
+            workflow {
+                """
+                input[0] = Channel.of(
+                    [
+                        [ id:'test1', single_end:false ], // meta map
+                        [
+                            file("${projectDir}/assets/test-datasets/fastqs/test1_1.fastq.gz", checkifExists: true),
+                            file("${projectDir}/assets/test-datasets/fastqs/test1_2.fastq.gz", checkifExists: true)
+                        ]
+                    ],
+                    [
+                        [ id:'test2', single_end:false ], // meta map
+                        [
+                            file("${projectDir}/assets/test-datasets/fastqs/test2_1.fastq.gz", checkifExists: true),
+                            file("${projectDir}/assets/test-datasets/fastqs/test2_2.fastq.gz", checkifExists: true)
+                        ]
+                    ]
+                )
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    workflow.out.preprocessed_fastq_gz,
+                    workflow.out.versions,
+                    ).match()
+                }
+            )
+        }
+    }
+
+    test("fastq + nothing") {
+        when {
+            workflow {
+                """
+                input[0] = Channel.of(
+                    [
+                        [ id:'test1', single_end:false ], // meta map
+                        [
+                            file("${projectDir}/assets/test-datasets/fastqs/test1_1.fastq.gz", checkifExists: true),
+                            file("${projectDir}/assets/test-datasets/fastqs/test1_2.fastq.gz", checkifExists: true)
+                        ]
+                    ],
+                    [
+                        [ id:'test2', single_end:false ], // meta map
+                        [
+                            file("${projectDir}/assets/test-datasets/fastqs/test2_1.fastq.gz", checkifExists: true),
+                            file("${projectDir}/assets/test-datasets/fastqs/test2_2.fastq.gz", checkifExists: true)
+                        ]
+                    ]
+                )
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    workflow.out.preprocessed_fastq_gz,
+                    workflow.out.versions,
+                    ).match()
+                }
+            )
+        }
+    }
+
+    test("fastq + all") {
+        when {
+            params {
+                perform_run_merging         = true
+                run_bowtie2_host_removal    = true
+                run_bowtie2_host_removal    = true
+            }
+            workflow {
+                """
+                input[0] = Channel.of(
+                    [
+                        [ id:'test1', single_end:false ], // meta map
+                        [
+                            file("${projectDir}/assets/test-datasets/fastqs/test1_1.fastq.gz", checkifExists: true),
+                            file("${projectDir}/assets/test-datasets/fastqs/test1_2.fastq.gz", checkifExists: true)
+                        ]
+                    ],
+                    [
+                        [ id:'test2', single_end:false ], // meta map
+                        [
+                            file("${projectDir}/assets/test-datasets/fastqs/test2_1.fastq.gz", checkifExists: true),
+                            file("${projectDir}/assets/test-datasets/fastqs/test2_2.fastq.gz", checkifExists: true)
+                        ]
+                    ]
+                )
+                """
+            }
+        }
+        then {
+            assertAll(
+                { assert workflow.success },
+                { assert snapshot(
+                    workflow.out.preprocessed_fastq_gz,
+                    workflow.out.versions,
+                    ).match()
+                }
+            )
+        }
+    }
+}
